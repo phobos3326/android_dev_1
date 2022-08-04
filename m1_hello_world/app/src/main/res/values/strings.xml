@@ -3,4 +3,7 @@
     <string name="left_button_text">-</string>
     <string name="right_button_text">+</string>
     <string name="reset_button_text">сброс</string>
+    <string name="all_places_free">Все места свободны</string>
+    <string name="seats_left">Осталось мест:&#160;</string>
+    <string name="center_bottom_text">0</string>
 </resources>

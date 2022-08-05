@@ -8,7 +8,7 @@ import com.example.myapplication.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     var count = 0
-    val maxCount = 50
+    val maxCount = 5
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
@@ -39,6 +39,8 @@ class MainActivity : AppCompatActivity() {
         binding.centerBottomText.text = count.toString()
         binding.centerText.text = getString(R.string.all_places_free)
         binding.centerButton.visibility = View.INVISIBLE
+        binding.centerText.setTextColor(resources.getColor(R.color.green))
+
     }
 
     private fun increment(binding: ActivityMainBinding) {
@@ -55,8 +57,6 @@ class MainActivity : AppCompatActivity() {
             binding.centerText.setTextColor(resources.getColor(R.color.red))
         }
         if (count > 0) binding.leftButton.isEnabled = true
-
-
     }
 
     private fun decrement(binding: ActivityMainBinding) {

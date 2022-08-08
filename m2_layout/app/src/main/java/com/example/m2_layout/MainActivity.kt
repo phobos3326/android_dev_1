@@ -11,5 +11,11 @@ class MainActivity : AppCompatActivity() {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.customView
+
+        binding.customView.getTextFirstTextView("верхняя строчка, настроенная из кода")
+        binding.customView.getTextSecondTextView("нижняя строчка, настроенная из кода")
     }
+
+
+
 }

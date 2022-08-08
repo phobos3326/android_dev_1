@@ -18,4 +18,13 @@ class CustomView
     init {
         addView(binding.root)
     }
+
+    fun getTextFirstTextView(text:String){
+        binding.textViewFirst.text=text
+    }
+
+    fun getTextSecondTextView(text:String){
+        binding.textViewSecond.text=text
+    }
+
 }

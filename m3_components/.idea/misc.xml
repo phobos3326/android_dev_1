@@ -4,7 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/SkillBOX_Android/android_dev_1_2022/m3_components/app/src/main/res/drawable/progress.xml" value="0.2245" />
-        <entry key="..\:/SkillBOX_Android/android_dev_1_2022/m3_components/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/SkillBOX_Android/android_dev_1_2022/m3_components/app/src/main/res/layout-land/activity_main.xml" value="0.4395040615647713" />
+        <entry key="..\:/SkillBOX_Android/android_dev_1_2022/m3_components/app/src/main/res/layout/activity_main.xml" value="0.12" />
       </map>
     </option>
   </component>

@@ -27,10 +27,11 @@
         </TextView>
 
         <TextView
+            android:id="@+id/progress_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="100"
+            android:text="0"
             android:textSize="50sp"
             app:layout_constraintBottom_toBottomOf="@+id/progressBar"
             app:layout_constraintEnd_toEndOf="@+id/progressBar"
@@ -46,7 +47,7 @@
             android:layout_centerInParent="true"
             android:indeterminateOnly="false"
             android:max="100"
-            android:progress="20"
+            android:progress="0"
             android:progressDrawable="@drawable/progress"
             android:rotation="-90" />
     </RelativeLayout>
@@ -62,9 +63,9 @@
             android:id="@+id/seekBar"
             android:layout_width="204dp"
             android:layout_height="22dp"
-
             android:layout_centerInParent='true'
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="16dp"
+            android:max="100" />
 
         <Button
             android:id="@+id/button"

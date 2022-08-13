@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">m3_components</string>
     <string name="Таймер">Таймер</string>
-    <string name="start_button">старт</string>
+    <string name="start_button">START</string>
 </resources>

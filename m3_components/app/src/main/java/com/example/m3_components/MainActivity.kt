@@ -15,8 +15,8 @@ import kotlin.coroutines.suspendCoroutine
 
 
 class MainActivity : AppCompatActivity() {
-    val job = SupervisorJob()
-    val scope = CoroutineScope(Dispatchers.Main + job)
+    // val job = SupervisorJob()
+    val scope = CoroutineScope(Dispatchers.Main + Job())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,8 +62,8 @@ class MainActivity : AppCompatActivity() {
                         x = 0
                         binding.button.text = "start"
                         binding.seekBar.isEnabled = true
-                        countDown(binding).job.cancelAndJoin()
-                        //  job1.cancel()
+
+                        scope.coroutineContext.cancelChildren()                        //  job1.cancel()
                     }
                 }
             }
@@ -72,10 +72,12 @@ class MainActivity : AppCompatActivity() {
 
 
     }
+
     lateinit var job1: Job
 
     fun countDown(binding: ActivityMainBinding): Job {
-         job1 = scope.launch {
+        job1 = scope.launch {
+            yield()
             repeat(binding.progressBar.progress) {
                 delay(1000)
                 binding.progressBar.progress -= 1

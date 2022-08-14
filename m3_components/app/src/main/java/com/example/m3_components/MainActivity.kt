@@ -15,6 +15,8 @@ import kotlin.coroutines.suspendCoroutine
 
 
 class MainActivity : AppCompatActivity() {
+    val job = SupervisorJob()
+    val scope = CoroutineScope(Dispatchers.Main + job)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,8 +26,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
         var x = 0
 
-        val job = SupervisorJob()
-        val scope = CoroutineScope(Dispatchers.Main + job)
+
 
         binding.seekBar.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
@@ -43,82 +44,54 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-/*
-        when (x) {
-            0 -> {
-                binding.button.setOnClickListener {
-                    //binding.button.isEnabled = false
-                    binding.seekBar.isEnabled = false
-                    binding.button.text = "stop"
-                    *//* binding.button.text = "stop"
-                     if ( binding.button.text == "stop"){
-                         scope.coroutineContext.job.cancel()
-                     }*//*
-                    scope.launch {
-                        countDown(binding)
-                    }
-                    x = 1
-                }
-            }
-            1 -> {
-                binding.button.setOnClickListener {
-                    binding.button.text = "start"
-                    binding.seekBar.isEnabled = true
-
-                   scope.cancel()
-                }
-            }
-        }
-        */
-
-
-
 
         binding.button.setOnClickListener {
+            scope.launch {
 
-            when (x) {
-                0 -> {
-                    x = 1
-                    binding.seekBar.isEnabled = false
-                    binding.button.text = "stop"
-                   val job1=scope.launch(start = CoroutineStart.DEFAULT) {
-                        countDown(binding)
+                when (x) {
+                    0 -> {
+                        x = 1
+                        binding.seekBar.isEnabled = false
+                        binding.button.text = "stop"
+
+                        countDown(binding).job.start()
+
+
                     }
-
-
-                }
-                1 -> {
-                    x = 0
-                    binding.button.text = "start"
-                    binding.seekBar.isEnabled = true
-                 //   job1.cancel()
+                    1 -> {
+                        x = 0
+                        binding.button.text = "start"
+                        binding.seekBar.isEnabled = true
+                        countDown(binding).job.cancelAndJoin()
+                        //  job1.cancel()
+                    }
                 }
             }
+
         }
 
 
     }
+    lateinit var job1: Job
 
-   /* fun startTimer():Job{
-        return countDown(binding=ActivityMainBinding.inflate())
-    }*/
+    fun countDown(binding: ActivityMainBinding): Job {
+         job1 = scope.launch {
+            repeat(binding.progressBar.progress) {
+                delay(1000)
+                binding.progressBar.progress -= 1
+                binding.progressTextView.text = binding.progressBar.progress.toString()
 
-    suspend fun countDown(binding: ActivityMainBinding) {
+            }
 
-        repeat(binding.progressBar.progress) {
-            delay(1000)
-            binding.progressBar.progress -= 1
-            binding.progressTextView.text = binding.progressBar.progress.toString()
+            if (binding.progressBar.progress == 0) {
+                binding.button.text = "start"
+                binding.seekBar.isEnabled = true
+                binding.seekBar.progress = 0
+                job1.cancel()
 
+            }
         }
-
-        if (binding.progressBar.progress == 0) {
-            binding.button.text = "start"
-            binding.seekBar.isEnabled = true
-            binding.seekBar.progress = 0
-            coroutineContext.job.cancel()
-
-        }
+        return job1
     }
 
 

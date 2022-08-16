@@ -9,8 +9,10 @@
 
     <ImageView
         android:id="@+id/imageViewAlbum"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="0dp"
+        android:layout_height="300dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:src="@drawable/korn_follow_the_leader"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

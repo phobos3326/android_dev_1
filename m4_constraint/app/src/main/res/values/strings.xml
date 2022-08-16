@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="singer">ИСПОЛНИТЕЛЬ</string>
+    <string name="song">НАЗВАНИЕ КОМПОЗИЦИИ</string>
+</resources>

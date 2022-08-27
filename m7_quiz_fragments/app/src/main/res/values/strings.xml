@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">m7_quiz_fragments</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Let start</string>
+    <string name="start">Start</string>
+    <string name="questions">вопросы</string>
+</resources>

@@ -6,6 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
+import androidx.navigation.fragment.findNavController
+import com.example.m7_quiz_fragments.databinding.FragmentFirstBinding
+
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
@@ -21,6 +24,9 @@ class FirstFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private var _binding: FragmentFirstBinding? = null
+    private val binding get() = _binding!!
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -34,7 +40,14 @@ class FirstFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_first, container, false)
+        _binding = FragmentFirstBinding.inflate(inflater, container, false)
+
+        binding.buttonStart.setOnClickListener {
+            findNavController().navigate(R.id.secondFragment)
+        }
+
+        return return binding.root
+        //return inflater.inflate(R.layout.fragment_first, container, false)
     }
 
     companion object {
@@ -55,5 +68,10 @@ class FirstFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

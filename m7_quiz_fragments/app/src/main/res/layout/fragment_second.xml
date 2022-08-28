@@ -25,6 +25,7 @@
                 android:text="вопрос 1" />
 
             <RadioGroup
+                android:id="@+id/radioGroup1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="48dp">
@@ -59,13 +60,14 @@
                 android:text="вопрос 2" />
 
             <RadioGroup
+                android:id="@+id/radioGroup2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="48dp">
 
                 <RadioButton
                     android:id="@+id/radioButton5"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="ответ1" />
 
@@ -93,6 +95,7 @@
                 android:text="вопрос 3" />
 
             <RadioGroup
+                android:id="@+id/radioGroup3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="48dp">
@@ -121,6 +124,13 @@
             </RadioGroup>
 
 
+            <Button
+                android:id="@+id/getAnswerButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="получить результат"
+                android:layout_gravity="center"
+             />
         </LinearLayout>
 
 

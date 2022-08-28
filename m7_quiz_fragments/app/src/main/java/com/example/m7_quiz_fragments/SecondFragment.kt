@@ -27,6 +27,10 @@ class SecondFragment : Fragment() {
     private var param2: String? = null
     private var param3: String? = null
 
+    var par1: String? = null
+    var par2: String? = null
+    var par3: String? = null
+
     private var _binding: FragmentSecondBinding? = null
     private val binding get() = _binding!!
 
@@ -46,27 +50,23 @@ class SecondFragment : Fragment() {
         _binding = FragmentSecondBinding.inflate(inflater, container, false)
         // Inflate the layout for this fragment
 
+        //binding.getAnswerButton.isEnabled = false
 
-        binding.getAnswerButton.isEnabled = false
+        par1 = radioButton(binding.radioGroup1)
+        par2 = radioButton(binding.radioGroup2)
+        par3 = radioButton(binding.radioGroup3)
 
-
-
-
+        if (par1 != null && par2 != null && par3 != null) {
+            binding.getAnswerButton.isEnabled = true
+        }
         binding.getAnswerButton.setOnClickListener {
 
-            val btn: String? = radioButton(binding.radioGroup1)
-            val btn2: String? = radioButton(binding.radioGroup2)
-            val btn3: String? = radioButton(binding.radioGroup3)
+            /*val rg1: String? = radioButton(binding.radioGroup1)
+            val rg2: String? = radioButton(binding.radioGroup2)
+            val rg3: String? = radioButton(binding.radioGroup3)*/
 
 
-            Toast.makeText(context, btn, Toast.LENGTH_SHORT).show()
-            Toast.makeText(context, btn2, Toast.LENGTH_SHORT).show()
-            Toast.makeText(context, btn3, Toast.LENGTH_SHORT).show()
-
-            if (btn != null && btn2 != null && btn3 != null) {
-                binding.getAnswerButton.isEnabled = true
-            }
-
+            Toast.makeText(context, par1 + par2 + par3, Toast.LENGTH_SHORT).show()
 
         }
 
@@ -74,10 +74,19 @@ class SecondFragment : Fragment() {
     }
 
     private fun radioButton(radioGroup: RadioGroup): String? {
-        val selectedOne = radioGroup.checkedRadioButtonId
-        val btn = radioGroup.findViewById<RadioButton>(selectedOne)
-        val param = btn.text.toString()
-        return param
+
+        var btn: String? = null
+        //  var param = btn.text.toString()
+        radioGroup.setOnCheckedChangeListener { radioGroup, i ->
+
+            val selected = radioGroup.checkedRadioButtonId
+            btn = radioGroup.findViewById<RadioButton>(selected).text.toString()
+            Toast.makeText(context, btn, Toast.LENGTH_SHORT).show()
+
+
+        }
+
+        return btn
     }
 
     companion object {

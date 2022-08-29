@@ -1,14 +1,16 @@
 package com.example.m7_quiz_fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.example.m7_quiz_fragments.databinding.FragmentSecondBinding
+import com.example.skillbox_hw_quiz.quiz.*
+import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -22,6 +24,8 @@ private const val ARG_PARAM3 = "param3"
  * create an instance of this fragment.
  */
 class SecondFragment : Fragment() {
+
+
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -41,6 +45,9 @@ class SecondFragment : Fragment() {
             param2 = it.getString(ARG_PARAM2)
             param3 = it.getString(ARG_PARAM3)
         }
+
+
+       val q= QuizStorage.getQuiz(QuizStorage.Locale.Ru).questions[1]
     }
 
     override fun onCreateView(
@@ -48,23 +55,29 @@ class SecondFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentSecondBinding.inflate(inflater, container, false)
-        // Inflate the layout for this fragment
 
-        //binding.getAnswerButton.isEnabled = false
+        binding.radioGroup1.setOnCheckedChangeListener { radioGroup, i ->
 
-        par1 = radioButton(binding.radioGroup1)
-        par2 = radioButton(binding.radioGroup2)
-        par3 = radioButton(binding.radioGroup3)
 
-        if (par1 != null && par2 != null && par3 != null) {
-            binding.getAnswerButton.isEnabled = true
+
+            val selected = radioGroup.checkedRadioButtonId
+            par1 = radioGroup.findViewById<RadioButton>(selected).text.toString()
+            Toast.makeText(context, par1, Toast.LENGTH_SHORT).show()
         }
+
+        binding.radioGroup2.setOnCheckedChangeListener { radioGroup, i ->
+            val selected = radioGroup.checkedRadioButtonId
+            par2 = radioGroup.findViewById<RadioButton>(selected).text.toString()
+            Toast.makeText(context, par2, Toast.LENGTH_SHORT).show()
+        }
+
+        binding.radioGroup3.setOnCheckedChangeListener { radioGroup, i ->
+            val selected = radioGroup.checkedRadioButtonId
+            par3 = radioGroup.findViewById<RadioButton>(selected).text.toString()
+            Toast.makeText(context, par3, Toast.LENGTH_SHORT).show()
+        }
+
         binding.getAnswerButton.setOnClickListener {
-
-            /*val rg1: String? = radioButton(binding.radioGroup1)
-            val rg2: String? = radioButton(binding.radioGroup2)
-            val rg3: String? = radioButton(binding.radioGroup3)*/
-
 
             Toast.makeText(context, par1 + par2 + par3, Toast.LENGTH_SHORT).show()
 
@@ -109,3 +122,4 @@ class SecondFragment : Fragment() {
             }
     }
 }
+

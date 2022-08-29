@@ -1,16 +1,16 @@
 package com.example.m7_quiz_fragments
 
+
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RadioButton
-import android.widget.RadioGroup
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.Fragment
 import com.example.m7_quiz_fragments.databinding.FragmentSecondBinding
 import com.example.skillbox_hw_quiz.quiz.*
 import java.util.*
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -47,7 +47,7 @@ class SecondFragment : Fragment() {
         }
 
 
-       val q= QuizStorage.getQuiz(QuizStorage.Locale.Ru).questions[1]
+        val q = QuizStorage.getQuiz(QuizStorage.Locale.Ru).questions[1]
     }
 
     override fun onCreateView(
@@ -56,9 +56,9 @@ class SecondFragment : Fragment() {
     ): View? {
         _binding = FragmentSecondBinding.inflate(inflater, container, false)
 
+        binding.question1.text = QuizStorage.getQuiz(QuizStorage.Locale.Ru).questions[1].question
+
         binding.radioGroup1.setOnCheckedChangeListener { radioGroup, i ->
-
-
 
             val selected = radioGroup.checkedRadioButtonId
             par1 = radioGroup.findViewById<RadioButton>(selected).text.toString()
@@ -83,8 +83,17 @@ class SecondFragment : Fragment() {
 
         }
 
+
+
+
+
+
+
         return binding.root
     }
+
+
+
 
     private fun radioButton(radioGroup: RadioGroup): String? {
 

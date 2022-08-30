@@ -58,6 +58,7 @@ class SecondFragment : Fragment() {
         binding.question2.text = QuizStorage.getQuiz(QuizStorage.Locale.Ru).questions[1].question
         binding.question3.text = QuizStorage.getQuiz(QuizStorage.Locale.Ru).questions[2].question*/
 
+        binding.getAnswerButton.isEnabled = false
 
         val listOfTextView = listOf(
             binding.question1,
@@ -101,26 +102,35 @@ class SecondFragment : Fragment() {
             val selected = radioGroup.checkedRadioButtonId
             par1 = radioGroup.findViewById<RadioButton>(selected).text.toString()
             Toast.makeText(context, par1, Toast.LENGTH_SHORT).show()
+            isAnwered()
         }
 
         binding.radioGroup2.setOnCheckedChangeListener { radioGroup, i ->
             val selected = radioGroup.checkedRadioButtonId
             par2 = radioGroup.findViewById<RadioButton>(selected).text.toString()
             Toast.makeText(context, par2, Toast.LENGTH_SHORT).show()
+            isAnwered()
         }
 
         binding.radioGroup3.setOnCheckedChangeListener { radioGroup, i ->
             val selected = radioGroup.checkedRadioButtonId
             par3 = radioGroup.findViewById<RadioButton>(selected).text.toString()
             Toast.makeText(context, par3, Toast.LENGTH_SHORT).show()
+            isAnwered()
         }
 
         binding.getAnswerButton.setOnClickListener {
-            Toast.makeText(context, par1 + par2 + par3, Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, """$par1, $par2, $par3, """, Toast.LENGTH_SHORT).show()
 
         }
 
         return binding.root
+    }
+
+    private fun isAnwered() {
+        if (par1 != null && par2 != null && par3 != null) {
+            binding.getAnswerButton.isEnabled = true
+        }
     }
 
     private fun function(

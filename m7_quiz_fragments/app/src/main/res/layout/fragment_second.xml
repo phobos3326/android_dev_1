@@ -55,6 +55,7 @@
             </RadioGroup>
 
             <TextView
+                android:id="@+id/question2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
@@ -90,6 +91,7 @@
             </RadioGroup>
 
             <TextView
+                android:id="@+id/question3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"

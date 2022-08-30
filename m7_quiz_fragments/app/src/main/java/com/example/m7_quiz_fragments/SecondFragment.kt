@@ -9,7 +9,6 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import com.example.m7_quiz_fragments.databinding.FragmentSecondBinding
 import com.example.skillbox_hw_quiz.quiz.*
-import java.util.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -47,7 +46,6 @@ class SecondFragment : Fragment() {
         }
 
 
-        val q = QuizStorage.getQuiz(QuizStorage.Locale.Ru).questions[1]
     }
 
     override fun onCreateView(
@@ -56,10 +54,50 @@ class SecondFragment : Fragment() {
     ): View? {
         _binding = FragmentSecondBinding.inflate(inflater, container, false)
 
-        binding.question1.text = QuizStorage.getQuiz(QuizStorage.Locale.Ru).questions[1].question
+        /*binding.question1.text = QuizStorage.getQuiz(QuizStorage.Locale.Ru).questions[0].question
+        binding.question2.text = QuizStorage.getQuiz(QuizStorage.Locale.Ru).questions[1].question
+        binding.question3.text = QuizStorage.getQuiz(QuizStorage.Locale.Ru).questions[2].question*/
+
+
+        val listOfTextView = listOf(
+            binding.question1,
+            binding.question2,
+            binding.question3,
+        )
+
+        val listOfRadioButton = listOf(
+            binding.radioButton1,
+            binding.radioButton2,
+            binding.radioButton3,
+            binding.radioButton4,
+            binding.radioButton5,
+            binding.radioButton6,
+            binding.radioButton7,
+            binding.radioButton8,
+            binding.radioButton9,
+            binding.radioButton10,
+            binding.radioButton11,
+            binding.radioButton12
+        )
+
+        for (i in listOfTextView.indices) {
+            listOfTextView[i].text =
+                QuizStorage.getQuiz(QuizStorage.Locale.Ru).questions[i].question
+        }
+
+        val answersOne = QuizStorage.getQuiz(QuizStorage.Locale.Ru).questions[0].answers
+        val listOfRadiobuttonOne = listOfRadioButton.slice(0..3)
+        val answersTwo = QuizStorage.getQuiz(QuizStorage.Locale.Ru).questions[1].answers
+        val listOfRadiobuttonTwo = listOfRadioButton.slice(4..7)
+        val answersThree = QuizStorage.getQuiz(QuizStorage.Locale.Ru).questions[2].answers
+        val listOfRadiobuttonThree = listOfRadioButton.slice(8..11)
+
+        function(listOfRadiobuttonOne, answersOne)
+        function(listOfRadiobuttonTwo, answersTwo)
+        function(listOfRadiobuttonThree, answersThree)
+
 
         binding.radioGroup1.setOnCheckedChangeListener { radioGroup, i ->
-
             val selected = radioGroup.checkedRadioButtonId
             par1 = radioGroup.findViewById<RadioButton>(selected).text.toString()
             Toast.makeText(context, par1, Toast.LENGTH_SHORT).show()
@@ -78,21 +116,21 @@ class SecondFragment : Fragment() {
         }
 
         binding.getAnswerButton.setOnClickListener {
-
             Toast.makeText(context, par1 + par2 + par3, Toast.LENGTH_SHORT).show()
 
         }
 
-
-
-
-
-
-
         return binding.root
     }
 
-
+    private fun function(
+        al: List<RadioButton>,
+        answers: List<String>
+    ) {
+        for (i in al.indices) {
+            al[i].text = answers[i]
+        }
+    }
 
 
     private fun radioButton(radioGroup: RadioGroup): String? {

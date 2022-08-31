@@ -13,9 +13,9 @@ import com.example.skillbox_hw_quiz.quiz.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-private const val ARG_PARAM3 = "param3"
+private val ARG_PARAM1 = null
+private val ARG_PARAM2 = null
+private val ARG_PARAM3 = null
 
 /**
  * A simple [Fragment] subclass.
@@ -26,9 +26,9 @@ class SecondFragment : Fragment() {
 
 
     // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-    private var param3: String? = null
+    private var param1: Int? = null
+    private var param2: Int? = null
+    private var param3: Int? = null
 
     var par1: String? = null
     var par2: String? = null
@@ -40,9 +40,9 @@ class SecondFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-            param3 = it.getString(ARG_PARAM3)
+            param1 = it.getInt(ARG_PARAM1)
+            param2 = it.getInt(ARG_PARAM2)
+            param3 = it.getInt(ARG_PARAM3)
         }
 
 
@@ -93,53 +93,58 @@ class SecondFragment : Fragment() {
         val answersThree = QuizStorage.getQuiz(QuizStorage.Locale.Ru).questions[2].answers
         val listOfRadiobuttonThree = listOfRadioButton.slice(8..11)
 
-        function(listOfRadiobuttonOne, answersOne)
-        function(listOfRadiobuttonTwo, answersTwo)
-        function(listOfRadiobuttonThree, answersThree)
+        param1 = function(listOfRadiobuttonOne, answersOne)
+        param2 = function(listOfRadiobuttonTwo, answersTwo)
+        param3 = function(listOfRadiobuttonThree, answersThree)
 
 
         binding.radioGroup1.setOnCheckedChangeListener { radioGroup, i ->
             val selected = radioGroup.checkedRadioButtonId
             par1 = radioGroup.findViewById<RadioButton>(selected).text.toString()
+
             Toast.makeText(context, par1, Toast.LENGTH_SHORT).show()
-            isAnwered()
+            isAnswered()
         }
 
         binding.radioGroup2.setOnCheckedChangeListener { radioGroup, i ->
             val selected = radioGroup.checkedRadioButtonId
             par2 = radioGroup.findViewById<RadioButton>(selected).text.toString()
             Toast.makeText(context, par2, Toast.LENGTH_SHORT).show()
-            isAnwered()
+            isAnswered()
         }
 
         binding.radioGroup3.setOnCheckedChangeListener { radioGroup, i ->
             val selected = radioGroup.checkedRadioButtonId
             par3 = radioGroup.findViewById<RadioButton>(selected).text.toString()
             Toast.makeText(context, par3, Toast.LENGTH_SHORT).show()
-            isAnwered()
+            isAnswered()
         }
 
         binding.getAnswerButton.setOnClickListener {
-            Toast.makeText(context, """$par1, $par2, $par3, """, Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, """$param1, $param2, $param3, """, Toast.LENGTH_SHORT).show()
 
         }
 
         return binding.root
     }
 
-    private fun isAnwered() {
+    private fun isAnswered() {
         if (par1 != null && par2 != null && par3 != null) {
             binding.getAnswerButton.isEnabled = true
         }
     }
 
     private fun function(
-        al: List<RadioButton>,
+        radioButton: List<RadioButton>,
         answers: List<String>
-    ) {
-        for (i in al.indices) {
-            al[i].text = answers[i]
+    ): Int? {
+
+        var index: Int? = null
+        for (i in radioButton.indices) {
+            radioButton[i].text = answers[i]
+            index=i
         }
+        return index
     }
 
 
@@ -170,11 +175,12 @@ class SecondFragment : Fragment() {
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance(param1: Int, param2: Int, param3: Int) =
             SecondFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+                    putInt(ARG_PARAM1, param1)
+                    putInt(ARG_PARAM2, param2)
+                    putInt(ARG_PARAM3, param3)
                 }
             }
     }

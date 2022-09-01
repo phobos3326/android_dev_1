@@ -43,7 +43,7 @@ class FirstFragment : Fragment() {
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
 
         binding.buttonStart.setOnClickListener {
-            findNavController().navigate(R.id.secondFragment)
+            findNavController().navigate(R.id.action_firstFragment_to_secondFragment2)
         }
 
         return return binding.root

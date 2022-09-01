@@ -1,12 +1,13 @@
 package com.example.m7_quiz_fragments
 
-import android.R
+
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.m7_quiz_fragments.databinding.FragmentThirdBinding
 import com.example.skillbox_hw_quiz.quiz.QuizStorage
 
@@ -52,6 +53,11 @@ class ThirdFragment : Fragment() {
             QuizStorage.getQuiz(QuizStorage.Locale.Ru).questions[1].feedback[feedback2!!]
         binding.answer3.text =
             QuizStorage.getQuiz(QuizStorage.Locale.Ru).questions[2].feedback[feedback3!!]
+
+        binding.startOverButton.setOnClickListener {
+           findNavController().navigate(R.id.action_thirdFragment_to_secondFragment)
+        }
+
         return binding.root
     }
 
@@ -74,4 +80,10 @@ class ThirdFragment : Fragment() {
                 }
             }
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
 }

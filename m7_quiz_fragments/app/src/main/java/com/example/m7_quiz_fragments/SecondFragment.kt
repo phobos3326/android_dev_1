@@ -118,12 +118,12 @@ class SecondFragment : Fragment() {
 
         binding.getAnswerButton.setOnClickListener {
             Toast.makeText(context, """$param1, $param2, $param3 """, Toast.LENGTH_SHORT).show()
-            val bundle1 = bundleOf(
+            val bundle = bundleOf(
                 "answer1" to param1,
                 "answer2" to param2,
                 "answer3" to param3
             )
-            findNavController().navigate(R.id.thirdFragment, bundle1)
+            findNavController().navigate(R.id.action_secondFragment_to_thirdFragment2, bundle)
         }
 
         return binding.root

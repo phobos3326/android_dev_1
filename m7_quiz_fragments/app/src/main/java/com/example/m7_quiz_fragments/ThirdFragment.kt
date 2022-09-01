@@ -44,6 +44,8 @@ class ThirdFragment : Fragment() {
         _binding = FragmentThirdBinding.inflate(inflater, container, false)
 
         binding.answer1.text=arguments?.getInt("answer1").toString()
+        binding.answer2.text=arguments?.getInt("answer2").toString()
+        binding.answer3.text=arguments?.getInt("answer3").toString()
         // a.text="odfjvnpjnvpfv"
 
         return binding.root

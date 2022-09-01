@@ -102,24 +102,28 @@ class SecondFragment : Fragment() {
 
 
         binding.radioGroup1.setOnCheckedChangeListener { radioGroup, i ->
-           param1 =  fun2(radioGroup, listOfRadioButton1)
+            param1 = fun2(radioGroup, listOfRadioButton1)
             isAnswered()
         }
 
         binding.radioGroup2.setOnCheckedChangeListener { radioGroup, i ->
-          param2=  fun2(radioGroup, listOfRadioButton2)
+            param2 = fun2(radioGroup, listOfRadioButton2)
             isAnswered()
         }
 
         binding.radioGroup3.setOnCheckedChangeListener { radioGroup, i ->
-          param3=  fun2(radioGroup, listOfRadioButton3)
+            param3 = fun2(radioGroup, listOfRadioButton3)
             isAnswered()
         }
 
         binding.getAnswerButton.setOnClickListener {
             Toast.makeText(context, """$param1, $param2, $param3 """, Toast.LENGTH_SHORT).show()
-            val bundle = bundleOf("answer1" to param1)
-            findNavController().navigate(R.id.thirdFragment, bundle)
+            val bundle1 = bundleOf(
+                "answer1" to param1,
+                "answer2" to param2,
+                "answer3" to param3
+            )
+            findNavController().navigate(R.id.thirdFragment, bundle1)
         }
 
         return binding.root
@@ -129,7 +133,7 @@ class SecondFragment : Fragment() {
         radioGroup: RadioGroup,
         listOfRadioButton: List<RadioButton>
     ): Int? {
-        var par:Int?=null
+        var par: Int? = null
         val selected = radioGroup.checkedRadioButtonId
         listOfRadioButton.indices.forEach { i ->
             if (listOfRadioButton[i].id == selected) {
@@ -137,7 +141,7 @@ class SecondFragment : Fragment() {
             }
         }
         listOfRadioButton.find { it.id == selected }
-       // par = radioGroup.findViewById<RadioButton>(selected).text.toString()
+        // par = radioGroup.findViewById<RadioButton>(selected).text.toString()
         //Toast.makeText(context, par1, Toast.LENGTH_SHORT).show()
         return par
     }

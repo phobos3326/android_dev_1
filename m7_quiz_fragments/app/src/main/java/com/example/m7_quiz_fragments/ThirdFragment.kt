@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.m7_quiz_fragments.databinding.FragmentThirdBinding
+import com.example.skillbox_hw_quiz.quiz.QuizStorage
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -42,12 +43,15 @@ class ThirdFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         _binding = FragmentThirdBinding.inflate(inflater, container, false)
-
-        binding.answer1.text=arguments?.getInt("answer1").toString()
-        binding.answer2.text=arguments?.getInt("answer2").toString()
-        binding.answer3.text=arguments?.getInt("answer3").toString()
-        // a.text="odfjvnpjnvpfv"
-
+        val feedback1 = arguments?.getInt("answer1")
+        val feedback2 = arguments?.getInt("answer2")
+        val feedback3 = arguments?.getInt("answer3")
+        binding.answer1.text =
+            QuizStorage.getQuiz(QuizStorage.Locale.Ru).questions[0].feedback[feedback1!!]
+        binding.answer2.text =
+            QuizStorage.getQuiz(QuizStorage.Locale.Ru).questions[1].feedback[feedback2!!]
+        binding.answer3.text =
+            QuizStorage.getQuiz(QuizStorage.Locale.Ru).questions[2].feedback[feedback3!!]
         return binding.root
     }
 

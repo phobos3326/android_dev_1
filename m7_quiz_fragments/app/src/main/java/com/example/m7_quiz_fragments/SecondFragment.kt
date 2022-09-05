@@ -92,6 +92,15 @@ class SecondFragment : Fragment() {
             }
         )*/
 
+        activity?.onBackPressedDispatcher?.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    findNavController().navigate(R.id.action_secondFragment_to_firstFragment2)
+                }
+            }
+        )
+
         _binding = FragmentSecondBinding.inflate(inflater, container, false)
 
 

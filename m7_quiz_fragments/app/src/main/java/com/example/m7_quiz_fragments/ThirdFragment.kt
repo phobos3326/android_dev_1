@@ -50,7 +50,6 @@ class ThirdFragment : Fragment() {
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
                     findNavController().navigate(R.id.action_thirdFragment_to_firstFragment2)
-
                 }
             }
 

@@ -42,11 +42,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="ответ2" />
+
                 <RadioButton
                     android:id="@+id/radioButton3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="ответ3" />
+
                 <RadioButton
                     android:id="@+id/radioButton4"
                     android:layout_width="match_parent"
@@ -78,11 +80,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="ответ2" />
+
                 <RadioButton
                     android:id="@+id/radioButton7"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="ответ3" />
+
                 <RadioButton
                     android:id="@+id/radioButton8"
                     android:layout_width="match_parent"
@@ -114,11 +118,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="ответ2" />
+
                 <RadioButton
                     android:id="@+id/radioButton11"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="ответ3" />
+
                 <RadioButton
                     android:id="@+id/radioButton12"
                     android:layout_width="match_parent"
@@ -126,16 +132,28 @@
                     android:text="ответ4" />
             </RadioGroup>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <Button
-                android:id="@+id/getAnswerButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="получить результат"
-                android:layout_gravity="center"
-             />
+                <Button
+                    android:id="@+id/getBack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:text="назад"
+                    android:layout_marginRight="16dp"/>
+
+                <Button
+                    android:id="@+id/getAnswerButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:text="результат" />
+            </LinearLayout>
         </LinearLayout>
-
 
 
     </ScrollView>

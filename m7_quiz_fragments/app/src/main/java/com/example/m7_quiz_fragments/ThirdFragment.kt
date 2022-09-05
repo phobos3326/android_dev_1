@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -42,6 +43,18 @@ class ThirdFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+
+        activity?.onBackPressedDispatcher?.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    findNavController().navigate(R.id.action_thirdFragment_to_firstFragment2)
+
+                }
+            }
+
+        )
         // Inflate the layout for this fragment
         _binding = FragmentThirdBinding.inflate(inflater, container, false)
         val feedback1 = arguments?.getInt("answer1")
@@ -55,7 +68,7 @@ class ThirdFragment : Fragment() {
             QuizStorage.getQuiz(QuizStorage.Locale.Ru).questions[2].feedback[feedback3!!]
 
         binding.startOverButton.setOnClickListener {
-           findNavController().navigate(R.id.action_thirdFragment_to_secondFragment)
+            findNavController().navigate(R.id.action_thirdFragment_to_secondFragment)
         }
 
         return binding.root
@@ -82,8 +95,11 @@ class ThirdFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
+
         _binding = null
+        // findNavController().navigate(R.id.action_thirdFragment_to_firstFragment2)
+        super.onDestroyView()
+
     }
 
 }

@@ -1,16 +1,22 @@
 package com.example.m7_quiz_fragments
 
 
+import android.content.Context
+import android.content.Intent.getIntent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.RadioButton
+import android.widget.RadioGroup
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.m7_quiz_fragments.databinding.FragmentSecondBinding
-import com.example.skillbox_hw_quiz.quiz.*
+import com.example.skillbox_hw_quiz.quiz.QuizStorage
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -40,6 +46,9 @@ class SecondFragment : Fragment() {
     private val binding get() = _binding!!
 
 
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -47,6 +56,19 @@ class SecondFragment : Fragment() {
             param2 = it.getInt(ARG_PARAM2)
             param3 = it.getInt(ARG_PARAM3)
         }
+       /* activity?.onBackPressedDispatcher?.addCallback(
+            viewLifecycleOwner,
+            object: OnBackPressedCallback(true){
+                override fun handleOnBackPressed() {
+                    val isNavigatedUp = findNavController().navigateUp()
+                    if(isNavigatedUp){
+                        return
+                    }else{
+                        activity?.finish()
+                    }
+                }
+            }
+        )*/
 
 
     }
@@ -55,7 +77,24 @@ class SecondFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+    /*    activity?.onBackPressedDispatcher?.addCallback(
+            viewLifecycleOwner,
+            object: OnBackPressedCallback(true){
+                override fun handleOnBackPressed() {
+                    val isNavigatedUp = findNavController().navigateUp()
+                    if(isNavigatedUp){
+                        return
+                    }else{
+                        activity?.finish()
+                    }
+                }
+            }
+        )*/
+
         _binding = FragmentSecondBinding.inflate(inflater, container, false)
+
+
 
         binding.getAnswerButton.isEnabled = false
 
@@ -124,6 +163,12 @@ class SecondFragment : Fragment() {
                 "answer3" to param3
             )
             findNavController().navigate(R.id.action_secondFragment_to_thirdFragment2, bundle)
+
+        }
+
+
+        binding.getBack.setOnClickListener {
+            findNavController().navigate(R.id.action_secondFragment_to_firstFragment2)
         }
 
         return binding.root
@@ -199,5 +244,56 @@ class SecondFragment : Fragment() {
                 }
             }
     }
+  /*  override fun onDestroyView() {
+        super.onDestroyView()
+
+
+        _binding = null
+    }*/
+
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        Log.d("Fragment1", "onAttach")
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        Log.d("Fragment1", "onStart")
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        Log.d("Fragment1", "onResume")
+    }
+
+    override fun onStop() {
+        Log.d("Fragment1", "onStop")
+
+        super.onStop()
+    }
+
+    override fun onDestroyView() {
+        Log.d("Fragment1", "onDestroyView")
+
+        super.onDestroyView()
+    }
+
+    override fun onDestroy() {
+        Log.d("Fragment1", "onDestroy")
+        _binding = null
+        super.onDestroy()
+    }
+
+    override fun onDetach() {
+        Log.d("Fragment1", "onDetach")
+
+        super.onDetach()
+    }
+
+
 }
 

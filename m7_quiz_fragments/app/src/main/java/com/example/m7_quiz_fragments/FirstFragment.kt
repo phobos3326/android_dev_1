@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 
 import androidx.navigation.fragment.findNavController
 import com.example.m7_quiz_fragments.databinding.FragmentFirstBinding
@@ -41,6 +42,15 @@ class FirstFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
+
+        activity?.onBackPressedDispatcher?.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    activity?.finish()
+                }
+            }
+        )
 
         binding.buttonStart.setOnClickListener {
             findNavController().navigate(R.id.action_firstFragment_to_secondFragment2)

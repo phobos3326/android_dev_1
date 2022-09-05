@@ -57,7 +57,6 @@ class FirstFragment : Fragment() {
         }
 
         return return binding.root
-        //return inflater.inflate(R.layout.fragment_first, container, false)
     }
 
     companion object {

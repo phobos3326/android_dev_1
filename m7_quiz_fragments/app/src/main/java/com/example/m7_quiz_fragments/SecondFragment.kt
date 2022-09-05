@@ -1,8 +1,5 @@
 package com.example.m7_quiz_fragments
 
-
-import android.content.Context
-import android.content.Intent.getIntent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -46,9 +43,6 @@ class SecondFragment : Fragment() {
     private val binding get() = _binding!!
 
 
-
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -56,21 +50,6 @@ class SecondFragment : Fragment() {
             param2 = it.getInt(ARG_PARAM2)
             param3 = it.getInt(ARG_PARAM3)
         }
-       /* activity?.onBackPressedDispatcher?.addCallback(
-            viewLifecycleOwner,
-            object: OnBackPressedCallback(true){
-                override fun handleOnBackPressed() {
-                    val isNavigatedUp = findNavController().navigateUp()
-                    if(isNavigatedUp){
-                        return
-                    }else{
-                        activity?.finish()
-                    }
-                }
-            }
-        )*/
-
-
     }
 
     override fun onCreateView(
@@ -78,19 +57,6 @@ class SecondFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-    /*    activity?.onBackPressedDispatcher?.addCallback(
-            viewLifecycleOwner,
-            object: OnBackPressedCallback(true){
-                override fun handleOnBackPressed() {
-                    val isNavigatedUp = findNavController().navigateUp()
-                    if(isNavigatedUp){
-                        return
-                    }else{
-                        activity?.finish()
-                    }
-                }
-            }
-        )*/
 
         activity?.onBackPressedDispatcher?.addCallback(
             viewLifecycleOwner,
@@ -195,8 +161,7 @@ class SecondFragment : Fragment() {
             }
         }
         listOfRadioButton.find { it.id == selected }
-        // par = radioGroup.findViewById<RadioButton>(selected).text.toString()
-        //Toast.makeText(context, par1, Toast.LENGTH_SHORT).show()
+
         return par
     }
 
@@ -220,16 +185,13 @@ class SecondFragment : Fragment() {
     private fun radioButton(radioGroup: RadioGroup): String? {
 
         var btn: String? = null
-        //  var param = btn.text.toString()
+
         radioGroup.setOnCheckedChangeListener { radioGroup, i ->
 
             val selected = radioGroup.checkedRadioButtonId
             btn = radioGroup.findViewById<RadioButton>(selected).text.toString()
             Toast.makeText(context, btn, Toast.LENGTH_SHORT).show()
-
-
         }
-
         return btn
     }
 
@@ -253,54 +215,11 @@ class SecondFragment : Fragment() {
                 }
             }
     }
-  /*  override fun onDestroyView() {
-        super.onDestroyView()
-
-
-        _binding = null
-    }*/
-
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-
-        Log.d("Fragment1", "onAttach")
-    }
-
-    override fun onStart() {
-        super.onStart()
-
-        Log.d("Fragment1", "onStart")
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        Log.d("Fragment1", "onResume")
-    }
-
-    override fun onStop() {
-        Log.d("Fragment1", "onStop")
-
-        super.onStop()
-    }
-
-    override fun onDestroyView() {
-        Log.d("Fragment1", "onDestroyView")
-
-        super.onDestroyView()
-    }
 
     override fun onDestroy() {
         Log.d("Fragment1", "onDestroy")
         _binding = null
         super.onDestroy()
-    }
-
-    override fun onDetach() {
-        Log.d("Fragment1", "onDetach")
-
-        super.onDetach()
     }
 
 

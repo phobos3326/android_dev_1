@@ -1,7 +1,15 @@
 <resources>
     <string name="app_name">m7_quiz_fragments</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Let start</string>
+    <string name="hello_blank_fragment">Давайте начнем опрос</string>
     <string name="start">Start</string>
     <string name="questions">вопросы</string>
+    <string name="_1">ответ 1</string>
+    <string name="_2">ответ 2</string>
+    <string name="_3">ответ 3</string>
+    <string name="feedback_results">Результаты опроса</string>
+    <string name="n_3">3</string>
+    <string name="n_2">2</string>
+    <string name="n_1">1</string>
+    <string name="start_over">начать заново</string>
 </resources>

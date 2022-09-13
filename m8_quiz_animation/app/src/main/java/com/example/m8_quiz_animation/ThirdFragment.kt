@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.example.m8_quiz_animation.databinding.FragmentThirdBinding
 import com.example.skillbox_hw_quiz.quiz.QuizStorage
@@ -64,7 +65,15 @@ class ThirdFragment : Fragment() {
             QuizStorage.getQuiz(QuizStorage.Locale.Ru).questions[2].feedback[feedback3!!]
 
         binding.startOverButton.setOnClickListener {
-            findNavController().navigate(R.id.action_thirdFragment_to_secondFragment)
+
+            val builder: NavOptions.Builder = NavOptions.Builder()
+            val navOptions = builder.setEnterAnim(R.animator.alpha).build()
+
+            findNavController().navigate(
+                R.id.action_thirdFragment_to_secondFragment,
+                null,
+                navOptions
+            )
         }
 
         return binding.root

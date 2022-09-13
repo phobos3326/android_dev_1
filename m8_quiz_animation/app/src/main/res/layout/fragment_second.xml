@@ -20,6 +20,7 @@
 
             <TextView
                 android:id="@+id/question1"
+                android:layout_marginTop="16dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
@@ -33,26 +34,30 @@
 
                 <RadioButton
                     android:id="@+id/radioButton1"
+                    android:theme="@style/MyRadioButton"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="32dp"
                     android:text="ответ1" />
 
                 <RadioButton
                     android:id="@+id/radioButton2"
+                    android:theme="@style/MyRadioButton"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="32dp"
                     android:text="ответ2" />
 
                 <RadioButton
                     android:id="@+id/radioButton3"
+                    android:theme="@style/MyRadioButton"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="32dp"
                     android:text="ответ3" />
 
                 <RadioButton
                     android:id="@+id/radioButton4"
+                    android:theme="@style/MyRadioButton"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="32dp"
                     android:text="ответ4" />
             </RadioGroup>
 
@@ -61,6 +66,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
                 android:text="вопрос 2" />
 
             <RadioGroup
@@ -71,26 +77,30 @@
 
                 <RadioButton
                     android:id="@+id/radioButton5"
+                    android:theme="@style/MyRadioButton"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="32dp"
                     android:text="ответ1" />
 
                 <RadioButton
                     android:id="@+id/radioButton6"
+                    android:theme="@style/MyRadioButton"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="32dp"
                     android:text="ответ2" />
 
                 <RadioButton
                     android:id="@+id/radioButton7"
+                    android:theme="@style/MyRadioButton"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="32dp"
                     android:text="ответ3" />
 
                 <RadioButton
                     android:id="@+id/radioButton8"
+                    android:theme="@style/MyRadioButton"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="32dp"
                     android:text="ответ4" />
             </RadioGroup>
 
@@ -99,6 +109,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
                 android:text="вопрос 3" />
 
             <RadioGroup
@@ -109,50 +120,58 @@
 
                 <RadioButton
                     android:id="@+id/radioButton9"
+                    android:theme="@style/MyRadioButton"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="32dp"
                     android:text="ответ1" />
 
                 <RadioButton
                     android:id="@+id/radioButton10"
+                    android:theme="@style/MyRadioButton"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="32dp"
                     android:text="ответ2" />
 
                 <RadioButton
                     android:id="@+id/radioButton11"
+                    android:theme="@style/MyRadioButton"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="32dp"
                     android:text="ответ3" />
 
                 <RadioButton
                     android:id="@+id/radioButton12"
+                    android:theme="@style/MyRadioButton"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="32dp"
                     android:text="ответ4" />
             </RadioGroup>
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="32dp">
 
                 <Button
                     android:id="@+id/getBack"
-                    android:layout_width="wrap_content"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="125dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_gravity="center"
-                    android:text="назад"
-                    android:layout_marginRight="16dp"/>
+                    android:layout_marginRight="16dp"
+                    android:layout_weight="1"
+                    android:text="назад" />
 
                 <Button
                     android:id="@+id/getAnswerButton"
-                    android:layout_width="wrap_content"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="125dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_gravity="center"
+                    android:layout_toRightOf="@id/getBack"
                     android:text="результат" />
-            </LinearLayout>
+            </RelativeLayout>
         </LinearLayout>
 
 

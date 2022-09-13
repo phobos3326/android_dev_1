@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">m7_quiz_fragments</string>
+    <string name="app_name">m8_quiz_animation</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Давайте начнем опрос</string>
     <string name="start">Start</string>

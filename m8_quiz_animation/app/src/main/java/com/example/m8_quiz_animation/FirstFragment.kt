@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.example.m8_quiz_animation.databinding.FragmentFirstBinding
 
@@ -29,6 +30,8 @@ class FirstFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
@@ -40,7 +43,10 @@ class FirstFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
+
+
 
         activity?.onBackPressedDispatcher?.addCallback(
             viewLifecycleOwner,
@@ -52,7 +58,10 @@ class FirstFragment : Fragment() {
         )
 
         binding.buttonStart.setOnClickListener {
-            findNavController().navigate(R.id.action_firstFragment_to_secondFragment)
+
+            val builder: NavOptions.Builder = NavOptions.Builder()
+            val navOptions = builder.setEnterAnim(R.animator.alpha).build()
+            findNavController().navigate(R.id.action_firstFragment_to_secondFragment,null,navOptions)
         }
 
         return return binding.root
@@ -83,4 +92,6 @@ class FirstFragment : Fragment() {
         _binding = null
 
     }
+
+
 }

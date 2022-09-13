@@ -140,13 +140,11 @@ class SecondFragment : Fragment() {
                 "answer2" to param2,
                 "answer3" to param3
             )
-           // findNavController().navigate(R.id.action_secondFragment_to_thirdFragment2, bundle)
 
-           // val builder = NavOptions.Builder()
             val builder: NavOptions.Builder = NavOptions.Builder()
 
             val navOptions: NavOptions =
-                builder.setEnterAnim(android.R.anim.slide_in_left).setExitAnim(android.R.anim.slide_out_right).build()
+                builder.setEnterAnim(R.animator.slide_top_bottom_top).setExitAnim(android.R.anim.slide_out_right).build()
             findNavController().navigate(R.id.action_secondFragment_to_thirdFragment, bundle, navOptions)
 
         }
@@ -154,7 +152,7 @@ class SecondFragment : Fragment() {
 
         binding.getBack.setOnClickListener {
             val builder: NavOptions.Builder = NavOptions.Builder()
-            val navOptions =builder.setEnterAnim(android.R.animator.fade_in).build()
+            val navOptions =builder.setEnterAnim(R.animator.slide_top_bottom_top).build()
             findNavController().navigate(R.id.action_secondFragment_to_firstFragment,null,navOptions)
         }
 

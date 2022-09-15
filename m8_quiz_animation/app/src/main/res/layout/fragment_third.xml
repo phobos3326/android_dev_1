@@ -43,16 +43,16 @@
 
     <Button
         android:id="@+id/start_over_button"
-
+        style="?attr/materialButtonOutlinedStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:text="@string/start_over"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.808" />
+        app:layout_constraintVertical_bias="0.808"
+        app:strokeColor="@color/secondaryLightColor" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"

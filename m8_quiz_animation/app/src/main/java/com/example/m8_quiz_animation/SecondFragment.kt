@@ -64,7 +64,13 @@ class SecondFragment : Fragment() {
             viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    findNavController().navigate(R.id.action_secondFragment_to_firstFragment)
+
+                    val builder: NavOptions.Builder = NavOptions.Builder()
+
+                    val navOptions: NavOptions =
+                        builder.setEnterAnim(R.animator.slide_top_bottom_top).setExitAnim(android.R.anim.slide_out_right).build()
+
+                    findNavController().navigate(R.id.action_secondFragment_to_firstFragment,null,navOptions)
                 }
             }
         )

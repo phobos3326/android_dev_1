@@ -1,8 +1,9 @@
 package com.example.m8_quiz_animation
 
+import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.example.m8_quiz_animation.databinding.FragmentSecondBinding
@@ -44,7 +46,6 @@ class SecondFragment : Fragment() {
     private val binding get() = _binding!!
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -64,20 +65,23 @@ class SecondFragment : Fragment() {
             viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-
                     val builder: NavOptions.Builder = NavOptions.Builder()
-
                     val navOptions: NavOptions =
-                        builder.setEnterAnim(R.animator.slide_top_bottom_top).setExitAnim(android.R.anim.slide_out_right).build()
-
-                    findNavController().navigate(R.id.action_secondFragment_to_firstFragment,null,navOptions)
+                        builder.setEnterAnim(R.animator.slide_top_bottom_top)
+                            .setExitAnim(android.R.anim.slide_out_right).build()
+                    findNavController().navigate(
+                        R.id.action_secondFragment_to_firstFragment,
+                        null,
+                        navOptions
+                    )
                 }
             }
         )
 
+
+
+
         _binding = FragmentSecondBinding.inflate(inflater, container, false)
-
-
 
         binding.getAnswerButton.isEnabled = false
 
@@ -108,7 +112,6 @@ class SecondFragment : Fragment() {
             binding.radioButton12
         )
 
-
         for (i in listOfTextView.indices) {
             listOfTextView[i].text =
                 QuizStorage.getQuiz(QuizStorage.Locale.Ru).questions[i].question
@@ -122,22 +125,18 @@ class SecondFragment : Fragment() {
         getAnswerToRadioButton(listOfRadioButton2, answersTwo)
         getAnswerToRadioButton(listOfRadioButton3, answersThree)
 
-
         binding.radioGroup1.setOnCheckedChangeListener { radioGroup, i ->
             param1 = radioGroupResult(radioGroup, listOfRadioButton1)
             isAnswered()
         }
-
         binding.radioGroup2.setOnCheckedChangeListener { radioGroup, i ->
             param2 = radioGroupResult(radioGroup, listOfRadioButton2)
             isAnswered()
         }
-
         binding.radioGroup3.setOnCheckedChangeListener { radioGroup, i ->
             param3 = radioGroupResult(radioGroup, listOfRadioButton3)
             isAnswered()
         }
-
 
         binding.getAnswerButton.setOnClickListener {
             Toast.makeText(context, """$param1, $param2, $param3 """, Toast.LENGTH_SHORT).show()
@@ -150,19 +149,42 @@ class SecondFragment : Fragment() {
             val builder: NavOptions.Builder = NavOptions.Builder()
 
             val navOptions: NavOptions =
-                builder.setEnterAnim(R.animator.slide_top_bottom_top).setExitAnim(android.R.anim.slide_out_right).build()
-            findNavController().navigate(R.id.action_secondFragment_to_thirdFragment, bundle, navOptions)
+                builder.setEnterAnim(R.animator.slide_top_bottom_top)
+                    .setExitAnim(android.R.anim.slide_out_right).build()
+            findNavController().navigate(
+                R.id.action_secondFragment_to_thirdFragment,
+                bundle,
+                navOptions
+            )
 
         }
-
 
         binding.getBack.setOnClickListener {
             val builder: NavOptions.Builder = NavOptions.Builder()
-            val navOptions =builder.setEnterAnim(R.animator.slide_top_bottom_top).build()
-            findNavController().navigate(R.id.action_secondFragment_to_firstFragment,null,navOptions)
+            val navOptions = builder.setEnterAnim(R.animator.slide_top_bottom_top).build()
+            findNavController().navigate(
+                R.id.action_secondFragment_to_firstFragment,
+                null,
+                navOptions
+            )
         }
 
+
+
+        alpha(binding.getBack)
+        alpha(binding.getAnswerButton)
+
+
+
+
         return binding.root
+    }
+
+    private fun alpha(view: View) {
+        ObjectAnimator.ofFloat(view, "alpha", 0f, 1f).apply {
+            duration = 3000
+            start()
+        }
     }
 
     private fun radioGroupResult(

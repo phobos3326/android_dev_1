@@ -1,5 +1,7 @@
 package com.example.m8_quiz_animation
 
+import android.animation.AnimatorInflater
+import android.animation.ObjectAnimator
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,6 +12,10 @@ import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.example.m8_quiz_animation.databinding.FragmentThirdBinding
 import com.example.skillbox_hw_quiz.quiz.QuizStorage
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 
 /**
@@ -76,8 +82,26 @@ class ThirdFragment : Fragment() {
             )
         }
 
+
+        val scaleAnimation = AnimatorInflater.loadAnimator(
+            context, R.animator.scale)
+        scaleAnimation.setTarget(binding.imageView3)
+        scaleAnimation.start()
+
+
+
+
         return binding.root
     }
+
+    private fun alphaAnim(view: View) {
+        ObjectAnimator.ofFloat(view, "alpha", 0f, 1f).apply {
+            duration = 2000
+            start()
+        }
+    }
+
+
 
     companion object {
         /**

@@ -6,154 +6,159 @@
     android:layout_height="match_parent"
     tools:context=".ThirdFragment">
 
-    <TextView
-        android:id="@+id/answer1"
-        android:layout_width="293dp"
-        android:layout_height="65dp"
-        android:layout_marginStart="16dp"
-        android:text="@string/_1"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="@+id/relativeLayout"
-        app:layout_constraintStart_toEndOf="@+id/relativeLayout"
-        app:layout_constraintTop_toTopOf="@+id/relativeLayout" />
-
-    <TextView
-        android:id="@+id/answer2"
-        android:layout_width="293dp"
-        android:layout_height="65dp"
-        android:layout_marginStart="16dp"
-        android:text="@string/_2"
-        android:textSize="24sp"
-
-        app:layout_constraintBottom_toBottomOf="@+id/relativeLayout2"
-        app:layout_constraintStart_toEndOf="@+id/relativeLayout2"
-        app:layout_constraintTop_toTopOf="@+id/relativeLayout2" />
-
-    <TextView
-        android:id="@+id/answer3"
-        android:layout_width="293dp"
-        android:layout_height="65dp"
-        android:layout_marginStart="16dp"
-        android:text="@string/_3"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="@+id/relativeLayout3"
-        app:layout_constraintStart_toEndOf="@+id/relativeLayout3"
-        app:layout_constraintTop_toTopOf="@+id/relativeLayout3"
-        app:layout_constraintVertical_bias="0.529" />
-
-    <Button
-        android:id="@+id/start_over_button"
-        style="?attr/materialButtonOutlinedStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/start_over"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.808"
-        app:strokeColor="@color/secondaryLightColor" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="32dp" />
-
-    <RelativeLayout
-        android:id="@+id/relativeLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.15">
 
 
-        <ImageView
-            android:id="@+id/imageView6"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:src="@drawable/ic_baseline_arrow_drop_down_circle_24" />
+
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="@string/n_1"
-            android:textColor="@color/white"
-            android:textSize="30sp"
-            tools:layout_editor_absoluteX="64dp" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/relativeLayout2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.30">
-
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:src="@drawable/ic_baseline_arrow_drop_down_circle_24" />
+            android:id="@+id/answer1"
+            android:layout_width="293dp"
+            android:layout_height="65dp"
+            android:layout_marginStart="16dp"
+            android:text="@string/_1"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/relativeLayout"
+            app:layout_constraintStart_toEndOf="@+id/relativeLayout"
+            app:layout_constraintTop_toTopOf="@+id/relativeLayout" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="@string/n_2"
-            android:textColor="@color/white"
-            android:textSize="30sp"
-            tools:layout_editor_absoluteX="64dp" />
+            android:id="@+id/answer2"
+            android:layout_width="293dp"
+            android:layout_height="65dp"
+            android:layout_marginStart="16dp"
+            android:text="@string/_2"
+            android:textSize="16sp"
 
-    </RelativeLayout>
-
-
-    <RelativeLayout
-        android:id="@+id/relativeLayout3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.45">
-
-
-        <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:src="@drawable/ic_baseline_arrow_drop_down_circle_24" />
+            app:layout_constraintBottom_toBottomOf="@+id/relativeLayout2"
+            app:layout_constraintStart_toEndOf="@+id/relativeLayout2"
+            app:layout_constraintTop_toTopOf="@+id/relativeLayout2" />
 
         <TextView
+            android:id="@+id/answer3"
+            android:layout_width="293dp"
+            android:layout_height="65dp"
+            android:layout_marginStart="16dp"
+            android:text="@string/_3"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/relativeLayout3"
+            app:layout_constraintStart_toEndOf="@+id/relativeLayout3"
+            app:layout_constraintTop_toTopOf="@+id/relativeLayout3"
+            app:layout_constraintVertical_bias="0.529" />
+
+        <Button
+            android:id="@+id/start_over_button"
+            style="?attr/materialButtonOutlinedStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="@string/n_3"
-            android:textColor="@color/white"
+            android:text="@string/start_over"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.808"
+            app:strokeColor="@color/secondaryLightColor" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="32dp" />
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.15">
+
+
+            <ImageView
+                android:id="@+id/imageView6"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/ic_baseline_arrow_drop_down_circle_24" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/n_1"
+                android:textColor="@color/white"
+                android:textSize="30sp"
+                tools:layout_editor_absoluteX="64dp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.30">
+
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/ic_baseline_arrow_drop_down_circle_24" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/n_2"
+                android:textColor="@color/white"
+                android:textSize="30sp"
+                tools:layout_editor_absoluteX="64dp" />
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.45">
+
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/ic_baseline_arrow_drop_down_circle_24" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/n_3"
+                android:textColor="@color/white"
+                android:textSize="30sp"
+                tools:layout_editor_absoluteX="64dp" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/feedback_results"
             android:textSize="30sp"
-            tools:layout_editor_absoluteX="64dp" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.039" />
 
-    </RelativeLayout>
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/feedback_results"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.039" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

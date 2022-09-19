@@ -1,21 +1,21 @@
 package com.example.m8_quiz_animation
 
-import android.animation.AnimatorInflater
 import android.animation.ObjectAnimator
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import androidx.activity.OnBackPressedCallback
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.example.m8_quiz_animation.databinding.FragmentThirdBinding
 import com.example.skillbox_hw_quiz.quiz.QuizStorage
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 
 /**
@@ -28,6 +28,9 @@ private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 class ThirdFragment : Fragment() {
+
+    val scope = CoroutineScope(Dispatchers.Main + Job())
+
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -35,18 +38,38 @@ class ThirdFragment : Fragment() {
     private var _binding: FragmentThirdBinding? = null
     private val binding get() = _binding!!
 
+
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        /*GlobalScope.launch {
+
+            anim()
+        }
+
+*/
+
+
+
+
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+
+
+
 
 
         activity?.onBackPressedDispatcher?.addCallback(
@@ -82,11 +105,36 @@ class ThirdFragment : Fragment() {
             )
         }
 
+        val animation = AnimationUtils.loadAnimation(context, android.R.anim.fade_in)
+        /*  val scaleAnimation = AnimatorInflater.loadAnimator(
+              context, R.animator.scale
+          )
+          scaleAnimation.setTarget(binding.imageView3)
+          scaleAnimation.start()*/
 
-        val scaleAnimation = AnimatorInflater.loadAnimator(
-            context, R.animator.scale)
-        scaleAnimation.setTarget(binding.imageView3)
-        scaleAnimation.start()
+
+        val animationFadeOutListener: Animation.AnimationListener =
+            object : Animation.AnimationListener {
+                override fun onAnimationEnd(animation: Animation) {
+                    binding.imageView1.startAnimation(animation)
+                }
+
+                override fun onAnimationRepeat(animation: Animation) {
+                    // TODO Auto-generated method stub
+                }
+
+                override fun onAnimationStart(animation: Animation) {
+                    // TODO Auto-generated method stub
+                }
+            }
+
+
+
+
+        anim()
+
+
+
 
 
 
@@ -96,11 +144,35 @@ class ThirdFragment : Fragment() {
 
     private fun alphaAnim(view: View) {
         ObjectAnimator.ofFloat(view, "alpha", 0f, 1f).apply {
-            duration = 2000
+            duration = 1000
             start()
         }
     }
 
+    fun anim() {
+        scope.launch {
+            launch {
+
+                alphaAnim(binding.imageView1)
+                alphaAnim(binding.numberOne)
+                alphaAnim(binding.answer1)
+            }
+            launch {
+                delay(2000)
+                alphaAnim(binding.imageView2)
+                alphaAnim(binding.numberTwo)
+                alphaAnim(binding.answer2)
+            }
+            launch {
+                delay(3000)
+                alphaAnim(binding.imageView3)
+                alphaAnim(binding.numberThree)
+                alphaAnim(binding.answer3)
+            }
+        }
+
+
+    }
 
 
     companion object {

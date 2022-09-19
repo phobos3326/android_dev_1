@@ -14,7 +14,7 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="MyRadioButton" parent="Theme.AppCompat">
+    <style name="MyRadioButton" parent="Theme.AppCompat.DayNight">
         <item name="colorControlNormal">@color/secondaryLightColor</item>
         <item name="colorControlActivated">@android:color/holo_orange_dark</item>
 

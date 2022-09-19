@@ -156,22 +156,22 @@
                 <Button
                     android:id="@+id/getBack"
                     style="?attr/materialButtonOutlinedStyle"
-                    app:strokeColor="@color/secondaryLightColor"
                     android:layout_width="125dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginEnd="16dp"
-                    android:text="назад" />
+                    android:text="назад"
+                    app:strokeColor="@color/secondaryLightColor" />
 
                 <Button
                     android:id="@+id/getAnswerButton"
                     style="?attr/materialButtonOutlinedStyle"
-                    android:theme="@style/MyButton"
                     android:layout_width="125dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_toEndOf="@id/getBack"
                     android:text="результат"
+
                     app:strokeColor="@color/secondaryLightColor" />
 
 

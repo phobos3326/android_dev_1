@@ -20,10 +20,9 @@
 
     <Button
         android:id="@+id/buttonStart"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        app:cornerRadius="6sp"
 
-        app:strokeColor="@color/secondaryLightColor"
+
+       android:background="@drawable/background_ripple"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"

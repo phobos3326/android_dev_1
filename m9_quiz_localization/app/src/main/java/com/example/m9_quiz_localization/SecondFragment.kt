@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator
 import android.content.ContentValues.TAG
 import android.content.res.Configuration
 import android.content.res.Resources
+import android.icu.util.ULocale.getLanguage
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -46,9 +47,7 @@ class SecondFragment : Fragment() {
     private var param2: Int? = null
     private var param3: Int? = null
 
-    var par1: String? = null
-    var par2: String? = null
-    var par3: String? = null
+
 
     private var _binding: FragmentSecondBinding? = null
     private val binding get() = _binding!!
@@ -122,25 +121,12 @@ class SecondFragment : Fragment() {
         )
 
 
-        /*  val myLocale = Locale("ru")
-
-          val defLocale = Locale.ENGLISH.country
-
-     *//*     if (defLocale ==Locale("English"))*//*
-
-        val config: Configuration = Resources.getSystem().getConfiguration()
-        var locale = config.locales[0]
-
-
-
-
-        getResources().getConfiguration().locales.get(0)
-*/
-
-
         var answersOne: List<String>
         var answersTwo: List<String>
         var answersThree: List<String>
+
+
+
 
         val a = Locale.getDefault().getLanguage()
 

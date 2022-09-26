@@ -12,4 +12,6 @@
     <string name="n_1">1</string>
     <string name="start_over">начать заново</string>
     <string name="enter_age">Введите возраст</string>
+    <string name="back">назад</string>
+    <string name="result">результат</string>
 </resources>

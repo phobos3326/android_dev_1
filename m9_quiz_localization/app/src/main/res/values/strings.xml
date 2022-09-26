@@ -13,4 +13,6 @@
     <string name="n_1">1</string>
     <string name="start_over">start again</string>
     <string name="enter_age">Enter age</string>
+    <string name="back">back</string>
+    <string name="result">result</string>
 </resources>

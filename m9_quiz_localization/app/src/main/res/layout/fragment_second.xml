@@ -160,7 +160,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginEnd="16dp"
-                    android:text="назад"
+                    android:text="@string/back"
                     app:strokeColor="@color/secondaryLightColor" />
 
                 <Button
@@ -170,7 +170,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_toEndOf="@id/getBack"
-                    android:text="результат"
+                    android:text="@string/result"
 
                     app:strokeColor="@color/secondaryLightColor" />
 

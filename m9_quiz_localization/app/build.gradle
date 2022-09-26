@@ -11,6 +11,7 @@ android {
     compileSdk 32
 
     defaultConfig {
+        resConfigs "ru", "en"
         applicationId "com.example.m9_quiz_localization"
         minSdk 21
         targetSdk 32

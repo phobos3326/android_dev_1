@@ -10,6 +10,11 @@ import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.example.m9_quiz_localization.R
 import com.example.m9_quiz_localization.databinding.FragmentFirstBinding
+import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.snackbar.Snackbar
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import kotlin.concurrent.fixedRateTimer
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -29,6 +34,9 @@ class FirstFragment : Fragment() {
 
     private var _binding: FragmentFirstBinding? = null
     private val binding get() = _binding!!
+
+    private val calendar =Calendar.getInstance()
+    private val dateFormat=SimpleDateFormat("dd_MM_yyyy")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,7 +71,25 @@ class FirstFragment : Fragment() {
 
             val builder: NavOptions.Builder = NavOptions.Builder()
             val navOptions = builder.setEnterAnim(R.animator.alpha).build()
-            findNavController().navigate(R.id.action_firstFragment_to_secondFragment,null,navOptions)
+            findNavController().navigate(
+                R.id.action_firstFragment_to_secondFragment,
+                null,
+                navOptions
+            )
+        }
+
+        binding.buttonAge.setOnClickListener {
+            val datePicker = MaterialDatePicker.Builder.datePicker()
+                .setTitleText("Set date")
+                .build()
+            //fragmentManager?.let { it1 -> datePicker.show(it1,"dofnb") }
+            datePicker.addOnPositiveButtonClickListener { timeInMillis ->
+                calendar.timeInMillis=timeInMillis
+                Snackbar.make(binding.buttonAge, dateFormat.format(calendar.time),Snackbar.LENGTH_SHORT).show()
+            }
+            datePicker.show(childFragmentManager, "dkjfvn")
+
+
         }
 
         return return binding.root

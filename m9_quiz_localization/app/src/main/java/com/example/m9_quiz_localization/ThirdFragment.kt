@@ -14,7 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.m9_quiz_localization.databinding.FragmentThirdBinding
 
 
-import com.example.skillbox_hw_quiz.quiz.QuizStorage
+import com.example.m9_quiz_localization.quiz.QuizStorage
 import kotlinx.coroutines.*
 
 

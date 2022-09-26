@@ -1,6 +1,10 @@
 package com.example.m9_quiz_localization
 
 import android.animation.ObjectAnimator
+import android.content.ContentValues.TAG
+import android.content.res.Configuration
+import android.content.res.Resources
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,14 +14,17 @@ import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.annotation.RequiresApi
+import androidx.core.content.contentValuesOf
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
-
 import com.example.m9_quiz_localization.databinding.FragmentSecondBinding
-
-import com.example.skillbox_hw_quiz.quiz.QuizStorage
+import com.example.m9_quiz_localization.quiz.QuizStorage
+import com.google.android.material.snackbar.Snackbar
+import java.util.*
+import kotlin.concurrent.fixedRateTimer
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -56,6 +63,7 @@ class SecondFragment : Fragment() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -113,18 +121,66 @@ class SecondFragment : Fragment() {
             binding.radioButton12
         )
 
-        for (i in listOfTextView.indices) {
-            listOfTextView[i].text =
-                QuizStorage.getQuiz(QuizStorage.Locale.Ru).questions[i].question
+
+        /*  val myLocale = Locale("ru")
+
+          val defLocale = Locale.ENGLISH.country
+
+     *//*     if (defLocale ==Locale("English"))*//*
+
+        val config: Configuration = Resources.getSystem().getConfiguration()
+        var locale = config.locales[0]
+
+
+
+
+        getResources().getConfiguration().locales.get(0)
+*/
+
+
+        var answersOne: List<String>
+        var answersTwo: List<String>
+        var answersThree: List<String>
+
+        val a = Locale.getDefault().getLanguage()
+
+        if (a == "en") {
+            for (i in listOfTextView.indices) {
+                listOfTextView[i].text =
+                    QuizStorage.getQuiz(QuizStorage.Locale.En).questions[i].question
+                answersOne = QuizStorage.getQuiz(QuizStorage.Locale.En).questions[0].answers
+                answersTwo = QuizStorage.getQuiz(QuizStorage.Locale.En).questions[1].answers
+                answersThree = QuizStorage.getQuiz(QuizStorage.Locale.En).questions[2].answers
+
+                getAnswerToRadioButton(listOfRadioButton1, answersOne)
+                getAnswerToRadioButton(listOfRadioButton2, answersTwo)
+                getAnswerToRadioButton(listOfRadioButton3, answersThree)
+
+            }
+        } else {
+            for (i in listOfTextView.indices) {
+                listOfTextView[i].text =
+                    QuizStorage.getQuiz(QuizStorage.Locale.Ru).questions[i].question
+
+                answersOne = QuizStorage.getQuiz(QuizStorage.Locale.Ru).questions[0].answers
+                answersTwo = QuizStorage.getQuiz(QuizStorage.Locale.Ru).questions[1].answers
+                answersThree = QuizStorage.getQuiz(QuizStorage.Locale.Ru).questions[2].answers
+
+                getAnswerToRadioButton(listOfRadioButton1, answersOne)
+                getAnswerToRadioButton(listOfRadioButton2, answersTwo)
+                getAnswerToRadioButton(listOfRadioButton3, answersThree)
+
+
+            }
         }
 
-        val answersOne = QuizStorage.getQuiz(QuizStorage.Locale.Ru).questions[0].answers
-        val answersTwo = QuizStorage.getQuiz(QuizStorage.Locale.Ru).questions[1].answers
-        val answersThree = QuizStorage.getQuiz(QuizStorage.Locale.Ru).questions[2].answers
 
-        getAnswerToRadioButton(listOfRadioButton1, answersOne)
-        getAnswerToRadioButton(listOfRadioButton2, answersTwo)
-        getAnswerToRadioButton(listOfRadioButton3, answersThree)
+        //Log.d(TAG, "$a")
+
+
+
+
+
 
         binding.radioGroup1.setOnCheckedChangeListener { radioGroup, i ->
             param1 = radioGroupResult(radioGroup, listOfRadioButton1)

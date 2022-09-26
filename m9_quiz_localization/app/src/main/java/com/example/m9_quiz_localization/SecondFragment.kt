@@ -175,12 +175,6 @@ class SecondFragment : Fragment() {
         }
 
 
-        //Log.d(TAG, "$a")
-
-
-
-
-
 
         binding.radioGroup1.setOnCheckedChangeListener { radioGroup, i ->
             param1 = radioGroupResult(radioGroup, listOfRadioButton1)
@@ -226,14 +220,8 @@ class SecondFragment : Fragment() {
             )
         }
 
-
-
         alpha(binding.getBack)
         alpha(binding.getAnswerButton)
-
-
-
-
         return binding.root
     }
 

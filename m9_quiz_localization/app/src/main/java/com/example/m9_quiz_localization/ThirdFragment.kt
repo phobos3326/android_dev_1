@@ -16,6 +16,7 @@ import com.example.m9_quiz_localization.databinding.FragmentThirdBinding
 
 import com.example.m9_quiz_localization.quiz.QuizStorage
 import kotlinx.coroutines.*
+import java.util.*
 
 
 /**
@@ -29,7 +30,7 @@ private const val ARG_PARAM2 = "param2"
 
 class ThirdFragment : Fragment() {
 
-    val scope = CoroutineScope(Dispatchers.Main + Job())
+    private val scope = CoroutineScope(Dispatchers.Main + Job())
 
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -39,19 +40,8 @@ class ThirdFragment : Fragment() {
     private val binding get() = _binding!!
 
 
-
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        /*GlobalScope.launch {
-
-            anim()
-        }
-
-*/
-
 
 
 
@@ -68,10 +58,6 @@ class ThirdFragment : Fragment() {
     ): View? {
 
 
-
-
-
-
         activity?.onBackPressedDispatcher?.addCallback(
             viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
@@ -86,12 +72,24 @@ class ThirdFragment : Fragment() {
         val feedback1 = arguments?.getInt("answer1")
         val feedback2 = arguments?.getInt("answer2")
         val feedback3 = arguments?.getInt("answer3")
-        binding.answer1.text =
-            QuizStorage.getQuiz(QuizStorage.Locale.Ru).questions[0].feedback[feedback1!!]
-        binding.answer2.text =
-            QuizStorage.getQuiz(QuizStorage.Locale.Ru).questions[1].feedback[feedback2!!]
-        binding.answer3.text =
-            QuizStorage.getQuiz(QuizStorage.Locale.Ru).questions[2].feedback[feedback3!!]
+        val a = Locale.getDefault().getLanguage()
+
+
+        if (a == "en") {
+            binding.answer1.text =
+                QuizStorage.getQuiz(QuizStorage.Locale.En).questions[0].feedback[feedback1!!]
+            binding.answer2.text =
+                QuizStorage.getQuiz(QuizStorage.Locale.En).questions[1].feedback[feedback2!!]
+            binding.answer3.text =
+                QuizStorage.getQuiz(QuizStorage.Locale.En).questions[2].feedback[feedback3!!]
+        } else {
+            binding.answer1.text =
+                QuizStorage.getQuiz(QuizStorage.Locale.Ru).questions[0].feedback[feedback1!!]
+            binding.answer2.text =
+                QuizStorage.getQuiz(QuizStorage.Locale.Ru).questions[1].feedback[feedback2!!]
+            binding.answer3.text =
+                QuizStorage.getQuiz(QuizStorage.Locale.Ru).questions[2].feedback[feedback3!!]
+        }
 
         binding.startOverButton.setOnClickListener {
 
@@ -104,41 +102,7 @@ class ThirdFragment : Fragment() {
                 navOptions
             )
         }
-
-        val animation = AnimationUtils.loadAnimation(context, android.R.anim.fade_in)
-        /*  val scaleAnimation = AnimatorInflater.loadAnimator(
-              context, R.animator.scale
-          )
-          scaleAnimation.setTarget(binding.imageView3)
-          scaleAnimation.start()*/
-
-
-        val animationFadeOutListener: Animation.AnimationListener =
-            object : Animation.AnimationListener {
-                override fun onAnimationEnd(animation: Animation) {
-                    binding.imageView1.startAnimation(animation)
-                }
-
-                override fun onAnimationRepeat(animation: Animation) {
-                    // TODO Auto-generated method stub
-                }
-
-                override fun onAnimationStart(animation: Animation) {
-                    // TODO Auto-generated method stub
-                }
-            }
-
-
-
-
         anim()
-
-
-
-
-
-
-
         return binding.root
     }
 
@@ -198,7 +162,7 @@ class ThirdFragment : Fragment() {
     override fun onDestroyView() {
 
         _binding = null
-        // findNavController().navigate(R.id.action_thirdFragment_to_firstFragment2)
+        scope.cancel()
         super.onDestroyView()
 
     }

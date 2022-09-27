@@ -130,13 +130,13 @@ class SecondFragment : Fragment() {
 
         val a = Locale.getDefault().getLanguage()
 
-        if (a == "en") {
+        if (a == "ru") {
             for (i in listOfTextView.indices) {
                 listOfTextView[i].text =
-                    QuizStorage.getQuiz(QuizStorage.Locale.En).questions[i].question
-                answersOne = QuizStorage.getQuiz(QuizStorage.Locale.En).questions[0].answers
-                answersTwo = QuizStorage.getQuiz(QuizStorage.Locale.En).questions[1].answers
-                answersThree = QuizStorage.getQuiz(QuizStorage.Locale.En).questions[2].answers
+                    QuizStorage.getQuiz(QuizStorage.Locale.Ru).questions[i].question
+                answersOne = QuizStorage.getQuiz(QuizStorage.Locale.Ru).questions[0].answers
+                answersTwo = QuizStorage.getQuiz(QuizStorage.Locale.Ru).questions[1].answers
+                answersThree = QuizStorage.getQuiz(QuizStorage.Locale.Ru).questions[2].answers
 
                 getAnswerToRadioButton(listOfRadioButton1, answersOne)
                 getAnswerToRadioButton(listOfRadioButton2, answersTwo)
@@ -146,11 +146,11 @@ class SecondFragment : Fragment() {
         } else {
             for (i in listOfTextView.indices) {
                 listOfTextView[i].text =
-                    QuizStorage.getQuiz(QuizStorage.Locale.Ru).questions[i].question
+                    QuizStorage.getQuiz(QuizStorage.Locale.En).questions[i].question
 
-                answersOne = QuizStorage.getQuiz(QuizStorage.Locale.Ru).questions[0].answers
-                answersTwo = QuizStorage.getQuiz(QuizStorage.Locale.Ru).questions[1].answers
-                answersThree = QuizStorage.getQuiz(QuizStorage.Locale.Ru).questions[2].answers
+                answersOne = QuizStorage.getQuiz(QuizStorage.Locale.En).questions[0].answers
+                answersTwo = QuizStorage.getQuiz(QuizStorage.Locale.En).questions[1].answers
+                answersThree = QuizStorage.getQuiz(QuizStorage.Locale.En).questions[2].answers
 
                 getAnswerToRadioButton(listOfRadioButton1, answersOne)
                 getAnswerToRadioButton(listOfRadioButton2, answersTwo)

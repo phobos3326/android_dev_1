@@ -75,20 +75,22 @@ class ThirdFragment : Fragment() {
         val a = Locale.getDefault().getLanguage()
 
 
-        if (a == "en") {
-            binding.answer1.text =
-                QuizStorage.getQuiz(QuizStorage.Locale.En).questions[0].feedback[feedback1!!]
-            binding.answer2.text =
-                QuizStorage.getQuiz(QuizStorage.Locale.En).questions[1].feedback[feedback2!!]
-            binding.answer3.text =
-                QuizStorage.getQuiz(QuizStorage.Locale.En).questions[2].feedback[feedback3!!]
-        } else {
+
+
+        if (a == "ru") {
             binding.answer1.text =
                 QuizStorage.getQuiz(QuizStorage.Locale.Ru).questions[0].feedback[feedback1!!]
             binding.answer2.text =
                 QuizStorage.getQuiz(QuizStorage.Locale.Ru).questions[1].feedback[feedback2!!]
             binding.answer3.text =
                 QuizStorage.getQuiz(QuizStorage.Locale.Ru).questions[2].feedback[feedback3!!]
+        } else {
+            binding.answer1.text =
+                QuizStorage.getQuiz(QuizStorage.Locale.En).questions[0].feedback[feedback1!!]
+            binding.answer2.text =
+                QuizStorage.getQuiz(QuizStorage.Locale.En).questions[1].feedback[feedback2!!]
+            binding.answer3.text =
+                QuizStorage.getQuiz(QuizStorage.Locale.En).questions[2].feedback[feedback3!!]
         }
 
         binding.startOverButton.setOnClickListener {

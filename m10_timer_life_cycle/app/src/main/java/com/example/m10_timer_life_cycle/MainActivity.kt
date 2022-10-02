@@ -1,16 +1,22 @@
 package com.example.m10_timer_life_cycle
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.appcompat.app.AppCompatActivity
-import com.example.m3_components.R
-import com.example.m3_components.databinding.ActivityMainBinding
+import com.example.m10_timer_life_cycle.databinding.ActivityMainBinding
+
+
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.*
 
+var cnt = 0
+
+const val KEY = "cnt"
+
 class MainActivity : AppCompatActivity() {
-    val scope = CoroutineScope(Dispatchers.Main + Job())
+    private val scope = CoroutineScope(Dispatchers.Main + Job())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,10 +26,18 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
         var x = 0
 
+        if (savedInstanceState != null) {
+            cnt = savedInstanceState.getInt(KEY)
+
+            countDown(binding).job.start()
+        }
+
+
         binding.seekBar.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
-                binding.progressBar.progress = seekBar.progress
-                binding.progressTextView.text = seekBar.progress.toString()
+                cnt = seekBar.progress
+                binding.progressBar.progress = cnt
+                binding.progressTextView.text = cnt.toString()
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {}
@@ -31,7 +45,11 @@ class MainActivity : AppCompatActivity() {
                 binding.progressBar.progress = seekBar.progress
                 binding.progressTextView.text = seekBar.progress.toString()
 
-                Snackbar.make(view, getString(R.string.snackbar_info) + seekBar.progress + "%", Snackbar.LENGTH_LONG)
+                Snackbar.make(
+                    view,
+                    getString(R.string.snackbar_info) + seekBar.progress + "%",
+                    Snackbar.LENGTH_LONG
+                )
                     .show()
             }
         })
@@ -58,22 +76,55 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt(KEY, cnt)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        cnt = savedInstanceState.getInt(KEY)
+
+    }
+
+
     fun countDown(binding: ActivityMainBinding): Job {
-       val job = scope.launch {
+        val start = System.currentTimeMillis()
+        val job = scope.launch {
             yield()
             repeat(binding.progressBar.progress) {
                 delay(1000)
-                binding.progressBar.progress -= 1
-                binding.progressTextView.text = binding.progressBar.progress.toString()
+                cnt -= 1
+
+
+                binding.progressBar.progress = cnt
+                binding.progressTextView.text = cnt.toString()
+
+                Log.d("MY_TAG", "$cnt")
+
+                Log.d(
+                    "MY_TAG",
+                    "(on ${Thread.currentThread().name}) " +
+                            "after ${(System.currentTimeMillis() - start) / 1000F}s"
+                )
+                if (cnt <= 0) {
+                    binding.button.text = getString(R.string.button_text_start)
+                    binding.seekBar.isEnabled = true
+                    binding.seekBar.progress = 0
+                    cancel()
+                }
 
             }
-            if (binding.progressBar.progress == 0) {
-                binding.button.text = getString(R.string.button_text_start)
-                binding.seekBar.isEnabled = true
-                binding.seekBar.progress = 0
-                cancel()
-            }
+
         }
         return job
     }
+
+    override fun onDestroy() {
+
+        scope.coroutineContext.job.cancel()
+
+        super.onDestroy()
+    }
+
 }

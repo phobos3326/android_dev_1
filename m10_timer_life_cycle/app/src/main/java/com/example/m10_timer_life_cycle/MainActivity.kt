@@ -1,5 +1,6 @@
 package com.example.m10_timer_life_cycle
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.widget.SeekBar
@@ -12,8 +13,14 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.*
 
 var cnt = 0
+var btnStart = true
+var jobActive = false
 
-const val KEY = "cnt"
+const val KEY_CNT = "cnt"
+const val KEY_BTN = "btn"
+const val KEY_JOB = "job"
+
+var flag = true
 
 class MainActivity : AppCompatActivity() {
     private val scope = CoroutineScope(Dispatchers.Main + Job())
@@ -24,12 +31,19 @@ class MainActivity : AppCompatActivity() {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-        var x = 0
 
         if (savedInstanceState != null) {
-            cnt = savedInstanceState.getInt(KEY)
+            cnt = savedInstanceState.getInt(KEY_CNT)
+            binding.progressBar.progress = cnt
+            binding.progressTextView.text = cnt.toString()
+            binding.seekBar.isEnabled = flag
+            if (jobActive) {
+                countDown(binding).job.start()
+                binding.button.text=getString(R.string.button_text_stop)
+            }else{
+                binding.button.text=getString(R.string.button_text_start)
+            }
 
-            countDown(binding).job.start()
         }
 
 
@@ -57,17 +71,19 @@ class MainActivity : AppCompatActivity() {
 
         binding.button.setOnClickListener {
             scope.launch {
-                when (x) {
-                    0 -> {
-                        x = 1
-                        binding.seekBar.isEnabled = false
+                when (flag) {
+                    true -> {
+                        flag = false
+                        jobActive = true
+                        binding.seekBar.isEnabled = flag
                         binding.button.text = getString(R.string.button_text_stop)
                         countDown(binding).job.start()
                     }
-                    1 -> {
-                        x = 0
+                    false -> {
+                        flag = true
+                        jobActive = false
+                        binding.seekBar.isEnabled = flag
                         binding.button.text = getString(R.string.button_text_start)
-                        binding.seekBar.isEnabled = true
                         scope.coroutineContext.cancelChildren()
                     }
                 }
@@ -78,44 +94,45 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putInt(KEY, cnt)
+        outState.putInt(KEY_CNT, cnt)
+        outState.putBoolean(KEY_BTN, flag)
+        outState.putBoolean(KEY_JOB, jobActive)
+
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        cnt = savedInstanceState.getInt(KEY)
-
+        cnt = savedInstanceState.getInt(KEY_CNT)
+        flag = savedInstanceState.getBoolean(KEY_BTN)
+        jobActive = savedInstanceState.getBoolean(KEY_JOB)
     }
 
 
-    fun countDown(binding: ActivityMainBinding): Job {
+    private fun countDown(binding: ActivityMainBinding): Job {
         val start = System.currentTimeMillis()
         val job = scope.launch {
             yield()
             repeat(binding.progressBar.progress) {
                 delay(1000)
                 cnt -= 1
-
-
                 binding.progressBar.progress = cnt
                 binding.progressTextView.text = cnt.toString()
-
                 Log.d("MY_TAG", "$cnt")
 
                 Log.d(
                     "MY_TAG",
                     "(on ${Thread.currentThread().name}) " +
-                            "after ${(System.currentTimeMillis() - start) / 1000F}s"
+                            "after ${(System.currentTimeMillis() - start) / 1000}s"
                 )
                 if (cnt <= 0) {
+                    scope.coroutineContext.job.cancel()
                     binding.button.text = getString(R.string.button_text_start)
                     binding.seekBar.isEnabled = true
                     binding.seekBar.progress = 0
-                    cancel()
+
+
                 }
-
             }
-
         }
         return job
     }
@@ -123,6 +140,7 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
 
         scope.coroutineContext.job.cancel()
+
 
         super.onDestroy()
     }

@@ -33,16 +33,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
 
         if (savedInstanceState != null) {
-            cnt = savedInstanceState.getInt(KEY_CNT)
-            binding.progressBar.progress = cnt
-            binding.progressTextView.text = cnt.toString()
-            binding.seekBar.isEnabled = flag
-            if (jobActive) {
-                countDown(binding).job.start()
-                binding.button.text=getString(R.string.button_text_stop)
-            }else{
-                binding.button.text=getString(R.string.button_text_start)
-            }
+            state(savedInstanceState, binding)
 
         }
 
@@ -58,7 +49,6 @@ class MainActivity : AppCompatActivity() {
             override fun onStopTrackingTouch(seekBar: SeekBar) {
                 binding.progressBar.progress = seekBar.progress
                 binding.progressTextView.text = seekBar.progress.toString()
-
                 Snackbar.make(
                     view,
                     getString(R.string.snackbar_info) + seekBar.progress + "%",
@@ -70,24 +60,44 @@ class MainActivity : AppCompatActivity() {
 
 
         binding.button.setOnClickListener {
-            scope.launch {
-                when (flag) {
-                    true -> {
-                        flag = false
-                        jobActive = true
-                        binding.seekBar.isEnabled = flag
-                        binding.button.text = getString(R.string.button_text_stop)
-                        countDown(binding).job.start()
-                    }
-                    false -> {
-                        flag = true
-                        jobActive = false
-                        binding.seekBar.isEnabled = flag
-                        binding.button.text = getString(R.string.button_text_start)
-                        scope.coroutineContext.cancelChildren()
-                    }
+            btnState(binding)
+        }
+    }
+
+    private fun btnState(binding: ActivityMainBinding) {
+        scope.launch {
+            when (flag) {
+                true -> {
+                    flag = false
+                    jobActive = true
+                    binding.seekBar.isEnabled = flag
+                    binding.button.text = getString(R.string.button_text_stop)
+                    countDown(binding).job.start()
+                }
+                false -> {
+                    flag = true
+                    jobActive = false
+                    binding.seekBar.isEnabled = flag
+                    binding.button.text = getString(R.string.button_text_start)
+                    scope.coroutineContext.cancelChildren()
                 }
             }
+        }
+    }
+
+    private fun state(
+        savedInstanceState: Bundle,
+        binding: ActivityMainBinding
+    ) {
+        cnt = savedInstanceState.getInt(KEY_CNT)
+        binding.progressBar.progress = cnt
+        binding.progressTextView.text = cnt.toString()
+        binding.seekBar.isEnabled = flag
+        if (jobActive) {
+            countDown(binding).job.start()
+            binding.button.text = getString(R.string.button_text_stop)
+        } else {
+            binding.button.text = getString(R.string.button_text_start)
         }
     }
 
@@ -125,7 +135,7 @@ class MainActivity : AppCompatActivity() {
                             "after ${(System.currentTimeMillis() - start) / 1000}s"
                 )
                 if (cnt <= 0) {
-                    scope.coroutineContext.job.cancel()
+                    cancel()
                     binding.button.text = getString(R.string.button_text_start)
                     binding.seekBar.isEnabled = true
                     binding.seekBar.progress = 0

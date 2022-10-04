@@ -56,7 +56,7 @@ class FirstFragment : Fragment() {
             findNavController().navigate(R.id.action_firstFragment_to_secondFragment2)
         }
 
-        return return binding.root
+         return binding.root
     }
 
     companion object {

@@ -1,5 +1,7 @@
 package com.example.m11_timer_data_storage
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,11 +14,11 @@ private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 
-class BlankFragment : Fragment() {
+class BlankFragment : Fragment() {/*
     private var param1: String? = null
     private var param2: String? = null
-
-
+    private lateinit var pref: SharedPreferences
+    var rep = Repository()
     private var _binding: FragmentBlankBinding? = null
     private val binding get() = _binding!!
 
@@ -27,8 +29,6 @@ class BlankFragment : Fragment() {
             param2 = it.getString(ARG_PARAM2)
         }
 
-        var rep =Repository()
-
 
     }
 
@@ -37,8 +37,16 @@ class BlankFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        _binding=FragmentBlankBinding.inflate(inflater,container,false)
+        _binding = FragmentBlankBinding.inflate(inflater, container, false)
         // Inflate the layout for this fragment
+
+
+        pref = requireContext().getSharedPreferences(APP_PREF, Context.MODE_PRIVATE)
+
+        binding.buttonSave.setOnClickListener {
+            rep.saveText(binding.editText.text.toString())
+        }
+
         return binding.root
     }
 
@@ -52,5 +60,5 @@ class BlankFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
-    }
+    }*/
 }

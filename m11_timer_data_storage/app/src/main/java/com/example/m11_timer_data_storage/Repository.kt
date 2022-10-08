@@ -6,11 +6,17 @@ import android.content.SharedPreferences
 /*const val APP_PREF = "APP_PREF"
 const val KEY_PREF = "KEY_PREF"*/
 
+
+
+
 class Repository {
+    val APP_PREF = "APP_PREF"
+    val KEY_PREF = "KEY_PREF"
+
 
     private lateinit var preferences: SharedPreferences
 
-    private fun getDataFromSharedPreference(context: Context): String? {
+     fun getDataFromSharedPreference(context: Context): String? {
         val pref = context.getSharedPreferences(APP_PREF, Context.MODE_PRIVATE)
         return pref.getString(KEY_PREF, null)
 
@@ -20,9 +26,11 @@ class Repository {
         return "local val"
     }
 
-    fun saveText(text: String) {
+    fun saveText(text: String, context: Context) {
 
-            preferences.edit()
+      val prf=  context.getSharedPreferences(APP_PREF, Context.MODE_PRIVATE)
+
+            prf.edit()
                 .putString(KEY_PREF, text)
                 .apply()
     }
@@ -30,6 +38,7 @@ class Repository {
     fun clearText() {
     }
 
-    /*fun getText(): String {
-    }*/
+    fun getText(context: Context): String? {
+        return null
+    }
 }

@@ -24,14 +24,12 @@ class Repository {
     }
 
     fun saveText(text: String) {
-        localVal = preferences.getString(KEY_PREF, null).toString()
-
 
         preferences.edit()
             .putString(KEY_PREF, text)
             .apply()
 
-
+        localVal = preferences.getString(KEY_PREF, null).toString()
 
     }
 
@@ -47,7 +45,7 @@ class Repository {
             getDataFromLocalVariable() != null -> getDataFromLocalVariable()
             getDataFromSharedPreference(context) != null -> getDataFromSharedPreference(context)
 
-            else -> "00000000000"
+            else -> context.getString(R.string.`val`)
         }
     }
 }

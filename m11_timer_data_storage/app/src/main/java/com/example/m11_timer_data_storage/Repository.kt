@@ -7,36 +7,46 @@ import android.content.SharedPreferences
 const val APP_PREF = "APP_PREF"
 const val KEY_PREF = "KEY_PREF"
 
-class Repository {
 
+class Repository {
+    private var localVal:String?=null
 
     private lateinit var preferences: SharedPreferences
 
     private fun getDataFromSharedPreference(context: Context): String? {
-        val pref = context.getSharedPreferences(APP_PREF, Context.MODE_PRIVATE)
-        return pref.getString(KEY_PREF, null)
+        preferences = context.getSharedPreferences(APP_PREF, Context.MODE_PRIVATE)
+        return preferences.getString(KEY_PREF, null)
 
     }
 
     private fun getDataFromLocalVariable(): String? {
-        return "local val"
+        return localVal
     }
 
-    fun saveText(text: String, context: Context) {
-        val prf = context.getSharedPreferences(APP_PREF, Context.MODE_PRIVATE)
-        prf.edit()
+    fun saveText(text: String) {
+        localVal = preferences.getString(KEY_PREF, null).toString()
+
+
+        preferences.edit()
             .putString(KEY_PREF, text)
             .apply()
+
+
+
     }
 
     fun clearText() {
+        preferences.edit()
+            .clear()
+            .apply()
     }
 
     fun getText(context: Context): String? {
 
         return when {
-            getDataFromSharedPreference(context) != null -> getDataFromSharedPreference(context)
             getDataFromLocalVariable() != null -> getDataFromLocalVariable()
+            getDataFromSharedPreference(context) != null -> getDataFromSharedPreference(context)
+
             else -> "00000000000"
         }
     }

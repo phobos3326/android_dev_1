@@ -1,19 +1,16 @@
 package com.example.m11_timer_data_storage
 
-import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import com.example.m11_timer_data_storage.databinding.ActivityMainBinding
-
-
 
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    //private lateinit var preferences: SharedPreferences
-    val rep = Repository()
+    private val rep = Repository()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,18 +18,20 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.editText.setText(rep.getDataFromSharedPreference(this))
+        binding.editText.setText(rep.getText(this))
 
-      /*  preferences=getSharedPreferences(APP_PREF, MODE_PRIVATE)
 
-        binding.editText.setText(preferences.getString(KEY_PREF, ""))*/
 
         binding.buttonSave.setOnClickListener {
             val value=binding.editText.text.toString()
-            rep.saveText(value,this)
-           /* preferences.edit()
-                .putString(KEY_PREF,value)
-                .apply()*/
+            rep.saveText(value)
+            binding.input.setText(rep.getText(this))
+
+        }
+
+        binding.buttonClear.setOnClickListener {
+            rep.clearText()
+            binding.input.setText(rep.getText(this))
         }
 
     }

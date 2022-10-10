@@ -13,8 +13,8 @@ class Repository {
 
     private lateinit var preferences: SharedPreferences
 
-    private fun getDataFromSharedPreference(context: Context): String? {
-        preferences = context.getSharedPreferences(APP_PREF, Context.MODE_PRIVATE)
+    private fun getDataFromSharedPreference(context: Context?): String? {
+        preferences = context!!.getSharedPreferences(APP_PREF, Context.MODE_PRIVATE)
         return preferences.getString(KEY_PREF, null)
 
     }
@@ -37,15 +37,14 @@ class Repository {
         preferences.edit()
             .clear()
             .apply()
+
     }
 
-    fun getText(context: Context): String? {
-
+    fun getText(context: Context?): String? {
         return when {
             getDataFromLocalVariable() != null -> getDataFromLocalVariable()
             getDataFromSharedPreference(context) != null -> getDataFromSharedPreference(context)
-
-            else -> context.getString(R.string.`val`)
+            else -> context?.getString(R.string.`val`)
         }
     }
 }

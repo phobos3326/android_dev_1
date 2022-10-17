@@ -34,9 +34,10 @@ class MainActivity : AppCompatActivity() {
 
         if (savedInstanceState != null) {
             state(savedInstanceState, binding)
+            binding.progressTextView.text= cnt.toString()
+            binding.progressBar.progress= cnt
 
         }
-
 
         binding.seekBar.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
@@ -72,7 +73,7 @@ class MainActivity : AppCompatActivity() {
                     jobActive = true
                     binding.seekBar.isEnabled = flag
                     binding.button.text = getString(R.string.button_text_stop)
-                    countDown(binding).job.start()
+                  countDown(binding).job.start()
                 }
                 false -> {
                     flag = true
@@ -94,7 +95,7 @@ class MainActivity : AppCompatActivity() {
         binding.progressTextView.text = cnt.toString()
         binding.seekBar.isEnabled = flag
         if (jobActive) {
-            countDown(binding).job.start()
+           // countDown(binding).job.start()
             binding.button.text = getString(R.string.button_text_stop)
         } else {
             binding.button.text = getString(R.string.button_text_start)
@@ -118,9 +119,9 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun countDown(binding: ActivityMainBinding): Job {
+    private fun countDown(binding: ActivityMainBinding):Job {
         val start = System.currentTimeMillis()
-        val job = scope.launch {
+        val job = scope.async {
             yield()
             repeat(binding.progressBar.progress) {
                 delay(1000)
@@ -135,7 +136,7 @@ class MainActivity : AppCompatActivity() {
                             "after ${(System.currentTimeMillis() - start) / 1000}s"
                 )
                 if (cnt <= 0) {
-                    cancel()
+                   // cancel()
                     binding.button.text = getString(R.string.button_text_start)
                     binding.seekBar.isEnabled = true
                     binding.seekBar.progress = 0
@@ -143,13 +144,19 @@ class MainActivity : AppCompatActivity() {
 
                 }
             }
+            return@async cnt
         }
-        return job
+       return job
+    }
+
+    override fun onStart() {
+
+        super.onStart()
     }
 
     override fun onDestroy() {
 
-        scope.coroutineContext.job.cancel()
+       // scope.coroutineContext.job.cancel()
 
 
         super.onDestroy()

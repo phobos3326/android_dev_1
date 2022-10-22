@@ -77,6 +77,7 @@ class MainFragment : Fragment() {
                     State.Ready -> {
                         binding.progressBar.isVisible = false
                         binding.butTon.isEnabled = true
+                        binding.textView.text = viewModel.requestResult
                         Log.d("state", "ready")
                         Snackbar.make(binding.root, "Ready", Snackbar.LENGTH_SHORT).show()
                     }
@@ -90,6 +91,8 @@ class MainFragment : Fragment() {
                     State.Completed -> {
                         binding.progressBar.isVisible = false
                         binding.butTon.isEnabled = true
+
+                        binding.textView.text = viewModel.requestResult()
                         Snackbar.make(binding.root, "completed", Snackbar.LENGTH_SHORT).show()
                         Log.d("state", "completed")
                     }
@@ -102,43 +105,5 @@ class MainFragment : Fragment() {
 
     }
 
-
-    /*   override fun onActivityCreated(savedInstanceState: Bundle?) {
-           super.onActivityCreated(savedInstanceState)
-           // viewModel = ViewModelProvider(this).get(BlankViewModel::class.java)
-           // TODO: Use the ViewModel
-
-           var a: String = ""
-           binding.editText1.addTextChangedListener {
-               binding.butTon.isEnabled = it?.length!! > 3
-               a = binding.editText1.text.toString()
-           }
-
-           binding.butTon.setOnClickListener {
-               *//*    Snackbar.make(binding.root, a, Snackbar.LENGTH_SHORT).show()
-                scope.launch {
-                    // delay(5000)
-
-
-                    val bb = download(binding)
-                    Snackbar.make(binding.root, bb, Snackbar.LENGTH_SHORT).show()
-                }*//*
-
-
-        }
-
-    }*/
-
-
-/*    private suspend fun download(binding: FragmentBlankBinding): String {
-
-            binding.progressBar.isIndeterminate = true
-            binding.progressBar.isVisible=true
-            delay(5_000L)
-            binding.progressBar.isIndeterminate = false
-            binding.progressBar.isVisible=false
-
-        return "completed"
-    }*/
 
 }

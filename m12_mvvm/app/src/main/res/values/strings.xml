@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">m12_mvvm</string>
+    <string name="request_result">Здесь будет отображаться результат запроса</string>
+    <string name="find">Find</string>
+    <string name="find_button">find</string>
+    <string name="on_request"><![CDATA[По запросу <]]></string>
+    <string name="nothing_found"><![CDATA[> ничего не найдено]]></string>
+</resources>

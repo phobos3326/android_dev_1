@@ -1,9 +1,6 @@
 package com.example.m14_retrofit.ui.main.network
 
 import com.example.m14_retrofit.ui.main.network.data.Test
-import com.example.m14_retrofit.ui.main.network.data.UserModel
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 
 import retrofit2.Call
 import retrofit2.Retrofit
@@ -16,23 +13,42 @@ import retrofit2.http.Headers
 
 private const val BASE_URL = "https://randomuser.me/"
 
-private val moshi = Moshi.Builder()
-    .add(KotlinJsonAdapterFactory())
-    .build()
-
-
+/*
 object RetrofitInstance{
-    private val retrofit =Retrofit.Builder()
+    private val retrofit = Retrofit.Builder()
+        .addConverterFactory(ScalarsConverterFactory.create())
         .baseUrl(BASE_URL)
-        .addConverterFactory(MoshiConverterFactory.create(moshi))
         .build()
 
-    val searchUserApi:SearchUserApi = retrofit.create(SearchUserApi::class.java)
+    val searchUserApi:ApiService= retrofit.create(ApiService::class.java)
+}
+*/
 
+object RetrofitInstance {
+    val api: ApiService by lazy {
+        Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(MoshiConverterFactory.create())
+            .build()
+            .create(ApiService::class.java)
+
+    }
 }
 
 
-interface SearchUserApi{
+interface ApiService {
+    @Headers(
+        "Accept:application/json",
+        "Content-type:application/json"
+    )
     @GET("api")
-    fun getUser():Call<Test>
+    suspend fun getPhoto(): Call<Test>
 }
+
+/*
+object UserApi {
+    val retrofitService: ApiService by lazy {
+        retrofit.create(ApiService::class.java)
+    }
+}
+*/

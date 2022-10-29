@@ -8,10 +8,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
 import com.example.m14_retrofit.databinding.FragmentMainBinding
 import com.example.m14_retrofit.ui.main.network.RetrofitInstance
 import com.example.m14_retrofit.ui.main.network.data.Test
 import com.example.m14_retrofit.ui.main.network.data.UserModel
+
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -33,7 +35,7 @@ class MainFragment : Fragment() {
         super.onCreate(savedInstanceState)
         //  viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         // TODO: Use the ViewModel
-        start()
+
 
     }
 
@@ -47,6 +49,7 @@ class MainFragment : Fragment() {
         /*    viewLifecycleOwner.lifecycleScope.launchWhenStarted {
                 binding.message.text = viewModel.str
             }*/
+
 
 
 
@@ -67,10 +70,15 @@ class MainFragment : Fragment() {
                 user.results.forEach {
                     binding.gender.text = it.gender
                     binding.name.text = buildString {
-                        append(it.name.first)
-                        append(it.name.last)
-                        append(it.name.title)
+                        append("${it.name.first} ")
+                        append("${it.name.last} ")
+                        append("${it.name.title} ")
                     }
+                    Glide
+                        .with(this@MainFragment)
+                        .load(it.picture.large)
+                        .into(binding.imageView)
+
                 }
             }
 
@@ -85,7 +93,7 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        start()
 
     }
 

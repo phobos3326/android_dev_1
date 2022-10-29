@@ -1,6 +1,7 @@
 package com.example.m14_retrofit.ui.main.network
 
 import com.example.m14_retrofit.ui.main.network.data.Test
+import com.example.m14_retrofit.ui.main.network.data.UserModel
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 

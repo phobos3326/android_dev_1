@@ -15,32 +15,32 @@
         android:text="MainFragment"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.192"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.075" />
+        app:layout_constraintVertical_bias="0.147" />
 
     <TextView
         android:id="@+id/gender"
         android:layout_width="200dp"
         android:layout_height="50dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="36dp"
         android:text="gender"
         app:layout_constraintEnd_toEndOf="parent"
 
-        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintHorizontal_bias="0.126"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/message" />
-
 
     <TextView
         android:id="@+id/name"
         android:layout_width="200dp"
         android:layout_height="50dp"
-        android:layout_marginTop="88dp"
+        android:layout_marginTop="100dp"
         android:text="name"
         app:layout_constraintEnd_toEndOf="parent"
 
-        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintHorizontal_bias="0.126"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/message" />
 
@@ -48,11 +48,12 @@
         android:id="@+id/image_view"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:layout_marginTop="12dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/name"
 
-        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.655"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/name" />
+        app:layout_constraintTop_toTopOf="@+id/gender"
+        app:layout_constraintVertical_bias="0.639" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

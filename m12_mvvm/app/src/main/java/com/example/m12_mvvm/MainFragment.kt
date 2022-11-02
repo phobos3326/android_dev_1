@@ -47,16 +47,11 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-
-
         binding.editText1.addTextChangedListener { str ->
             var findStr = str.toString()
             val a = viewModel.strLength(findStr)
 
         }
-
-
-
         binding.butTon.setOnClickListener {
             viewModel.viewModelScope.launch {
                 viewModel.onClick()

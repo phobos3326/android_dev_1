@@ -86,7 +86,6 @@ class MainFragment : Fragment() {
                     State.Completed -> {
                         binding.progressBar.isVisible = false
                         binding.butTon.isEnabled = true
-
                         binding.textView.text = viewModel.requestResult()
                         Snackbar.make(binding.root, "completed", Snackbar.LENGTH_SHORT).show()
                         Log.d("state", "completed")

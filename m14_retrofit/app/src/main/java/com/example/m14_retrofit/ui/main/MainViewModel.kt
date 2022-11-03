@@ -2,30 +2,36 @@ package com.example.m14_retrofit.ui.main
 
 
 import android.app.Application
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
+
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.*
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.BaseTarget
-import com.bumptech.glide.request.target.SizeReadyCallback
-import com.bumptech.glide.request.transition.Transition
+
 import com.example.m14_retrofit.ui.main.network.RetrofitInstance
-import com.example.m14_retrofit.ui.main.network.data.Test
+import com.example.m14_retrofit.ui.main.network.data.UserModel
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
+    private val context = getApplication<Application>().applicationContext
 
-
-
-    var str = ""
+    private val _state = MutableStateFlow<State>(State.ColdStart)
+    val state = _state.asStateFlow()
 
     init {
-        //  getUserPhoto()
-        // start()
+        viewModelScope.launch {
+            start()
+        }
+
+        _state.value = State.ColdStart
+
     }
 
     private var _status = MutableLiveData<String>()
@@ -43,52 +49,34 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val _userImg = MutableLiveData<String>()
     val userImg = _userImg
 
-
-    fun start() {
-
-        RetrofitInstance.searchUserApi.getUser().enqueue(object : Callback<Test> {
-            override fun onResponse(call: Call<Test>, response: Response<Test>) {
-                val user = response.body() ?: return
-                val status = response.code()
-                val  isStatus=response.isSuccessful
-                //binding.message.text = user.toString()
-                Log.d("TAG", "$isStatus")
-                _user.value = user.results.first().name.first
-                _userCode.value = status
-                _userImg.value=user.results.first().picture.large
+    private val _userLastName = MutableLiveData<String>()
+    val userLastName = _userLastName
 
 
+    suspend fun start() {
+        val job = viewModelScope.async {
+            RetrofitInstance.searchUserApi.getUser().enqueue(object : Callback<UserModel> {
+                override fun onResponse(call: Call<UserModel>, response: Response<UserModel>) {
+                    val user = response.body() ?: return
+                    val status = response.code()
+                    //Log.d("TAG", status.toString())
+                    _user.value = user.results.first().name.first
+                    _userLastName.value = user.results.first().name.last
+                    _userCode.value = status
+                    _userImg.value = user.results.first().picture.large
+                    _state.value = State.Completed
+                    _state.value = State.Wait
+                }
 
 
+                override fun onFailure(call: Call<UserModel>, t: Throwable) {
 
+                }
 
-
-            }
-
-
-            /* .forEach {
-             binding.gender.text = it.gender
-             binding.name.text = buildString {
-                 append("${it.name.first} ")
-                 append("${it.name.last} ")
-                 append("${it.name.title} ")
-             }
-             Glide
-                 .with(this@MainFragment)
-                 .load(it.picture.large)
-                 .into(binding.imageView)
-
-         }*/
-            override fun onFailure(call: Call<Test>, t: Throwable) {
-
-            }
-
-        })
+            })
+        }
+        job.await()
     }
-
-
-
-
 
 
 }

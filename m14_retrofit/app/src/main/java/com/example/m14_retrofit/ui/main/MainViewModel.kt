@@ -10,6 +10,8 @@ import androidx.lifecycle.*
 import com.example.m14_retrofit.ui.main.network.RetrofitInstance
 import com.example.m14_retrofit.ui.main.network.data.UserModel
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -53,29 +55,33 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val userLastName = _userLastName
 
 
-    suspend fun start() {
-        val job = viewModelScope.async {
-            RetrofitInstance.searchUserApi.getUser().enqueue(object : Callback<UserModel> {
-                override fun onResponse(call: Call<UserModel>, response: Response<UserModel>) {
-                    val user = response.body() ?: return
-                    val status = response.code()
-                    //Log.d("TAG", status.toString())
-                    _user.value = user.results.first().name.first
-                    _userLastName.value = user.results.first().name.last
-                    _userCode.value = status
-                    _userImg.value = user.results.first().picture.large
-                    _state.value = State.Completed
-                    _state.value = State.Wait
-                }
+     fun start() {
+
+            RetrofitInstance.searchUserApi.getUser()
+                .enqueue(object : Callback<UserModel> {
+                    override fun onResponse(
+                        call: Call<UserModel>,
+                        response: Response<UserModel>
+                    ) {
+                        val user = response.body() ?: return
+                        val status = response.code()
+                        Log.d("TAG", status.toString())
+                        _user.value = user.results.first().name.first
+                        _userLastName.value = user.results.first().name.last
+                        _userCode.value = status
+                        _userImg.value = user.results.first().picture.large
+                        _state.value = State.Completed
+                        _state.value = State.Wait
+                    }
 
 
-                override fun onFailure(call: Call<UserModel>, t: Throwable) {
+                    override fun onFailure(call: Call<UserModel>, t: Throwable) {
 
-                }
+                    }
 
-            })
-        }
-        job.await()
+                })
+
+
     }
 
 

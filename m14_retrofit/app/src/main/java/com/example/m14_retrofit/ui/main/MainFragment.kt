@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
@@ -50,13 +52,28 @@ class MainFragment : Fragment() {
             viewModel.state.collect {
                 when (it) {
                     State.ColdStart -> {
-                        userData()
+                        binding.name.text = viewModel.user.value
+                        binding.lastName.text = viewModel.userLastName.value
+                        binding.progressBar?.isVisible = true
+                        binding.progressBar?.isIndeterminate = true
                     }
                     State.Completed -> {
-                        userData()
+                        binding.name.text = viewModel.user.value
+                        binding.lastName.text = viewModel.userLastName.value
+                        binding.progressBar?.isVisible = false
+                        binding.progressBar?.isIndeterminate = false
+                        Log.d("TAG", "${viewModel.userCode.value}" + " ${viewModel.user.value}")
+                        Glide.with(this@MainFragment)
+                            .load(viewModel.userImg.value)
+                            .into(binding.imageView)
                     }
                     State.Wait->{
-                        userData()
+                        binding.name.text = viewModel.user.value
+                        binding.lastName.text = viewModel.userLastName.value
+                       // Log.d("TAG", "${viewModel.userCode.value}" + " ${viewModel.user.value}")
+                        Glide.with(this@MainFragment)
+                            .load(viewModel.userImg.value)
+                            .into(binding.imageView)
                     }
 
                 }

@@ -30,5 +30,5 @@ object RetrofitInstance{
 
 interface SearchUserApi{
     @GET("api")
-    fun getUser():Call<UserModel>
+   fun getUser():Call<UserModel>
 }

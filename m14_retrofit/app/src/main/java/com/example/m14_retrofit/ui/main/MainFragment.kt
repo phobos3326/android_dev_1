@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import com.bumptech.glide.Glide
+import com.example.m14_retrofit.R
 import com.example.m14_retrofit.databinding.FragmentMainBinding
 
 import kotlinx.coroutines.flow.collect
@@ -66,16 +67,21 @@ class MainFragment : Fragment() {
                         Glide.with(this@MainFragment)
                             .load(viewModel.userImg.value)
                             .into(binding.imageView)
+
                     }
-                    State.Wait->{
+                    State.Wait -> {
                         binding.name.text = viewModel.user.value
                         binding.lastName.text = viewModel.userLastName.value
-                       // Log.d("TAG", "${viewModel.userCode.value}" + " ${viewModel.user.value}")
+                        // Log.d("TAG", "${viewModel.userCode.value}" + " ${viewModel.user.value}")
                         Glide.with(this@MainFragment)
                             .load(viewModel.userImg.value)
                             .into(binding.imageView)
                     }
-
+                    State.Error -> {
+                        binding.name.text = "error"
+                        binding.lastName.text = "error"
+                        binding.imageView.setImageResource(R.drawable.ic_connection_error)
+                    }
                 }
 
             }

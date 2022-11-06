@@ -2,23 +2,19 @@ package com.example.m14_retrofit.ui.main
 
 
 import android.app.Application
-
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.util.Log
-import android.widget.Toast
-import androidx.lifecycle.*
-
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.m14_retrofit.ui.main.network.RetrofitInstance
-import com.example.m14_retrofit.ui.main.network.data.UserModel
-import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
@@ -54,33 +50,77 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val _userLastName = MutableLiveData<String>()
     val userLastName = _userLastName
 
+    private var isConnect = isNetworkAvailable()
+    private fun isNetworkAvailable(): Boolean {
+        val connectivity =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val info = connectivity.allNetworkInfo
+        for (i in info.indices) if (info[i].state == NetworkInfo.State.CONNECTED) {
+            return true
+        }
+        return false
+    }
 
-     fun start() {
+    fun start() {
 
-            RetrofitInstance.searchUserApi.getUser()
-                .enqueue(object : Callback<UserModel> {
-                    override fun onResponse(
-                        call: Call<UserModel>,
-                        response: Response<UserModel>
-                    ) {
-                        val user = response.body() ?: return
-                        val status = response.code()
-                        Log.d("TAG", status.toString())
-                        _user.value = user.results.first().name.first
-                        _userLastName.value = user.results.first().name.last
-                        _userCode.value = status
-                        _userImg.value = user.results.first().picture.large
-                        _state.value = State.Completed
-                        _state.value = State.Wait
-                    }
+           if (isConnect) {
+
+               viewModelScope.launch {
+                   _state.value=State.Wait
+
+                   try {
+                       val response = RetrofitInstance.searchUserApi.getUser()
+                       val user = response.body()
+                       val status = response.code()
+                       Log.d("TAG", status.toString())
+                       _user.value = user?.results?.first()?.name?.first
+                       _userLastName.value = user?.results?.first()?.name?.last
+                       _userCode.value = status
+                       _userImg.value = user?.results?.first()?.picture?.large
+                       _state.value = State.Completed
+                       _state.value = State.Wait
+                   } catch (e: Exception) {
+                       _state.value=State.Error
+
+                   }
+               }
 
 
-                    override fun onFailure(call: Call<UserModel>, t: Throwable) {
+           }else{
+               /*while (!isConnect){
+                   start()
+               }*/
 
-                    }
+               _state.value=State.Error
+           }
 
-                })
 
+
+
+        /* RetrofitInstance.searchUserApi.getUser()
+             .enqueue(object : Callback<UserModel> {
+                 override fun onResponse(
+                     call: Call<UserModel>,
+                     response: Response<UserModel>
+                 ) {
+                     val user = response.body() ?: return
+                     val status = response.code()
+                     Log.d("TAG", status.toString())
+                     _user.value = user.results.first().name.first
+                     _userLastName.value = user.results.first().name.last
+                     _userCode.value = status
+                     _userImg.value = user.results.first().picture.large
+                     _state.value = State.Completed
+                     _state.value = State.Wait
+                 }
+
+
+                 override fun onFailure(call: Call<UserModel>, t: Throwable) {
+
+                 }
+
+             })
+*/
 
     }
 

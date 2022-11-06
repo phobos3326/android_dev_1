@@ -1,12 +1,13 @@
 package com.example.m14_retrofit.ui.main.network.data
 
 
+import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class UserModel(
-   val info: Info,
-   val results: List<Result>
+    @Json(name = "info") val info: Info? = null,
+    @Json(name = "results") val results: List<Result>? = null
 )
 
 data class Info(
@@ -37,8 +38,8 @@ data class Dob(
 )
 
 data class Id(
-    val name: String,
-    val value: String
+    @Json(name = "name") val name: String? = null,
+    @Json(name = "value") val value: String? = null
 )
 
 data class Location(

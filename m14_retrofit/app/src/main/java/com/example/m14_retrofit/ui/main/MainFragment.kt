@@ -55,14 +55,14 @@ class MainFragment : Fragment() {
                     State.ColdStart -> {
                         binding.name.text = viewModel.user.value
                         binding.lastName.text = viewModel.userLastName.value
-                        binding.progressBar?.isVisible = true
-                        binding.progressBar?.isIndeterminate = true
+                        binding.progressBar.isVisible = true
+                        binding.progressBar.isIndeterminate = true
                     }
                     State.Completed -> {
                         binding.name.text = viewModel.user.value
                         binding.lastName.text = viewModel.userLastName.value
-                        binding.progressBar?.isVisible = false
-                        binding.progressBar?.isIndeterminate = false
+                        binding.progressBar.isVisible = false
+                        binding.progressBar.isIndeterminate = false
                         Log.d("TAG", "${viewModel.userCode.value}" + " ${viewModel.user.value}")
                         Glide.with(this@MainFragment)
                             .load(viewModel.userImg.value)

@@ -21,11 +21,6 @@ import kotlinx.coroutines.launch
 
 class MainFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = MainFragment()
-
-    }
-
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
     private val viewModel: MainViewModel by viewModels()
@@ -53,12 +48,14 @@ class MainFragment : Fragment() {
             viewModel.state.collect {
                 when (it) {
                     State.ColdStart -> {
+                        binding.button.isEnabled=true
                         binding.name.text = viewModel.user.value
                         binding.lastName.text = viewModel.userLastName.value
                         binding.progressBar.isVisible = true
                         binding.progressBar.isIndeterminate = true
                     }
                     State.Completed -> {
+                        binding.button.isEnabled=true
                         binding.name.text = viewModel.user.value
                         binding.lastName.text = viewModel.userLastName.value
                         binding.progressBar.isVisible = false
@@ -70,34 +67,22 @@ class MainFragment : Fragment() {
 
                     }
                     State.Wait -> {
+                        binding.button.isEnabled=false
                         binding.name.text = viewModel.user.value
                         binding.lastName.text = viewModel.userLastName.value
-                        // Log.d("TAG", "${viewModel.userCode.value}" + " ${viewModel.user.value}")
+                        Log.d("TAG", "${viewModel.userCode.value}" + " ${viewModel.user.value}")
                         Glide.with(this@MainFragment)
                             .load(viewModel.userImg.value)
                             .into(binding.imageView)
                     }
                     State.Error -> {
+                        binding.button.isEnabled=true
                         binding.name.text = "error"
                         binding.lastName.text = "error"
                         binding.imageView.setImageResource(R.drawable.ic_connection_error)
                     }
                 }
-
             }
         }
-
-
     }
-
-    private fun userData() {
-        binding.name.text = viewModel.user.value
-        binding.lastName.text = viewModel.userLastName.value
-        Log.d("TAG", "${viewModel.userCode.value}" + " ${viewModel.user.value}")
-        Glide.with(this@MainFragment)
-            .load(viewModel.userImg.value)
-            .into(binding.imageView)
-    }
-
-
 }

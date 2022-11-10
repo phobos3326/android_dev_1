@@ -2,6 +2,7 @@ package com.example.m15_room
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.m15_room.ui.main.App
 import com.example.m15_room.ui.main.MainFragment
 
 class MainActivity : AppCompatActivity() {
@@ -14,5 +15,7 @@ class MainActivity : AppCompatActivity() {
                 .replace(R.id.container, MainFragment.newInstance())
                 .commitNow()
         }
+
+
     }
 }

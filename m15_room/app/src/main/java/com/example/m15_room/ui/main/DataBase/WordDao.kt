@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
@@ -16,8 +17,8 @@ interface WordDao {
     @Query("SELECT * FROM word")
     fun getAll():Flow<List<Word>>
 
-    @Insert
-    suspend fun insert(word: Word)
+    @Insert(entity = Word::class)
+    suspend fun insert(word: NewWord)
 
     @Delete
     suspend fun delete(word: Word)

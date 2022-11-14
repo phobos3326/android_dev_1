@@ -38,7 +38,13 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-        binding.
+        binding.button.setOnClickListener {
+            binding.textView.text= viewModel.onAdd().toString()
+        }
+
+        binding.buttonDell.setOnClickListener {
+            viewModel.onDelete()
+        }
 
 
     }

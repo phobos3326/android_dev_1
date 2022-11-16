@@ -9,6 +9,10 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class MainViewModel(private val wordDao: WordDao) : ViewModel() {
+
+    var insertWord: String=""
+
+
     val allWords = this.wordDao.getAll()
         .stateIn(
             scope = viewModelScope,
@@ -16,13 +20,19 @@ class MainViewModel(private val wordDao: WordDao) : ViewModel() {
             initialValue = emptyList()
         )
 
+
+    val wordMatches =this.wordDao.getAllCondition(insertWord)
+
+
+
+
     fun onAddBtn() {
         val count = allWords.value.size
         viewModelScope.launch {
             wordDao.insert(
                 Words(
-                    word = "word $count",
-                    count= count
+                    word = insertWord,
+                    count = count
                 )
             )
         }

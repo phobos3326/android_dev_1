@@ -26,7 +26,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -37,9 +36,6 @@ class MainActivity : AppCompatActivity() {
             viewModel.insertWord = it.toString()
         }
 
-
-
-
         binding.button.setOnClickListener { viewModel.onAddBtn() }
 
         lifecycleScope.launchWhenCreated {
@@ -48,13 +44,13 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        lifecycleScope.launchWhenCreated {
-            viewModel.wordMatches.collect{
-                viewModel.wordMatches.collect{
-                    Log.d("TAG", it.toString())
-                }
-            }
-        }
+      /*  lifecycleScope.launchWhenCreated {
+            viewModel.getGetWordMatches().collect {
 
+                Log.d("TAG", it.toString())
+            }
+        }*/
     }
+
+
 }

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.core.widget.addTextChangedListener
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -34,15 +35,45 @@ class MainActivity : AppCompatActivity() {
 
         binding.editText.addTextChangedListener {
             viewModel.insertWord = it.toString()
+           /* lifecycleScope.launchWhenCreated {
+                viewModel.getGetWordMatches()?.observe(this@MainActivity) {
+                    it.joinToString(separator = "\r\n")
+                }
+            }*/
         }
 
         binding.button.setOnClickListener { viewModel.onAddBtn() }
+        binding.buttonDell.setOnClickListener { viewModel.onDeleteButton() }
 
         lifecycleScope.launchWhenCreated {
-            viewModel.allWords.collect {
+        binding.buttonCheck.setOnClickListener {
+                           viewModel.getGetWordMatches()?.observe(this@MainActivity) {
+                   binding.textView.text= it.joinToString(separator = "\r\n")
+                }
+            }
+        }
+
+
+        lifecycleScope.launchWhenCreated {
+
+
+            viewModel.allWords.observe(this@MainActivity) {
                 binding.textView.text = it.joinToString(separator = "\r\n")
             }
         }
+
+         fun getItemsFromDb(searchText: String) {
+            var searchText = searchText
+            searchText = "%$searchText%"
+
+            viewModel.getGetWordMatches()?.observe(this@MainActivity) { list ->
+                list?.let {
+                    Log.e("List = ", list.toString())
+                }
+
+            }
+
+         }
 
       /*  lifecycleScope.launchWhenCreated {
             viewModel.getGetWordMatches().collect {
@@ -50,7 +81,7 @@ class MainActivity : AppCompatActivity() {
                 Log.d("TAG", it.toString())
             }
         }*/
-    }
 
 
-}
+
+}}

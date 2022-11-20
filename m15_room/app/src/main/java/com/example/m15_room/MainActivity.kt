@@ -34,12 +34,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.editText.addTextChangedListener {
-            viewModel.insertWord = it.toString()
-           /* lifecycleScope.launchWhenCreated {
-                viewModel.getGetWordMatches()?.observe(this@MainActivity) {
-                    it.joinToString(separator = "\r\n")
+            lifecycleScope.launchWhenCreated {
+                viewModel.insertWord = it.toString()
+                viewModel.getGetWordMatches()?.observe(this@MainActivity) {binding.textView.text= it.joinToString(separator = "\r\n")
                 }
-            }*/
+            }
         }
 
         binding.button.setOnClickListener { viewModel.onAddBtn() }
@@ -47,7 +46,7 @@ class MainActivity : AppCompatActivity() {
 
         lifecycleScope.launchWhenCreated {
         binding.buttonCheck.setOnClickListener {
-                           viewModel.getGetWordMatches()?.observe(this@MainActivity) {
+                           viewModel.getGetWordMatches().observe(this@MainActivity) {
                    binding.textView.text= it.joinToString(separator = "\r\n")
                 }
             }
@@ -66,7 +65,7 @@ class MainActivity : AppCompatActivity() {
             var searchText = searchText
             searchText = "%$searchText%"
 
-            viewModel.getGetWordMatches()?.observe(this@MainActivity) { list ->
+            viewModel.getGetWordMatches().observe(this@MainActivity) { list ->
                 list?.let {
                     Log.e("List = ", list.toString())
                 }

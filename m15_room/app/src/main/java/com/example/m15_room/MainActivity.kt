@@ -5,16 +5,17 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.core.widget.addTextChangedListener
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.m15_room.databinding.ActivityMainBinding
 import com.example.m15_room.ui.main.App
-import com.example.m15_room.ui.main.MainFragment
 import com.example.m15_room.ui.main.MainViewModel
+import com.example.m15_room.ui.main.database.State
+
 
 class MainActivity : AppCompatActivity() {
+
 
     private lateinit var binding: ActivityMainBinding
 
@@ -36,51 +37,68 @@ class MainActivity : AppCompatActivity() {
         binding.editText.addTextChangedListener {
             lifecycleScope.launchWhenCreated {
                 viewModel.insertWord = it.toString()
-                viewModel.getGetWordMatches()?.observe(this@MainActivity) {binding.textView.text= it.joinToString(separator = "\r\n")
+                viewModel.getWordMatches()?.observe(this@MainActivity) {
+                    binding.textView.text = it.joinToString(separator = "\r\n")
                 }
             }
         }
 
+        lifecycleScope.launchWhenCreated {
+            binding.buttonCheck.setOnClickListener {
+                viewModel.getWordMatches()?.observe(this@MainActivity) {
+                    binding.textView.text = it.joinToString(separator = "\r\n")
+                }
+            }
+        }
         binding.button.setOnClickListener { viewModel.onAddBtn() }
         binding.buttonDell.setOnClickListener { viewModel.onDeleteButton() }
 
-        lifecycleScope.launchWhenCreated {
-        binding.buttonCheck.setOnClickListener {
-                           viewModel.getGetWordMatches().observe(this@MainActivity) {
-                   binding.textView.text= it.joinToString(separator = "\r\n")
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.state.collect {
+                when (it) {
+                    State.Start -> {
+                        viewModel.getAllWords().observe(this@MainActivity) {
+                            binding.textView.text = it.joinToString(separator = "\r\n")
+                            Log.d("state", "Star")
+
+                        }
+                    }
+                    State.Clear -> {
+                        viewModel.getAllWords().observe(this@MainActivity) {
+                            binding.textView.text = it.joinToString(separator = "\r\n")
+                            Log.d("state", "Clear")
+                        }
+                    }
+                    State.Matches -> {
+                        viewModel.getWordMatches()?.observe(this@MainActivity) {
+                            binding.textView.text = it.joinToString(separator = "\r\n")
+                            Log.d("state", "Matches")
+                        }
+                    }
                 }
             }
         }
 
+        /*  fun getItemsFromDb(searchText: String) {
+             var searchText = searchText
+             searchText = "%$searchText%"
 
-        lifecycleScope.launchWhenCreated {
+             viewModel.getGetWordMatches()?.observe(this@MainActivity) { list ->
+                 list?.let {
+                     Log.e("List = ", list.toString())
+                 }
 
+             }
 
-            viewModel.allWords.observe(this@MainActivity) {
-                binding.textView.text = it.joinToString(separator = "\r\n")
-            }
-        }
+          }*/
 
-         fun getItemsFromDb(searchText: String) {
-            var searchText = searchText
-            searchText = "%$searchText%"
+        /*  lifecycleScope.launchWhenCreated {
+              viewModel.getGetWordMatches().collect {
 
-            viewModel.getGetWordMatches().observe(this@MainActivity) { list ->
-                list?.let {
-                    Log.e("List = ", list.toString())
-                }
+                  Log.d("TAG", it.toString())
+              }
+          }*/
 
-            }
-
-         }
-
-      /*  lifecycleScope.launchWhenCreated {
-            viewModel.getGetWordMatches().collect {
-
-                Log.d("TAG", it.toString())
-            }
-        }*/
-
-
-
-}}
+    }
+}

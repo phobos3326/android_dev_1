@@ -1,7 +1,5 @@
 package com.example.m15_room.ui.main
 
-import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 
@@ -12,27 +10,57 @@ import kotlinx.coroutines.launch
 
 class MainViewModel(private val wordDao: WordDao) : ViewModel() {
 
-   var insertWord: String = ""
+    private val _state = MutableStateFlow<State>(State.Start)
+    val state = _state.asStateFlow()
 
+    var insertWord: String = ""
+
+    init {
+        State.Start
+    }
 
     val allWords = this.wordDao.getAll()
-/*     .stateIn(
-         scope = viewModelScope,
-         started = SharingStarted.WhileSubscribed(5000),
-         initialValue = emptyList()
-     )*/
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = emptyList()
+        )
 
 
-     fun getGetWordMatches(): LiveData<List<Words>>? {
-        val a= wordDao.getAllCondition(insertWord)
-        return a
+    fun getWordMatches(): StateFlow<List<Words>>? {
+        return if (insertWord!=""){
+            _state.value=State.Matches
+            this.wordDao.getAllCondition(insertWord)
+                .stateIn(
+                    scope = viewModelScope,
+                    started = SharingStarted.WhileSubscribed(5000),
+                    initialValue = emptyList()
+                )
+
+        }else{
+            wordDao.getAll() .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5000),
+                initialValue = emptyList()
+            )
+        }
+
     }
 
 
+   /* fun getWordMatches(): Flow<List<Words>> {
+
+        val a = wordDao.getAllCondition(insertWord)
+        return a
+    }*/
+
+
     fun onAddBtn() {
+        _state.value = State.Start
+
         viewModelScope.launch {
-          /*  val a = getGetWordMatches()
-            Log.d("TAG", a.toString())*/
+            /*  val a = getGetWordMatches()
+              Log.d("TAG", a.toString())*/
 
             wordDao.insert(
                 Words(word = insertWord, count = 5)
@@ -41,19 +69,16 @@ class MainViewModel(private val wordDao: WordDao) : ViewModel() {
         }
     }
 
-    fun onDeleteButton(){
+    fun onDeleteButton() {
+        _state.value = State.Start
         viewModelScope.launch {
-            if (insertWord!=null){
 
-            }
             allWords.value?.lastOrNull()?.let {
                 wordDao.delete(it)
             }
         }
 
     }
-
-
 
 
 }

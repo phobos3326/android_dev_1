@@ -10,14 +10,15 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
 
 @Dao
 interface WordDao {
     @Query("SELECT * FROM words")
-    fun getAll(): LiveData<List<Words>>
+    fun getAll(): Flow<List<Words>>
 
     @Query("SELECT * FROM words WHERE word LIKE :insertWord")
-    fun getAllCondition(insertWord: String): LiveData<List<Words>>
+    fun getAllCondition(insertWord: String): Flow<List<Words>>
 
     @Insert(entity = Words::class)
     suspend fun insert(words: Words)

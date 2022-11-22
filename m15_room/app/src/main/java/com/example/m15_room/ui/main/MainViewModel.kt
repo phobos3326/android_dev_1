@@ -1,17 +1,12 @@
 package com.example.m15_room.ui.main
 
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.m15_room.ui.main.database.State
 
 
 import com.example.m15_room.ui.main.database.Words
 import com.example.m15_room.ui.main.database.WordDao
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class MainViewModel(private val wordDao: WordDao) : ViewModel() {
@@ -27,27 +22,35 @@ class MainViewModel(private val wordDao: WordDao) : ViewModel() {
         State.Start
     }
 
-
-    fun getAllWords(): LiveData<List<Words>> {
+    fun getAllWords(): StateFlow<List<Words>> {
         _state.value = State.Start
-        return wordDao.getAll()
+        return this.wordDao.getAll()
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5000),
+                initialValue = emptyList()
+            )
     }
-/*     .stateIn(
-         scope = viewModelScope,
-         started = SharingStarted.WhileSubscribed(5000),
-         initialValue = emptyList()
-     )*/
 
 
-    fun getWordMatches(): LiveData<List<Words>>? {
-        var a: LiveData<List<Words>>? = null
+    /* fun getAllWords(): Flow<List<Words>> {
+         _state.value = State.Start
+         return wordDao.getAll().stateIn(
+             scope = viewModelScope,
+             started = SharingStarted.WhileSubscribed(5000),
+             initialValue = emptyList()
+         )
+
+     }*/
+
+
+    fun getWordMatches():Flow<List<Words>>? {
+        var a: Flow<List<Words>>? = null
         if (insertWord != "") {
             a = wordDao.getAllCondition(insertWord)
-
-
             _state.value = State.Matches
         } else {
-            _state.value = State.Clear
+            _state.value = State.Start
         }
         return a
     }
@@ -56,12 +59,10 @@ class MainViewModel(private val wordDao: WordDao) : ViewModel() {
     fun onAddBtn() {
         viewModelScope.launch {
             if (insertWord != "") {
-
                 wordDao.insert(
                     Words(word = insertWord, count = 5)
-
                 )
-                _state.value =State.Start
+                _state.value = State.Start
             }
 
 
@@ -70,12 +71,14 @@ class MainViewModel(private val wordDao: WordDao) : ViewModel() {
 
     fun onDeleteButton() {
         viewModelScope.launch {
-            getAllWords().value?.lastOrNull()?.let { wordDao.delete(it)}
-           /* getAllWords().observe(this@MainViewModel){
-                it.lastOrNull().let {
-                    wordDao.delete(it)
-                }
-            }*/
+            getAllWords().lastOrNull().let {
+                wordDao.delete(it)
+            } }
+            /* getAllWords().observe(this@MainViewModel){
+                 it.lastOrNull().let {
+                     wordDao.delete(it)
+                 }
+             }*/
         }
 
     }

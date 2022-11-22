@@ -11,7 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.m15_room.databinding.ActivityMainBinding
 import com.example.m15_room.ui.main.App
 import com.example.m15_room.ui.main.MainViewModel
-import com.example.m15_room.ui.main.database.State
+import com.example.m15_room.ui.main.State
 
 
 class MainActivity : AppCompatActivity() {
@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
         binding.editText.addTextChangedListener {
             lifecycleScope.launchWhenCreated {
                 viewModel.insertWord = it.toString()
-                viewModel.getWordMatches()?.observe(this@MainActivity) {
+                viewModel.getWordMatches()?.collect {
                     binding.textView.text = it.joinToString(separator = "\r\n")
                 }
             }
@@ -48,24 +48,24 @@ class MainActivity : AppCompatActivity() {
         binding.buttonDell.setOnClickListener { viewModel.onDeleteButton() }
 
 
-        lifecycleScope.launchWhenStarted {
+        lifecycleScope.launchWhenCreated{
             viewModel.state.collect {
                 when (it) {
                     State.Start -> {
-                        viewModel.getAllWords().observe(this@MainActivity) {
+                        viewModel.getAllWords().collect {
                             binding.textView.text = it.joinToString(separator = "\r\n")
-                            Log.d("state", "Star")
+                            Log.d("state", "Start")
 
                         }
                     }
                     State.Clear -> {
-                        viewModel.getAllWords().observe(this@MainActivity) {
+                        viewModel.getAllWords().collect() {
                             binding.textView.text = it.joinToString(separator = "\r\n")
                             Log.d("state", "Clear")
                         }
                     }
                     State.Matches -> {
-                        viewModel.getWordMatches()?.observe(this@MainActivity) {
+                        viewModel.getWordMatches()?.collect() {
                             binding.textView.text = it.joinToString(separator = "\r\n")
                             Log.d("state", "Matches")
                         }

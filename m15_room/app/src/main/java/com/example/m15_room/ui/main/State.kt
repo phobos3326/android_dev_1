@@ -1,4 +1,4 @@
-package com.example.m15_room.ui.main.database
+package com.example.m15_room.ui.main
 
 sealed class State {
     object Start : State()

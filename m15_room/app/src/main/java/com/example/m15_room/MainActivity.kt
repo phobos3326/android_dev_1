@@ -1,5 +1,3 @@
-package com.example.m15_room
-
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -42,8 +40,8 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-            binding.editText.addTextChangedListener {
-                lifecycleScope.launchWhenCreated {
+        binding.editText.addTextChangedListener {
+            lifecycleScope.launchWhenCreated {
                 viewModel.insertWord = it.toString()
                 viewModel.getWordMatches()?.collect {
                     it.joinToString(separator = "\r\n")

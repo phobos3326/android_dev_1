@@ -1,9 +1,12 @@
 package com.example.m15_room.ui.main
 
+import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.m15_room.ui.main.database.State
+
 
 import com.example.m15_room.ui.main.database.Words
 import com.example.m15_room.ui.main.database.WordDao
@@ -26,7 +29,7 @@ class MainViewModel(private val wordDao: WordDao) : ViewModel() {
 
 
     fun getAllWords(): LiveData<List<Words>> {
-      _state.value = State.Start
+        _state.value = State.Start
         return wordDao.getAll()
     }
 /*     .stateIn(
@@ -40,9 +43,11 @@ class MainViewModel(private val wordDao: WordDao) : ViewModel() {
         var a: LiveData<List<Words>>? = null
         if (insertWord != "") {
             a = wordDao.getAllCondition(insertWord)
+
+
             _state.value = State.Matches
-        }else{
-            _state.value=State.Clear
+        } else {
+            _state.value = State.Clear
         }
         return a
     }
@@ -51,9 +56,12 @@ class MainViewModel(private val wordDao: WordDao) : ViewModel() {
     fun onAddBtn() {
         viewModelScope.launch {
             if (insertWord != "") {
+
                 wordDao.insert(
                     Words(word = insertWord, count = 5)
+
                 )
+                _state.value =State.Start
             }
 
 
@@ -62,9 +70,12 @@ class MainViewModel(private val wordDao: WordDao) : ViewModel() {
 
     fun onDeleteButton() {
         viewModelScope.launch {
-            getAllWords().value?.lastOrNull()?.let {
-                wordDao.delete(it)
-            }
+            getAllWords().value?.lastOrNull()?.let { wordDao.delete(it)}
+           /* getAllWords().observe(this@MainViewModel){
+                it.lastOrNull().let {
+                    wordDao.delete(it)
+                }
+            }*/
         }
 
     }

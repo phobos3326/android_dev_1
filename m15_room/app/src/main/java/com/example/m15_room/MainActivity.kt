@@ -43,13 +43,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        lifecycleScope.launchWhenCreated {
-            binding.buttonCheck.setOnClickListener {
-                viewModel.getWordMatches()?.observe(this@MainActivity) {
-                    binding.textView.text = it.joinToString(separator = "\r\n")
-                }
-            }
-        }
+
         binding.button.setOnClickListener { viewModel.onAddBtn() }
         binding.buttonDell.setOnClickListener { viewModel.onDeleteButton() }
 

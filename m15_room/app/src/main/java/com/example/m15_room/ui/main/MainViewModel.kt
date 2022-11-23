@@ -38,11 +38,12 @@ class MainViewModel(private val wordDao: WordDao) : ViewModel() {
                 )
 
         }else{
-            wordDao.getAll() .stateIn(
+          /*  wordDao.getAll() .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5000),
                 initialValue = emptyList()
-            )
+            )*/
+            null
         }
 
     }

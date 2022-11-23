@@ -1,7 +1,7 @@
+package com.example.m15_room
+
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.core.widget.addTextChangedListener
@@ -13,6 +13,8 @@ import com.example.m15_room.ui.main.App
 import com.example.m15_room.ui.main.MainViewModel
 import com.example.m15_room.ui.main.State
 import kotlinx.coroutines.launch
+
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -113,7 +115,7 @@ class MainActivity : AppCompatActivity() {
                 var searchText = searchText
                 searchText = "%$searchText%"
 
-                viewModel.getWordMatches()?.observe(this@MainActivity) { list ->
+                viewModel.getWordMatches()?.observe(this@com.example.m15_room.MainActivity) { list ->
                     list?.let {
                         Log.e("List = ", list.toString())
                     }

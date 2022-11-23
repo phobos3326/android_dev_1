@@ -17,7 +17,6 @@ import com.example.m15_room.ui.main.State
 import kotlinx.coroutines.launch
 
 
-
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -53,37 +52,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-            /*  binding.editText.addTextChangedListener(object : TextWatcher {
-                  override fun afterTextChanged(s: Editable?) {
-                      viewModel.insertWord =s.toString()
-                      lifecycleScope.launch {
-                          viewModel.allWords.collect {
-                              binding.textView.text = it.joinToString(separator = "\r\n")
-                          }
-                      }
 
-                  }
-
-                  override fun beforeTextChanged(
-                      s: CharSequence?,
-                      start: Int,
-                      count: Int,
-                      after: Int
-                  ) {
-                      //TODO("Not yet implemented")
-                  }
-
-
-                  override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                      viewModel.insertWord =s.toString()
-                      lifecycleScope.launch {
-                          viewModel.getWordMatches()?.collect {
-                              binding.textView.text = it.joinToString(separator = "\r\n")
-                          }
-                      }
-
-                  }
-              })*/
 
         binding.button.setOnClickListener { viewModel.onAddBtn() }
         binding.buttonDell.setOnClickListener { viewModel.onDeleteButton() }
@@ -117,7 +86,7 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
                     State.Matches -> {
-                        viewModel.getWordMatches()?.collect() {
+                        viewModel.getWordMatches()?.collect {
                             binding.textView.text = it.joinToString(separator = "\r\n")
                             Log.d("state", "Matches")
                         }
@@ -125,28 +94,5 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-
-
-        /*    fun getItemsFromDb(searchText: String) {
-                var searchText = searchText
-                searchText = "%$searchText%"
-
-                viewModel.getWordMatches()?.observe(this@com.example.m15_room.MainActivity) { list ->
-                    list?.let {
-                        Log.e("List = ", list.toString())
-                    }
-
-                }
-
-            }*/
-
-        /*  lifecycleScope.launchWhenCreated {
-              viewModel.getGetWordMatches().collect {
-
-                  Log.d("TAG", it.toString())
-              }
-          }*/
-
-
     }
 }

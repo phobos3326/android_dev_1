@@ -28,54 +28,41 @@ class MainViewModel(private val wordDao: WordDao) : ViewModel() {
 
 
     fun getWordMatches(): StateFlow<List<Words>>? {
-        return if (insertWord!=""){
-            _state.value=State.Matches
+        return if (insertWord != "") {
+            _state.value = State.Matches
             this.wordDao.getAllCondition(insertWord)
                 .stateIn(
                     scope = viewModelScope,
                     started = SharingStarted.WhileSubscribed(5000),
                     initialValue = emptyList()
                 )
-
-        }else{
-            _state.value=State.Start
-            wordDao.getAll() .stateIn(
+        } else {
+            _state.value = State.Start
+            wordDao.getAll().stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5000),
                 initialValue = emptyList()
             )
-
         }
-
     }
-
-
-
 
 
     fun onAddBtn() {
         _state.value = State.Start
-
         viewModelScope.launch {
-
             wordDao.insert(
                 Words(word = insertWord, count = 5)
             )
-
         }
     }
 
     fun onDeleteButton() {
         _state.value = State.Start
         viewModelScope.launch {
-
             allWords.value?.lastOrNull()?.let {
                 wordDao.delete(it)
             }
         }
-
     }
-
-
 }
 

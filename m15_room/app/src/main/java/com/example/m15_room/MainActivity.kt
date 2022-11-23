@@ -2,6 +2,8 @@ package com.example.m15_room
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.core.widget.addTextChangedListener
@@ -46,23 +48,37 @@ class MainActivity : AppCompatActivity() {
             lifecycleScope.launchWhenCreated {
                 viewModel.insertWord = it.toString()
                 viewModel.getWordMatches()?.collect {
-                    it.joinToString(separator = "\r\n")
+                    binding.textView.text = it.joinToString(separator = "\r\n")
                 }
             }
         }
 
-        /*      binding.editText.addTextChangedListener(object : TextWatcher {
+            /*  binding.editText.addTextChangedListener(object : TextWatcher {
                   override fun afterTextChanged(s: Editable?) {
+                      viewModel.insertWord =s.toString()
+                      lifecycleScope.launch {
+                          viewModel.allWords.collect {
+                              binding.textView.text = it.joinToString(separator = "\r\n")
+                          }
+                      }
+
                   }
 
-                  override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                  override fun beforeTextChanged(
+                      s: CharSequence?,
+                      start: Int,
+                      count: Int,
+                      after: Int
+                  ) {
+                      //TODO("Not yet implemented")
                   }
+
 
                   override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
+                      viewModel.insertWord =s.toString()
                       lifecycleScope.launch {
                           viewModel.getWordMatches()?.collect {
-                              it.joinToString(separator = "\r\n")
+                              binding.textView.text = it.joinToString(separator = "\r\n")
                           }
                       }
 

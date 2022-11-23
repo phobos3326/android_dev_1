@@ -38,30 +38,25 @@ class MainViewModel(private val wordDao: WordDao) : ViewModel() {
                 )
 
         }else{
-          /*  wordDao.getAll() .stateIn(
+            _state.value=State.Start
+            wordDao.getAll() .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5000),
                 initialValue = emptyList()
-            )*/
-            null
+            )
+
         }
 
     }
 
 
-   /* fun getWordMatches(): Flow<List<Words>> {
 
-        val a = wordDao.getAllCondition(insertWord)
-        return a
-    }*/
 
 
     fun onAddBtn() {
         _state.value = State.Start
 
         viewModelScope.launch {
-            /*  val a = getGetWordMatches()
-              Log.d("TAG", a.toString())*/
 
             wordDao.insert(
                 Words(word = insertWord, count = 5)

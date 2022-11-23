@@ -60,9 +60,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.buttonCheck.setOnClickListener {
             lifecycleScope.launch {
-                viewModel.getWordMatches()?.collect {
-                    binding.textView.text = it.joinToString(separator = "\r\n")
-                }
+                viewModel.onUpdate()
             }
 
         }

@@ -15,6 +15,8 @@ class MainViewModel(private val wordDao: WordDao) : ViewModel() {
 
     var insertWord: String = ""
 
+    private var a:StateFlow<List<Words>>? =null
+
     init {
         State.Start
     }
@@ -28,38 +30,55 @@ class MainViewModel(private val wordDao: WordDao) : ViewModel() {
 
 
     fun getWordMatches(): StateFlow<List<Words>>? {
-        return if (insertWord != "") {
+        if (insertWord != "") {
             _state.value = State.Matches
-            this.wordDao.getAllCondition(insertWord)
-                .stateIn(
-                    scope = viewModelScope,
+            a= this.wordDao.getAllCondition(insertWord)
+                .stateIn( scope = viewModelScope,
                     started = SharingStarted.WhileSubscribed(5000),
-                    initialValue = emptyList()
-                )
-        } else {
+                    initialValue = emptyList())
+
+            return a
+
+        }  else  {
             _state.value = State.Start
-            wordDao.getAll().stateIn(
+            return wordDao.getAll().stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5000),
                 initialValue = emptyList()
             )
+
         }
     }
+
 
 
     fun onAddBtn() {
         _state.value = State.Start
         viewModelScope.launch {
+
             wordDao.insert(
-                Words(word = insertWord, count = 5)
+                Words(word = insertWord, count = 0)
             )
+        }
+    }
+
+  suspend fun onUpdate(){
+        a?.value?.lastOrNull().let {
+          val aa=  it?.copy(
+                word = insertWord,
+                count = it.count+1
+
+            )
+            if (aa != null) {
+                wordDao.update(aa)
+            }
         }
     }
 
     fun onDeleteButton() {
         _state.value = State.Start
         viewModelScope.launch {
-            allWords.value?.lastOrNull()?.let {
+            allWords.value.lastOrNull()?.let {
                 wordDao.delete(it)
             }
         }

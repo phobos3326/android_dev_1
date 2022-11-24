@@ -56,9 +56,10 @@ class MainViewModel(private val wordDao: WordDao) : ViewModel() {
     fun onAddBtn() {
         _state.value = State.Start
         viewModelScope.launch {
-            if (insertWord != "" && matchList?.value?.size==1){
+            if (insertWord != "" && matchList?.value?.size == 1) {
                 onUpdate()
-            }else  {
+            }
+            if (insertWord != "" && matchList?.value?.size == 0) {
             wordDao.insert(
                 Words(word = insertWord, count = 0)
             )
@@ -72,7 +73,6 @@ class MainViewModel(private val wordDao: WordDao) : ViewModel() {
             val aa = it?.copy(
                 word = insertWord,
                 count = it.count + 1
-
             )
             if (aa != null) {
                 wordDao.update(aa)

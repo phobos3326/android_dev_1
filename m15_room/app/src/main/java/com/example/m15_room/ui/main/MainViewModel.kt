@@ -15,7 +15,7 @@ class MainViewModel(private val wordDao: WordDao) : ViewModel() {
 
     var insertWord: String = ""
 
-    private var a:StateFlow<List<Words>>? =null
+    private var matchList: StateFlow<List<Words>>? = null
 
     init {
         State.Start
@@ -32,14 +32,16 @@ class MainViewModel(private val wordDao: WordDao) : ViewModel() {
     fun getWordMatches(): StateFlow<List<Words>>? {
         if (insertWord != "") {
             _state.value = State.Matches
-            a= this.wordDao.getAllCondition(insertWord)
-                .stateIn( scope = viewModelScope,
+            matchList = this.wordDao.getAllCondition(insertWord)
+                .stateIn(
+                    scope = viewModelScope,
                     started = SharingStarted.WhileSubscribed(5000),
-                    initialValue = emptyList())
+                    initialValue = emptyList()
+                )
 
-            return a
+            return matchList
 
-        }  else  {
+        } else {
             _state.value = State.Start
             return wordDao.getAll().stateIn(
                 scope = viewModelScope,
@@ -51,22 +53,25 @@ class MainViewModel(private val wordDao: WordDao) : ViewModel() {
     }
 
 
-
     fun onAddBtn() {
         _state.value = State.Start
         viewModelScope.launch {
-
+            if (insertWord != "" && matchList?.value?.size==1){
+                onUpdate()
+            }else  {
             wordDao.insert(
                 Words(word = insertWord, count = 0)
             )
         }
+
+        }
     }
 
-  suspend fun onUpdate(){
-        a?.value?.lastOrNull().let {
-          val aa=  it?.copy(
+    suspend fun onUpdate() {
+        matchList?.value?.lastOrNull().let {
+            val aa = it?.copy(
                 word = insertWord,
-                count = it.count+1
+                count = it.count + 1
 
             )
             if (aa != null) {

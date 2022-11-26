@@ -1,19 +1,22 @@
 package com.example.m15_room
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.AttributeSet
 import android.util.Log
+import android.view.View
 import androidx.activity.viewModels
 import androidx.core.widget.addTextChangedListener
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.*
 import com.example.m15_room.databinding.ActivityMainBinding
 import com.example.m15_room.ui.main.App
 import com.example.m15_room.ui.main.MainViewModel
 import com.example.m15_room.ui.main.State
+import com.google.android.material.snackbar.Snackbar
+
 import kotlinx.coroutines.launch
 
 
@@ -36,16 +39,12 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        lifecycleScope.launchWhenCreated {
-            viewModel.allWords.collect {
-                binding.textView.text = it.joinToString(separator = "\r\n")
-            }
-        }
-
 
         binding.editText.addTextChangedListener {
-            lifecycleScope.launchWhenCreated {
-                viewModel.insertWord = it.toString()
+
+            viewModel.insertWord = it.toString()
+            viewModel.viewModelScope.launch {
+
                 viewModel.getWordMatches()?.collect {
                     binding.textView.text = it.joinToString(separator = "\r\n")
                 }
@@ -59,38 +58,79 @@ class MainActivity : AppCompatActivity() {
 
 
         binding.buttonCheck.setOnClickListener {
-            lifecycleScope.launch {
-                viewModel.onUpdate()
-            }
+            viewModel.changeState()
 
         }
 
 
-
-        lifecycleScope.launchWhenStarted {
-            viewModel.state.collect {
-                when (it) {
-                    State.Start -> {
-                        viewModel.allWords.collect {
-                            binding.textView.text = it.joinToString(separator = "\r\n")
-                            Log.d("state", "Star")
+        /*lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.CREATED) {
+                viewModel.state.observe(this@MainActivity ) {
+                    when (it) {
+                        State.Start -> {
+                            launch {
+                                viewModel.allWords.collect{
+                                    binding.textView.text = it.joinToString(separator = "\r\n")
+                                    Log.d("state", "Start")
+                                    Snackbar.make(binding.root, "Start", Snackbar.LENGTH_SHORT).show()
+                                }
+                            }
 
                         }
-                    }
-                    State.Clear -> {
-                        viewModel.allWords.collect {
-                            binding.textView.text = it.joinToString(separator = "\r\n")
-                            Log.d("state", "Clear")
+                        State.Clear -> {
+                            launch {
+                                viewModel.allWords.collect {
+                                    binding.textView.text = it.joinToString(separator = "\r\n")
+                                    Log.d("state", "Clear")
+                                    Snackbar.make(binding.root, "clear", Snackbar.LENGTH_SHORT).show()
+                                }
+                            }
+
                         }
-                    }
-                    State.Matches -> {
-                        viewModel.getWordMatches()?.collect {
-                            binding.textView.text = it.joinToString(separator = "\r\n")
-                            Log.d("state", "Matches")
+                        State.Matches -> {
+                            launch {
+                                viewModel.getWordMatches()?.collect {
+                                    binding.textView.text = it.joinToString(separator = "\r\n")
+                                    Log.d("state", "Matches")
+                                    Snackbar.make(binding.root, "Matches", Snackbar.LENGTH_SHORT).show()
+                                }
+                            }
+
                         }
                     }
                 }
             }
         }
+*/
+
+            lifecycleScope.launchWhenStarted {
+                repeatOnLifecycle(Lifecycle.State.CREATED){
+                    viewModel.state.collect {state->
+                        when (state) {
+                            State.Start -> {
+                                viewModel.allWords.collect {
+                                    binding.textView.text = it.joinToString(separator = "\r\n")
+                                    Log.d("state", "Start")
+                                }
+                            }
+                            State.Clear -> {
+                                viewModel.allWords.collect {
+                                    binding.textView.text = it.joinToString(separator = "\r\n")
+                                    Log.d("state", "Clear")
+                                }
+                            }
+                            State.Matches -> {
+                                viewModel.getWordMatches()?.collect {
+                                    binding.textView.text = it.joinToString(separator = "\r\n")
+                                    Log.d("state", "Matches")
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
     }
+
+
 }

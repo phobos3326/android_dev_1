@@ -6,7 +6,7 @@ import com.google.android.material.textfield.TextInputLayout
 import java.util.regex.Pattern
 
 
-class Validate(){
+class Validate {
     // defining our own password pattern
     private val PASSWORD_PATTERN: Pattern = Pattern.compile(
         "^" +

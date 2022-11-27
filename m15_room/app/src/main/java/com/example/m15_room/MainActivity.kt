@@ -1,13 +1,11 @@
 package com.example.m15_room
 
-import android.content.Context
+
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.AttributeSet
+
 import android.util.Log
-import android.view.View
+
 import androidx.activity.viewModels
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.*
@@ -15,7 +13,7 @@ import com.example.m15_room.databinding.ActivityMainBinding
 import com.example.m15_room.ui.main.App
 import com.example.m15_room.ui.main.MainViewModel
 import com.example.m15_room.ui.main.State
-import com.google.android.material.snackbar.Snackbar
+
 
 import kotlinx.coroutines.launch
 

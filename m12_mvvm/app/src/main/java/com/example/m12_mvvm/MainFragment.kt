@@ -39,26 +39,8 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentBlankBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-
-        binding.editText1.addTextChangedListener { str ->
-            var findStr = str.toString()
-            val a = viewModel.strLength(findStr)
-
-        }
-        binding.butTon.setOnClickListener {
-            viewModel.viewModelScope.launch {
-                viewModel.onClick()
-
-            }
-
-        }
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.state.collect {
@@ -95,6 +77,30 @@ class MainFragment : Fragment() {
                 }
             }
         }
+
+
+        return binding.root
+    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+
+        binding.editText1.addTextChangedListener { str ->
+            var findStr = str.toString()
+            val a = viewModel.strLength(findStr)
+
+        }
+        binding.butTon.setOnClickListener {
+            viewModel.viewModelScope.launch {
+                viewModel.onClick()
+
+            }
+
+        }
+
+
 
 
     }

@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 val wordDao = (application as App).db.wordDao()
-                return MainViewModel(wordDao = wordDao) as T
+                return MainViewModel(wordDao = wordDao, App()) as T
             }
         }
     }
@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
 
 
         binding.buttonCheck.setOnClickListener {
-            viewModel.changeState()
+            viewModel.validatePassword()
 
         }
 
@@ -103,33 +103,43 @@ class MainActivity : AppCompatActivity() {
         }
 */
 
-            lifecycleScope.launchWhenStarted {
-                repeatOnLifecycle(Lifecycle.State.CREATED){
-                    viewModel.state.collect {state->
-                        when (state) {
-                            State.Start -> {
-                                viewModel.allWords.collect {
-                                    binding.textView.text = it.joinToString(separator = "\r\n")
-                                    Log.d("state", "Start")
-                                }
-                            }
-                            State.Clear -> {
-                                viewModel.allWords.collect {
-                                    binding.textView.text = it.joinToString(separator = "\r\n")
-                                    Log.d("state", "Clear")
-                                }
-                            }
-                            State.Matches -> {
-                                viewModel.getWordMatches()?.collect {
-                                    binding.textView.text = it.joinToString(separator = "\r\n")
-                                    Log.d("state", "Matches")
-                                }
-                            }
+       lifecycleScope.launchWhenStarted {
+            viewModel.state.collect { state ->
+                when (state) {
+                    State.Start -> {
+                        viewModel.allWords.collect {
+                            binding.textView.text = it.joinToString(separator = "\r\n")
+                            Log.d("state", "Start")
                         }
                     }
-                }
+                    State.Clear -> {
+                        viewModel.allWords.collect {
+                            binding.textView.text = it.joinToString(separator = "\r\n")
+                            Log.d("state", "Clear")
+                        }
+                    }
+                    State.Matches -> {
+                        viewModel.getWordMatches()?.collect {
+                            binding.textView.text = it.joinToString(separator = "\r\n")
+                            Log.d("state", "Matches")
+                        }
+                    }
+                    State.ErrorInput -> {
+                        binding.textInputLayout.error = "Field can not be empty"
+                        Log.d("state", "ErrInput")
+                    }
+                    State.Validate -> {
+                        binding.textInputLayout.error = "Password is too weak"
+                        Log.d("state", "Password is too weak")
+                    }
+                    State.WhiteSpaces -> {
 
+                    }
+                }
             }
+        }
+
+
     }
 
 

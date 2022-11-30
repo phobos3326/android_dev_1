@@ -165,7 +165,7 @@ class MainViewModel(private val wordDao: WordDao, application: Application) : An
         }
     }
 
-  /*  fun confirmInput(v: View?) {
+/*    fun confirmInput(v: View?) {
         if (!validatePassword()) {
             return
         }

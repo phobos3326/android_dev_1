@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 @Dao
 interface WordDao {
-    @Query("SELECT * FROM words")
+    @Query("SELECT * FROM words ORDER BY count LIMIT 5")
     fun getAll(): Flow<List<Words>>
 
     @Query("SELECT * FROM words WHERE word LIKE :insertWord")

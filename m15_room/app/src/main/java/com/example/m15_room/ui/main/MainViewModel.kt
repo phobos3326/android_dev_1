@@ -132,7 +132,9 @@ class MainViewModel(private val wordDao: WordDao, application: Application) : An
 
     private val PASSWORD_PATTERN: Pattern = Pattern.compile(
         "^" +
-                "(?=.*[@#$%^&+=!])" +  // at least 1 special character
+                //"(?=.*[@#$%^&+=!])" +  // at least 1 special character
+                "(?=.*[^0-9])" +  // at least 1 special character
+
                 "(?=\\S+$)" +  // no white spaces
                 ".{4,}" +  // at least 4 characters
                 "$"

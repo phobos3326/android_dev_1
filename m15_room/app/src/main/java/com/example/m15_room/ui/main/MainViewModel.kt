@@ -5,11 +5,7 @@ import android.content.Context
 import android.util.Log
 import android.util.Patterns
 import android.view.View
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 
 import com.example.m15_room.ui.main.database.Words
 import com.example.m15_room.ui.main.database.WordDao
@@ -28,53 +24,55 @@ class MainViewModel(private val wordDao: WordDao, application: Application) : An
 
     var insertWord: String = ""
 
+    init {
+        _state.value= State.Start
+    }
+
     //private var email: TextInputLayout? = null
    // private var validateWord:String? = null
 
 
-    /* private val _state = MutableLiveData<State>()
+   /*  private val _state = MutableLiveData<State>()
      val state : LiveData<State> get() = _state
 
      init {
          _state.value = State.Matches
      }*/
 
-    private var matchList: StateFlow<List<Words>>? = null
+    private var matchList: LiveData<List<Words>>? = null
 
-    /*  init {
-         _state.value= State.Start
-      }*/
 
-    val allWords = this.wordDao.getAll()
-        .stateIn(
+    val allWords = this.wordDao.getAll().asLiveData()
+    val allCondition =this.wordDao.getAllCondition(insertWord).asLiveData()
+
+      /*  .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
             initialValue = emptyList()
-        )
+        )*/
 
 
-    fun getWordMatches(): StateFlow<List<Words>>? {
-
-
+    fun getWordMatches(): LiveData<List<Words>>? {
         if (insertWord != "") {
             _state.value = State.Matches
-            matchList = this.wordDao.getAllCondition(insertWord)
-                .stateIn(
+            matchList = allCondition
+             /*   .stateIn(
                     scope = viewModelScope,
                     started = SharingStarted.WhileSubscribed(5000),
                     initialValue = emptyList()
-                )
+                )*/
 
             return matchList
 
         } else {
             _state.value = State.Matches
             //_state.value = State.Start
-            return wordDao.getAll().stateIn(
+            return wordDao.getAll().asLiveData()
+        /*.stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5000),
                 initialValue = emptyList()
-            )
+            )*/
 
         }
     }
@@ -87,19 +85,15 @@ class MainViewModel(private val wordDao: WordDao, application: Application) : An
     }
 
     fun onAddBtn() {
-
         viewModelScope.launch {
-
-            if (insertWord != "" && matchList?.value?.size == 1) {
+            if (insertWord != "" && matchList?.value?.size==1) {
                 _state.value = State.Matches
                 onUpdate()
             }
             if (insertWord != "" && matchList?.value?.size == 0) {
                 _state.value = State.Matches
                 wordDao.insert(Words(word = insertWord, count = 0))
-
             }
-
         }
     }
 
@@ -123,7 +117,7 @@ class MainViewModel(private val wordDao: WordDao, application: Application) : An
 
         viewModelScope.launch {
             _state.value = State.Clear
-            allWords.value.lastOrNull()?.let {
+            allWords.value?.lastOrNull()?.let {
                 wordDao.delete(it)
             }
         }
@@ -146,7 +140,7 @@ class MainViewModel(private val wordDao: WordDao, application: Application) : An
 
 
      fun validatePassword(): Boolean {
-        val passwordInput = insertWord.trim { it <= ' ' }
+        val passwordInput = insertWord
         // if password field is empty
         // it will display error message "Field can not be empty"
         if (passwordInput.isEmpty()) {

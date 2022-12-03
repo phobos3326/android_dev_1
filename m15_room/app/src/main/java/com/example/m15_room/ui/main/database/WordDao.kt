@@ -18,7 +18,7 @@ interface WordDao {
     fun getAll(): Flow<List<Words>>
 
     @Query("SELECT * FROM words WHERE word LIKE :insertWord")
-    fun getAllCondition(insertWord: String): Flow<List<Words>>
+    fun getAllCondition(insertWord: String):  Flow<List<Words>>
 
     @Insert(entity = Words::class)
     suspend fun insert(words: Words)

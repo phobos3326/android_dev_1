@@ -45,8 +45,8 @@ class MainActivity : AppCompatActivity() {
 
         binding.editText.addTextChangedListener {
             viewModel.insertWord = it.toString()
-            viewModel.getWordMatches()?.observe(this) { it ->
-                binding.textView.text = it.joinToString(separator = "\r\n")
+            viewModel.getWordMatches()?.observe(this) { matchList ->
+                binding.textView.text = matchList.joinToString(separator = "\r\n")
 
             }
         }

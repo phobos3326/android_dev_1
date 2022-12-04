@@ -28,22 +28,23 @@ class MainViewModel(private val wordDao: WordDao, application: Application) :
     }
 
 
-     var matchList: LiveData<List<Words>>? = null
+
 
     val allWords = this.wordDao.getAll().asLiveData()
-
+     var matchList:LiveData<List<Words>>?=null
 
     fun getWordMatches(): LiveData<List<Words>>? {
-        _state.value = State.Matches
+       _state.value = State.Matches
         if (insertWord != "") {
-
+           // _state.value = State.Matches
             matchList = wordDao.getAllCondition(insertWord).asLiveData()
+            return matchList
 
-             return matchList
 
         } else {
             _state.value = State.Start
-            return wordDao.getAll().asLiveData()
+             return wordDao.getAll().asLiveData()
+            //return null
 
         }
     }
@@ -56,7 +57,7 @@ class MainViewModel(private val wordDao: WordDao, application: Application) :
     }
 
     fun onAddBtn() {
-        _state.value = State.Matches
+        //_state.value = State.Matches
         viewModelScope.launch {
             if (insertWord != "" && matchList?.value?.size !=0 ) {
 

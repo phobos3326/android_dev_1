@@ -71,7 +71,8 @@ class MainActivity : AppCompatActivity() {
 
             viewModel.viewModelScope.launch {
                 viewModel.insertWord = it.toString()
-                viewModel.getWordMatches()?.observe(this@MainActivity){
+                viewModel.getWordMatches()
+                viewModel.matchList?.observe(this@MainActivity){
                     it.joinToString(separator = "\r\n" )
                 }
             }
@@ -151,7 +152,7 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
                     State.Matches -> {
-                        viewModel.getWordMatches()?.observe(this@MainActivity) {
+                        viewModel.matchList?.observe(this@MainActivity) {
                             binding.textView.text = it.joinToString(separator = "\r\n")
                             Log.d("state", "Matches")
                         }

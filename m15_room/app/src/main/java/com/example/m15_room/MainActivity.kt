@@ -3,6 +3,8 @@ package com.example.m15_room
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 
 import android.util.Log
 
@@ -11,6 +13,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 
 
 import com.example.m15_room.databinding.ActivityMainBinding
@@ -43,12 +46,37 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
-        binding.editText.addTextChangedListener {
-            viewModel.insertWord = it.toString()
-            viewModel.getWordMatches()?.observe(this) { matchList ->
-                binding.textView.text = matchList.joinToString(separator = "\r\n")
+        /*binding.editText.addTextChangedListener(object:TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                //TODO("Not yet implemented")
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                //viewModel.insertWord = s.toString()
+               // viewModel.getWordMatches()
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                //TODO("Not yet implemented")
+                viewModel.insertWord = s.toString()
+                viewModel.getWordMatches()
 
             }
+
+
+
+        })*/
+
+        binding.textInputLayout.editText?.addTextChangedListener {
+
+            viewModel.viewModelScope.launch {
+                viewModel.insertWord = it.toString()
+                viewModel.getWordMatches()?.observe(this@MainActivity){
+                    it.joinToString(separator = "\r\n" )
+                }
+            }
+
+
         }
 
         binding.button.setOnClickListener { viewModel.onAddBtn() }
@@ -111,7 +139,6 @@ class MainActivity : AppCompatActivity() {
             viewModel.state.collect { state ->
                 when (state) {
                     State.Start -> {
-
                         viewModel.allWords.observe(this@MainActivity) {
                             binding.textView.text = it.joinToString(separator = "\r\n")
                             Log.d("state", "Start")
@@ -120,7 +147,7 @@ class MainActivity : AppCompatActivity() {
                     State.Clear -> {
                         viewModel.allWords.observe(this@MainActivity) {
                             binding.textView.text = it.joinToString(separator = "\r\n")
-                            Log.d("state", "Start")
+                            Log.d("state", "Clear")
                         }
                     }
                     State.Matches -> {

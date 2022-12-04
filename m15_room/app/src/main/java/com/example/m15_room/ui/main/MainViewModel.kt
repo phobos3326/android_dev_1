@@ -28,21 +28,20 @@ class MainViewModel(private val wordDao: WordDao, application: Application) :
     }
 
 
-    private var matchList: LiveData<List<Words>>? = null
-
+     var matchList: LiveData<List<Words>>? = null
 
     val allWords = this.wordDao.getAll().asLiveData()
 
 
-
     fun getWordMatches(): LiveData<List<Words>>? {
+        _state.value = State.Matches
         if (insertWord != "") {
-            _state.value = State.Matches
+
             matchList = wordDao.getAllCondition(insertWord).asLiveData()
-            return matchList
+
+             return matchList
 
         } else {
-
             _state.value = State.Start
             return wordDao.getAll().asLiveData()
 
@@ -57,14 +56,16 @@ class MainViewModel(private val wordDao: WordDao, application: Application) :
     }
 
     fun onAddBtn() {
+        _state.value = State.Matches
         viewModelScope.launch {
-            if (insertWord != "" && matchList?.value?.size == 1) {
-                _state.value = State.Matches
+            if (insertWord != "" && matchList?.value?.size !=0 ) {
+
                 onUpdate()
+
             }
             if (insertWord != "" && matchList?.value?.size == 0) {
-                _state.value = State.Start
                 wordDao.insert(Words(word = insertWord, count = 0))
+                _state.value = State.Start
             }
         }
     }
@@ -88,11 +89,13 @@ class MainViewModel(private val wordDao: WordDao, application: Application) :
     fun onDeleteButton() {
 
         viewModelScope.launch {
-            _state.value = State.Clear
+
             allWords.value?.lastOrNull()?.let {
                 wordDao.delete(it)
+                //_state.value=State.Start
             }
         }
+
     }
 
 

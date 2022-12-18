@@ -2,14 +2,13 @@ package com.example.m15_room.ui.main
 
 import android.app.Application
 import android.util.Log
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.m15_room.ui.main.database.WordDao
 import com.example.m15_room.ui.main.database.Words
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.launch
 import java.util.regex.Pattern
 
@@ -18,75 +17,51 @@ class MainViewModel(private val wordDao: WordDao, application: Application) :
     AndroidViewModel(application) {
     var insertWord: String = ""
 
-    val allWords = this.wordDao.getAll()
-    var matchList: List<Words>? = null
+    val allWords = this.wordDao.getAll().asLiveData()
+    var matchList = this.wordDao.getAllCondition(insertWord).asLiveData()
+    //var ldList=matchList?.asLiveData()
 
-
-    private var _state = MutableStateFlow<State>(State.Start)
+    private var _state = MutableStateFlow<State>(State.Start(allWords))
     var state = _state.asStateFlow()
 
 
     init {
-        _state.value = State.Start
+        _state.value = State.Start(allWords)
     }
 
 
-    //  var list = emptyList<Words>()
 
-   suspend fun getWordMatches(): List<Words>? {
-       // viewModelScope.launch {
+
+   suspend fun getWordMatches() {
+
             if (insertWord != "") {
 
-
-                matchList = wordDao.getAllCondition(insertWord)
+                matchList = wordDao.getAllCondition(insertWord).asLiveData()
                 Log.d("state1", "$matchList")
-                // _state.value = State.Matches
-                _state.value = State.Matches
-                //return matchList
-                /*matchList?.collect {
-                    list = it
-                }*/
-                return matchList
 
+                _state.value = State.Matches(matchList)
+
+               // return matchList
             } else {
-                _state.value = State.Start
-                // return wordDao.getAll().asLiveData()
-                 return null
+                _state.value = State.Start(allWords)
+
+                // return null
             }
-      //  }
+          }
 
-
-    }
-
-    /*fun changeState() {
-        viewModelScope.launch {
-            _state.value = State.Matches
-        }
-
-    }*/
 
     fun onAddBtn() {
-        //_state.value = State.Matches
+
         viewModelScope.launch {
-            if (insertWord != "" && matchList?.size != 0
-            /* (
-             scope = viewModelScope,
-             started = SharingStarted.WhileSubscribed(5000),
-             initialValue = emptyList()
-         )?*/
+            if (insertWord != "" && matchList?.value?.size != 0
+
             ) {
-
                 onUpdate()
-
             }
-            if (insertWord != "" && matchList?.size == 0 /*  .stateIn(
-                    scope = viewModelScope,
-                    started = SharingStarted.WhileSubscribed(5000),
-                    initialValue = emptyList()
-                )?*/
+            if (insertWord != "" &&  matchList?.value?.size == 0
             ) {
                 wordDao.insert(Words(word = insertWord, count = 0))
-                _state.value = State.Start
+                _state.value = State.Start(allWords)
             }
         }
     }
@@ -94,15 +69,14 @@ class MainViewModel(private val wordDao: WordDao, application: Application) :
     private suspend fun onUpdate() {
         viewModelScope.launch {
             var aa: Words?
-            matchList?.lastOrNull().let {
+            matchList?.value?.lastOrNull().let {
                 aa = it?.copy(
                     word = insertWord,
                     count = it.count + 1
                 )
             }
             wordDao.update(aa)
-            _state.value = State.Start
-
+            _state.value = State.Start(allWords)
         }
     }
 

@@ -144,11 +144,15 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launchWhenStarted {
             viewModel.state.collect { state ->
                 when (state) {
-                    State.Start -> {
-                        viewModel.allWords.observe(this@MainActivity) {
+                   is State.Start -> {
+                     state.allWords.observe(this@MainActivity){
+                         binding.textView.text=it.joinToString (separator = "\r\n")
+                     }
+
+                       /* viewModel.allWords.observe(this@MainActivity) {
                             binding.textView.text = it.joinToString(separator = "\r\n")
                             Log.d("state", "Start")
-                        }
+                        }*/
                     }
                     State.Clear -> {
                         /* viewModel.allWords.observe(this@MainActivity) {
@@ -156,12 +160,12 @@ class MainActivity : AppCompatActivity() {
                              Log.d("state", "Clear")
                          }*/
                     }
-                    State.Matches -> {
-                       /* viewModel.matchList?.observe(this@MainActivity) {
+                   /* State.Matches -> {
+                       *//* viewModel.matchList?.observe(this@MainActivity) {
                             binding.textView.text = it.joinToString(separator = "\r\n")
                             Log.d("state", "Matches")
-                        }*/
-                    }
+                        }*//*
+                    }*/
                     State.ErrorInput -> {
                         binding.textInputLayout.error = "Field can not be empty"
                         Log.d("state", "ErrInput")
@@ -174,6 +178,12 @@ class MainActivity : AppCompatActivity() {
 
                     }
                     is State.Matches -> {
+
+                        state.listMatches?.observe(this@MainActivity){
+
+                            binding.textView.text=it.joinToString (separator = "\r\n")
+                        }
+                        Log.d("state", "Matches")
                       /*  var a=""
                        state.list?.observe(this@MainActivity) {
                            a=  it.joinToString(separator = "\r\n")

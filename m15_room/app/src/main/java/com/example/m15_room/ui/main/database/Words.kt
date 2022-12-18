@@ -9,7 +9,7 @@ import androidx.room.PrimaryKey
 data class Words(
     @PrimaryKey
     @ColumnInfo(name = "word")
-    val word: String,
+    var word: String,
     @ColumnInfo(name = "count")
     var count: Int
 )

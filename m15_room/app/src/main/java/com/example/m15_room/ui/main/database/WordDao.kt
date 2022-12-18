@@ -15,10 +15,10 @@ import kotlinx.coroutines.flow.StateFlow
 @Dao
 interface WordDao {
     @Query("SELECT * FROM words ORDER BY count LIMIT 5")
-    fun getAll(): Flow<List<Words>>
+    fun getAll(): LiveData<List<Words>>
 
     @Query("SELECT * FROM words WHERE word LIKE :insertWord")
-    fun getAllCondition(insertWord: String):  Flow<List<Words>>
+    suspend fun getAllCondition(insertWord: String):  List<Words>
 
     @Insert(entity = Words::class)
     suspend fun insert(words: Words)
@@ -27,7 +27,7 @@ interface WordDao {
     suspend fun delete(words: Words)
 
     @Update
-    suspend fun update(words: Words)
+    suspend fun update(words: Words?)
 
 
 }

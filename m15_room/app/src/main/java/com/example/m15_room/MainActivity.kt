@@ -49,41 +49,20 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
-        /*binding.editText.addTextChangedListener(object:TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                //TODO("Not yet implemented")
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                //viewModel.insertWord = s.toString()
-               // viewModel.getWordMatches()
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                //TODO("Not yet implemented")
-                viewModel.insertWord = s.toString()
-                viewModel.getWordMatches()
-
-            }
-
-
-
-        })*/
 
         binding.textInputLayout.editText?.addTextChangedListener {
 
             viewModel.viewModelScope.launch {
                 viewModel.insertWord = it.toString()
                 viewModel.getWordMatches()
-                /* viewModel.matchList?.observe(this@MainActivity) {
-                     it.joinToString(separator = "\r\n")
-                 }*/
             }
-
-
         }
 
-        binding.button.setOnClickListener { viewModel.onAddBtn() }
+        binding.button.setOnClickListener {
+            viewModel.viewModelScope.launch {
+                viewModel.onAddBtn()
+            }
+        }
         binding.buttonDell.setOnClickListener { viewModel.onDeleteButton() }
 
 
@@ -93,66 +72,14 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        /*    lifecycleScope.launch {
-                repeatOnLifecycle(Lifecycle.State.CREATED) {
-                    viewModel.state.observe(this@MainActivity ) {
-                        when (it) {
-                            State.Start -> {
-                                launch {
-                                    viewModel.allWords.collect{
-                                        binding.textView.text = it.joinToString(separator = "\r\n")
-                                        Log.d("state", "Start")
-                                        Snackbar.make(binding.root, "Start", Snackbar.LENGTH_SHORT).show()
-                                    }
-                                }
-
-                            }
-                            State.Clear -> {
-                                launch {
-                                    viewModel.allWords.collect {
-                                        binding.textView.text = it.joinToString(separator = "\r\n")
-                                        Log.d("state", "Clear")
-                                        Snackbar.make(binding.root, "clear", Snackbar.LENGTH_SHORT).show()
-                                    }
-                                }
-
-                            }
-                            State.Matches -> {
-                                launch {
-                                    viewModel.getWordMatches()?.collect {
-                                        binding.textView.text = it.joinToString(separator = "\r\n")
-                                        Log.d("state", "Matches")
-                                        Snackbar.make(binding.root, "Matches", Snackbar.LENGTH_SHORT).show()
-                                    }
-                                }
-
-                            }
-                            State.ErrorInput -> {
-
-                            }
-                            State.Validate -> {
-                                //TODO()
-                            }
-                            State.WhiteSpaces -> {
-                                //TODO()
-                            }
-                        }
-                    }
-                }
-            }*/
-
         lifecycleScope.launchWhenStarted {
             viewModel.state.collect { state ->
                 when (state) {
-                   is State.Start -> {
-                     state.allWords.observe(this@MainActivity){
-                         binding.textView.text=it.joinToString (separator = "\r\n")
-                     }
-
-                       /* viewModel.allWords.observe(this@MainActivity) {
+                    is State.Start -> {
+                        state.allWords.observe(this@MainActivity) {
                             binding.textView.text = it.joinToString(separator = "\r\n")
-                            Log.d("state", "Start")
-                        }*/
+                            // Log.d("state", "start2")
+                        }
                     }
                     State.Clear -> {
                         /* viewModel.allWords.observe(this@MainActivity) {
@@ -160,50 +87,25 @@ class MainActivity : AppCompatActivity() {
                              Log.d("state", "Clear")
                          }*/
                     }
-                   /* State.Matches -> {
-                       *//* viewModel.matchList?.observe(this@MainActivity) {
-                            binding.textView.text = it.joinToString(separator = "\r\n")
-                            Log.d("state", "Matches")
-                        }*//*
-                    }*/
                     State.ErrorInput -> {
                         binding.textInputLayout.error = "Field can not be empty"
-                        Log.d("state", "ErrInput")
+                        // Log.d("state", "ErrInput")
                     }
                     State.Validate -> {
                         binding.textInputLayout.error = "Password is too weak"
-                        Log.d("state", "Password is too weak")
+                        //Log.d("state", "Password is too weak")
                     }
                     State.WhiteSpaces -> {
 
                     }
                     is State.Matches -> {
-
-                        state.listMatches?.observe(this@MainActivity){
-
-                            binding.textView.text=it.joinToString (separator = "\r\n")
+                        state.listMatches?.observe(this@MainActivity) {
+                            binding.textView.text = it.joinToString(separator = "\r\n")
+                            // Log.d("state", "match4")
                         }
-                        Log.d("state", "Matches")
-                      /*  var a=""
-                       state.list?.observe(this@MainActivity) {
-                           a=  it.joinToString(separator = "\r\n")
-                        }
-                        Log.d("state", a)*/
-
                     }
-                    /*  State.Start -> {
-                         state.list.let {
-
-                         }
-                         Log.d("state", "${  state.list?.toString()}" )
-
-                     }*/
                 }
             }
         }
-
-
     }
-
-
 }

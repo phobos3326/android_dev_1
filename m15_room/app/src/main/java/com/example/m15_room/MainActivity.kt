@@ -21,6 +21,7 @@ import com.example.m15_room.ui.main.App
 import com.example.m15_room.ui.main.MainViewModel
 import com.example.m15_room.ui.main.State
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.forEach
 import kotlinx.coroutines.flow.stateIn
@@ -32,6 +33,8 @@ import kotlinx.coroutines.launch
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+
+
 
     private val viewModel: MainViewModel by viewModels {
         object : ViewModelProvider.Factory {
@@ -54,7 +57,9 @@ class MainActivity : AppCompatActivity() {
 
             viewModel.viewModelScope.launch {
                 viewModel.insertWord = it.toString()
-                viewModel.getWordMatches()
+                viewModel.getWordMatches()?.collect{
+                    binding.textView.text=it.joinToString( separator = "\r\n" )
+                }
             }
         }
 
@@ -72,20 +77,27 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        lifecycleScope.launchWhenStarted {
+      /*  lifecycleScope.launchWhenStarted {
+            viewModel.getWordMatches()?.collect{
+                binding.textView.text=it.joinToString( separator = "\r\n" )
+            }
+        }*/
+
+        /*lifecycleScope.launchWhenStarted {
             viewModel.state.collect { state ->
                 when (state) {
                     is State.Start -> {
-                        state.allWords.observe(this@MainActivity) {
-                            binding.textView.text = it.joinToString(separator = "\r\n")
-                            // Log.d("state", "start2")
-                        }
+                        state.allWords.joinToString ()
+                        viewModel.allWords
+                        *//*binding.textView.text = it.joinToString(separator = "\r\n")
+                         Log.d("state", "start2")*//*
+
                     }
                     State.Clear -> {
-                        /* viewModel.allWords.observe(this@MainActivity) {
+                        *//* viewModel.allWords.observe(this@MainActivity) {
                              binding.textView.text = it.joinToString(separator = "\r\n")
                              Log.d("state", "Clear")
-                         }*/
+                         }*//*
                     }
                     State.ErrorInput -> {
                         binding.textInputLayout.error = "Field can not be empty"
@@ -99,13 +111,14 @@ class MainActivity : AppCompatActivity() {
 
                     }
                     is State.Matches -> {
-                        state.listMatches?.observe(this@MainActivity) {
-                            binding.textView.text = it.joinToString(separator = "\r\n")
-                            // Log.d("state", "match4")
-                        }
+                        binding.textView.text = state.listMatches?.joinToString(separator = "\r\n")
+                        *//* state.listMatches?.observe(this@MainActivity) {
+                             binding.textView.text = it.joinToString(separator = "\r\n")
+                             // Log.d("state", "match4")
+                         }*//*
                     }
                 }
             }
-        }
+        }*/
     }
 }

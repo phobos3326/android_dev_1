@@ -5,10 +5,7 @@ import android.util.Log
 import androidx.lifecycle.*
 import com.example.m15_room.ui.main.database.WordDao
 import com.example.m15_room.ui.main.database.Words
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.util.regex.Pattern
 
@@ -17,79 +14,113 @@ class MainViewModel(private val wordDao: WordDao, application: Application) :
     AndroidViewModel(application) {
     var insertWord: String = ""
 
-    val allWords = this.wordDao.getAll().asLiveData()
-    var matchList = this.wordDao.getAllCondition(insertWord).asLiveData()
 
-    private var _state = MutableStateFlow<State>(State.Start(allWords))
+    var allWords = this.wordDao.getAll().stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(),
+        initialValue = emptyList()
+    )
+
+    var matchList = this.wordDao.getAllCondition(insertWord).stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(),
+        initialValue = emptyList()
+    )
+
+    /*     .stateIn(
+         scope = viewModelScope,
+         started = SharingStarted.WhileSubscribed(),
+         initialValue = emptyList()
+     )*/
+
+    //var matchList = null
+
+    private var _state = MutableStateFlow<State>(State.Start)
     var state = _state.asStateFlow()
 
 
     init {
-        _state.value = State.Start(allWords)
+        _state.value = State.Start
     }
 
 
-    fun getWordMatches() {
+    fun getWordMatches(): Flow<List<Words>>? {
+        var list: StateFlow<List<Words>>? = matchList
         if (insertWord != "") {
-            matchList = wordDao.getAllCondition(insertWord).asLiveData()
-            _state.value = State.Matches(matchList)
+            matchList = wordDao.getAllCondition(insertWord).stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(),
+                initialValue = emptyList()
+            )
+            list = matchList
+            // _state.value = State.Matches(matchList)
             Log.d("state", "match1")
         } else if (insertWord == "") {
-            _state.value = State.Start(allWords)
+            // _state.value = State.Start(allWords)
+            list = allWords
             Log.d("state", "start")
         }
+        return list
     }
 
 
-    suspend fun  onAddBtn() {
+    suspend fun onAddBtn() {
+        onUpdate()
 
-        //viewModelScope.launch {
-            if (insertWord != "" && matchList.value?.size != 0) {
+        /*  var a =0
+         viewModelScope.launch {
 
-                onUpdate()
-                /*_state.value = State.Matches(matchList)
-                Log.d("state", "match2")*/
-            }
-            if (insertWord != "" && matchList.value?.size == 0) {
-                wordDao.insert(Words(word = insertWord, count = 0))
-               /* _state.value = State.Matches(matchList)
-                Log.d("state", "match3")*/
-            }
-       // }
-       /* _state.value = State.Matches(matchList)
-        Log.d("state", "match3")*/
+             a = matchList.count()
+
+             Log.d("WWW", a.toString())
+             if (insertWord != "" && a == 0) {
+
+
+             }
+             if (insertWord != "" && matchList.count() == 1) {
+                 wordDao.insert(Words(word = insertWord, count = 0))
+             }
+         }*/
+
+
     }
 
     private suspend fun onUpdate() {
-        /*_state.value = State.Matches(matchList)
-        Log.d("state", "match4")*/
-        //viewModelScope.launch {
-            var aa: Words?
+        viewModelScope.launch {
+
             matchList?.value?.lastOrNull().let {
-                aa = it?.copy(
+                val aa = it?.copy(
                     word = insertWord,
                     count = it.count + 1
                 )
+                wordDao.update(aa)
             }
-            wordDao.update(aa)
+        }
 
-            // _state.value = State.Start(allWords)
-       // }
-        _state.value = State.Matches(matchList)
-        Log.d("state", "match4")
+        /* matchList.lastOrNull().let {
+             it?.copy(
+                 word = insertWord,
+                 count = it.count + 1
+             )
+             wordDao.update(it)
+         }*/
+        // _state.value = State.Start(allWords)
+        // }
+        //  _state.value = State.Matches(matchList)
+        //Log.d("state", "match4")
     }
 
 
     fun onDeleteButton() {
 
-        viewModelScope.launch {
+        /* viewModelScope.launch {
 
-            allWords.value?.lastOrNull()?.let {
-                wordDao.delete(it)
+             allWords.value?.lastOrNull()?.let {
+                 wordDao.delete(it)
 
-            }
-        }
-        _state.value=State.Start(allWords)
+             }
+         }
+         _state.value=State.Start(allWords)*/
     }
 
 

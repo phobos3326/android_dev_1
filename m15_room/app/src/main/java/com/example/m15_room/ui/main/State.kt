@@ -7,6 +7,9 @@ sealed class State {
     //data class Start(var allWords: List<Words>) : State()
     object Start:State()
     object Clear : State()
+    data class Content(
+        val words: List<Words>,
+    ) : State()
     object Matches: State()
     //data class Matches(var listMatches: List<Words>?) : State()
     object ErrorInput : State()

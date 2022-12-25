@@ -35,7 +35,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
 
-
     private val viewModel: MainViewModel by viewModels {
         object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -51,22 +50,12 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-
         binding.textInputLayout.editText?.addTextChangedListener {
-
-            viewModel.viewModelScope.launch {
-                viewModel.insertWord = it.toString()
-                viewModel.getWordMatches()?.collect{
-                    binding.textView.text=it.joinToString( separator = "\r\n" )
-                }
-            }
+            viewModel.insertWord = it.toString()
         }
 
         binding.button.setOnClickListener {
-            viewModel.viewModelScope.launch {
-                viewModel.onAddBtn()
-            }
+            viewModel.onAddBtn()
         }
         binding.buttonDell.setOnClickListener { viewModel.onDeleteButton() }
 
@@ -76,12 +65,28 @@ class MainActivity : AppCompatActivity() {
             viewModel.validatePassword()
         }
 
-
-      /*  lifecycleScope.launchWhenStarted {
-            viewModel.getWordMatches()?.collect{
-                binding.textView.text=it.joinToString( separator = "\r\n" )
+        lifecycleScope.launchWhenStarted {
+            viewModel.state.collect { state ->
+                when(state) {
+                    State.Clear -> TODO()
+                    is State.Content -> {
+                       binding.textView.text = state.words.toString()
+                    }
+                    State.ErrorInput -> TODO()
+                    State.Matches -> TODO()
+                    State.Start -> {}
+                    State.Validate -> TODO()
+                    State.WhiteSpaces -> TODO()
+                }
             }
-        }*/
+        }
+
+
+        /*  lifecycleScope.launchWhenStarted {
+              viewModel.getWordMatches()?.collect{
+                  binding.textView.text=it.joinToString( separator = "\r\n" )
+              }
+          }*/
 
         /*lifecycleScope.launchWhenStarted {
             viewModel.state.collect { state ->

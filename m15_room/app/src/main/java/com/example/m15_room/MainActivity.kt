@@ -52,12 +52,15 @@ class MainActivity : AppCompatActivity() {
 
         binding.textInputLayout.editText?.addTextChangedListener {
             viewModel.insertWord = it.toString()
+            viewModel.validatePassword()
         }
 
         binding.button.setOnClickListener {
             viewModel.onAddBtn()
         }
-        binding.buttonDell.setOnClickListener { viewModel.onDeleteButton() }
+        binding.buttonDell.setOnClickListener {
+            viewModel.onDeleteButton()
+        }
 
 
 
@@ -70,9 +73,15 @@ class MainActivity : AppCompatActivity() {
                 when(state) {
                     State.Clear -> TODO()
                     is State.Content -> {
-                       binding.textView.text = state.words.toString()
+
+                       binding.textView.text = state.words.joinToString( separator = "\r\n" )
+                       binding.textInputLayout.error=state.input
+
+
                     }
-                    State.ErrorInput -> TODO()
+                   is State.ErrorInput -> {
+
+                   }
                     State.Matches -> TODO()
                     State.Start -> {}
                     State.Validate -> TODO()

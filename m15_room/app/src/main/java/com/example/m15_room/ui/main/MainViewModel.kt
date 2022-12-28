@@ -17,6 +17,8 @@ class MainViewModel(private val wordDao: WordDao, application: Application) :
 
     val dataBaseScope = CoroutineScope(Dispatchers.IO)
 
+    var input: String = ""
+
     var insertWord: String = ""
     private var allWords: List<String> = mutableListOf()
 
@@ -28,12 +30,13 @@ class MainViewModel(private val wordDao: WordDao, application: Application) :
         _state.value = State.Start
         viewModelScope.launch {
             wordDao.getAll().onEach { words ->
-                allWords = words.map { it.word }
-                _state.value = State.Content(words.take(5))
+                allWords = words.map {
+                    it.word
+                }
+                _state.value = State.Content(words.take(5),input)
             }.collect()
         }
     }
-
 
     fun onAddBtn() {
         if (allWords.contains(insertWord)) {
@@ -51,17 +54,13 @@ class MainViewModel(private val wordDao: WordDao, application: Application) :
 
 
     fun onDeleteButton() {
-
-        /* viewModelScope.launch {
-
-             allWords.value?.lastOrNull()?.let {
-                 wordDao.delete(it)
-
-             }
-         }
-         _state.value=State.Start(allWords)*/
+        dataBaseScope.launch {
+            allWords.lastOrNull()?.let {
+                val word = wordDao.getAllCondition(it)
+                wordDao.delete(word)
+            }
+        }
     }
-
 
     private val PASSWORD_PATTERN: Pattern = Pattern.compile(
         "^" +
@@ -74,28 +73,35 @@ class MainViewModel(private val wordDao: WordDao, application: Application) :
     )
 
 
+
+
     fun validatePassword(): Boolean {
-        val passwordInput = insertWord
+       // val passwordInput = insertWord
+        var list = emptyList<Words>()
+        wordDao.getAll().map {
+            list = it
+        }
         // if password field is empty
         // it will display error message "Field can not be empty"
-        if (passwordInput.isEmpty()) {
+        if (insertWord.isEmpty()) {
             Log.d("TAG", "Field can not be empty")
-            _state.value = State.ErrorInput
+            //input="Field can not be empty"
+            _state.value = State.Content(list, "Field can not be empty")
             //  password!!.error = "Field can not be empty"
             return false
-        } else if (!PASSWORD_PATTERN.matcher(passwordInput).matches()) {
-            //   password!!.error = "Password is too weak"
-            _state.value = State.WhiteSpaces
+        } else if (!PASSWORD_PATTERN.matcher(insertWord).matches()) {
+              // password!!.error = "Password is too weak"
+            _state.value = State.Content(list,"Password is too weak")
+            //input="Password is too weak"
             Log.d("TAG", "Password is too weak")
             return false
         } else {
-            // password!!.error = null
+            _state.value = State.Content(list, "")
             Log.d("TAG", "null")
-
+           // input=""
             return true
         }
     }
 
 
 }
-

@@ -33,7 +33,7 @@ class MainViewModel(private val wordDao: WordDao, application: Application) :
                 allWords = words.map {
                     it.word
                 }
-                _state.value = State.Content(words.take(5),input)
+                _state.value = State.Content(words.take(5), input)
             }.collect()
         }
     }
@@ -73,35 +73,30 @@ class MainViewModel(private val wordDao: WordDao, application: Application) :
     )
 
 
+    fun validatePassword() {
+        // val passwordInput = insertWord
+        viewModelScope.launch {
+            var words: List<Words> = emptyList()
 
 
-    fun validatePassword(): Boolean {
-       // val passwordInput = insertWord
-        var list = emptyList<Words>()
-        wordDao.getAll().map {
-            list = it
+            if (insertWord.isEmpty()) {
+
+                _state.value = State.Content(words, "Field can not be empty")
+                Log.d("TAG", "Field can not be empty")
+
+            } else if (!PASSWORD_PATTERN.matcher(insertWord).matches()) {
+                // password!!.error = "Password is too weak"
+
+                _state.value = State.Content(words, "Password is too weak")
+                Log.d("TAG", "Password is too weak")
+
+            } else {
+
+                _state.value = State.Content(words, "")
+                Log.d("TAG", "null")
+
+            }
         }
-        // if password field is empty
-        // it will display error message "Field can not be empty"
-        if (insertWord.isEmpty()) {
-            Log.d("TAG", "Field can not be empty")
-            //input="Field can not be empty"
-            _state.value = State.Content(list, "Field can not be empty")
-            //  password!!.error = "Field can not be empty"
-            return false
-        } else if (!PASSWORD_PATTERN.matcher(insertWord).matches()) {
-              // password!!.error = "Password is too weak"
-            _state.value = State.Content(list,"Password is too weak")
-            //input="Password is too weak"
-            Log.d("TAG", "Password is too weak")
-            return false
-        } else {
-            _state.value = State.Content(list, "")
-            Log.d("TAG", "null")
-           // input=""
-            return true
-        }
+
     }
-
-
 }

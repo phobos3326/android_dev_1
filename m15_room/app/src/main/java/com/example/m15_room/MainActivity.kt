@@ -91,11 +91,7 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        /*  lifecycleScope.launchWhenStarted {
-              viewModel.getWordMatches()?.collect{
-                  binding.textView.text=it.joinToString( separator = "\r\n" )
-              }
-          }*/
+
 
         /*lifecycleScope.launchWhenStarted {
             viewModel.state.collect { state ->
@@ -103,15 +99,15 @@ class MainActivity : AppCompatActivity() {
                     is State.Start -> {
                         state.allWords.joinToString ()
                         viewModel.allWords
-                        *//*binding.textView.text = it.joinToString(separator = "\r\n")
-                         Log.d("state", "start2")*//*
+                        binding.textView.text = it.joinToString(separator = "\r\n")
+                         Log.d("state", "start2")
 
                     }
                     State.Clear -> {
-                        *//* viewModel.allWords.observe(this@MainActivity) {
+                         viewModel.allWords.observe(this@MainActivity) {
                              binding.textView.text = it.joinToString(separator = "\r\n")
                              Log.d("state", "Clear")
-                         }*//*
+                         }
                     }
                     State.ErrorInput -> {
                         binding.textInputLayout.error = "Field can not be empty"
@@ -126,10 +122,10 @@ class MainActivity : AppCompatActivity() {
                     }
                     is State.Matches -> {
                         binding.textView.text = state.listMatches?.joinToString(separator = "\r\n")
-                        *//* state.listMatches?.observe(this@MainActivity) {
+                         state.listMatches?.observe(this@MainActivity) {
                              binding.textView.text = it.joinToString(separator = "\r\n")
                              // Log.d("state", "match4")
-                         }*//*
+                         }
                     }
                 }
             }

@@ -70,8 +70,11 @@ class MainActivity : AppCompatActivity() {
 
         lifecycleScope.launchWhenStarted {
             viewModel.state.collect { state ->
-                when(state) {
-                    State.Clear -> TODO()
+                binding.textView.text = state.words?.joinToString( separator = "\r\n" )
+                binding.textInputLayout.error=state.input
+
+                /*when(state) {
+                    State -> TODO()
                     is State.Content -> {
 
                        binding.textView.text = state.words.joinToString( separator = "\r\n" )
@@ -86,7 +89,7 @@ class MainActivity : AppCompatActivity() {
                     State.Start -> {}
                     State.Validate -> TODO()
                     State.WhiteSpaces -> TODO()
-                }
+                }*/
             }
         }
 

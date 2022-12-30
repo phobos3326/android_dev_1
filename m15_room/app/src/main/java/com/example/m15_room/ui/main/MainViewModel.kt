@@ -19,21 +19,26 @@ class MainViewModel(private val wordDao: WordDao, application: Application) :
 
     var input: String = ""
 
+    val error=""
+
     var insertWord: String = ""
     private var allWords: List<String> = mutableListOf()
 
-    private var _state = MutableStateFlow<State>(State.Start)
+
+    val listWords:List<Words>?=null
+
+    private var _state = MutableStateFlow<State>(State(words = listWords, error ))
     var state = _state.asStateFlow()
 
 
     init {
-        _state.value = State.Start
+        _state.value = State(words = listWords, error)
         viewModelScope.launch {
             wordDao.getAll().onEach { words ->
                 allWords = words.map {
                     it.word
                 }
-                _state.value = State.Content(words.take(5), input)
+                _state.value = State(words.take(5), input)
             }.collect()
         }
     }
@@ -74,29 +79,44 @@ class MainViewModel(private val wordDao: WordDao, application: Application) :
 
 
     fun validatePassword() {
+
+
+
+
         // val passwordInput = insertWord
         viewModelScope.launch {
-            var words: List<Words> = emptyList()
+           // var words: List<Words> = emptyList()
 
+
+            var oldState = _state.value
+           // var newState =  oldState.copy("")
+
+         //   _state.value=newState
 
             if (insertWord.isEmpty()) {
-
-                _state.value = State.Content(words, "Field can not be empty")
+                var newState =  oldState.copy(oldState.words,"")
+                _state.value=newState
+               // _state.value = State(words, "Field can not be empty")
                 Log.d("TAG", "Field can not be empty")
 
             } else if (!PASSWORD_PATTERN.matcher(insertWord).matches()) {
                 // password!!.error = "Password is too weak"
-
-                _state.value = State.Content(words, "Password is too weak")
+                var newState =  oldState.copy(oldState.words,"Password is too weak")
+                _state.value=newState
+               // _state.value = State(words, "Password is too weak")
                 Log.d("TAG", "Password is too weak")
 
             } else {
-
-                _state.value = State.Content(words, "")
+                var newState =  oldState.copy(oldState.words,"null")
+                _state.value=newState
+                //_state.value = State(words, "")
                 Log.d("TAG", "null")
 
             }
         }
 
     }
+
+
+
 }

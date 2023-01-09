@@ -72,6 +72,7 @@ class MainActivity : AppCompatActivity() {
             viewModel.state.collect { state ->
                 binding.textView.text = state.words?.joinToString( separator = "\r\n" )
                 binding.textInputLayout.error=state.input
+                binding.button.isEnabled=state.flag
 
                 /*when(state) {
                     State -> TODO()

@@ -19,26 +19,26 @@ class MainViewModel(private val wordDao: WordDao, application: Application) :
 
     var input: String = ""
 
-    val error=""
+    val error = ""
 
     var insertWord: String = ""
     private var allWords: List<String> = mutableListOf()
 
 
-    val listWords:List<Words>?=null
+    val listWords: List<Words>? = null
 
-    private var _state = MutableStateFlow<State>(State(words = listWords, error ))
+    private var _state = MutableStateFlow<State>(State(words = listWords, error, flag = true))
     var state = _state.asStateFlow()
 
 
     init {
-        _state.value = State(words = listWords, error)
+        _state.value = State(words = listWords, error, flag = true)
         viewModelScope.launch {
             wordDao.getAll().onEach { words ->
                 allWords = words.map {
                     it.word
                 }
-                _state.value = State(words.take(5), input)
+                _state.value = State(words.take(5), input, flag = true)
             }.collect()
         }
     }
@@ -68,55 +68,34 @@ class MainViewModel(private val wordDao: WordDao, application: Application) :
     }
 
     private val PASSWORD_PATTERN: Pattern = Pattern.compile(
-        "^" +
-                //"(?=.*[@#$%^&+=!])" +  // at least 1 special character
+      "^" +                 //"(?=.*[@#$%^&+=!])" +  // at least 1 special character
                 "(?=.*[^0-9])" +  // at least 1 special character
 
-                "(?=\\S+$)" +  // no white spaces
+              //kjh  "(?=\\S+$)" +  // no white spaces
                 ".{4,}" +  // at least 4 characters
                 "$"
     )
 
 
     fun validatePassword() {
-
-
-
-
-        // val passwordInput = insertWord
         viewModelScope.launch {
-           // var words: List<Words> = emptyList()
-
-
             var oldState = _state.value
-           // var newState =  oldState.copy("")
-
-         //   _state.value=newState
-
             if (insertWord.isEmpty()) {
-                var newState =  oldState.copy(oldState.words,"")
-                _state.value=newState
-               // _state.value = State(words, "Field can not be empty")
+                var newState = oldState.copy(oldState.words, "", false)
+                _state.value = newState
                 Log.d("TAG", "Field can not be empty")
 
             } else if (!PASSWORD_PATTERN.matcher(insertWord).matches()) {
-                // password!!.error = "Password is too weak"
-                var newState =  oldState.copy(oldState.words,"Password is too weak")
-                _state.value=newState
-               // _state.value = State(words, "Password is too weak")
+                var newState = oldState.copy(oldState.words, "Password is too weak", false)
+                _state.value = newState
                 Log.d("TAG", "Password is too weak")
 
             } else {
-                var newState =  oldState.copy(oldState.words,"null")
-                _state.value=newState
-                //_state.value = State(words, "")
+                var newState = oldState.copy(words = oldState.words, input = "", flag = true)
+                _state.value = newState
                 Log.d("TAG", "null")
 
             }
         }
-
     }
-
-
-
 }

@@ -69,20 +69,14 @@ class MainViewModel(private val wordDao: WordDao, application: Application) :
 
 
     private val PASSWORD_PATTERN: Pattern = Pattern.compile(
-
-    "[A-Za-zА-Яа-я- ]*"
+        "[A-Za-zА-Яа-я- ]*"
     )
 
 
     fun validatePassword() {
         viewModelScope.launch {
             var oldState = _state.value
-            if (insertWord.isEmpty()) {
-                var newState = oldState.copy(oldState.words, "", false)
-                _state.value = newState
-                Log.d("TAG", "Field can not be empty")
-
-            } else if (!PASSWORD_PATTERN.matcher(insertWord).matches()) {
+            if (!PASSWORD_PATTERN.matcher(insertWord).matches()) {
                 var newState = oldState.copy(oldState.words, "Password is too weak", false)
                 _state.value = newState
                 Log.d("TAG", "Password is too weak")

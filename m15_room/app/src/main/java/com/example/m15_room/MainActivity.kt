@@ -62,77 +62,18 @@ class MainActivity : AppCompatActivity() {
             viewModel.onDeleteButton()
         }
 
-
-
         binding.buttonCheck.setOnClickListener {
             viewModel.validatePassword()
         }
 
         lifecycleScope.launchWhenStarted {
             viewModel.state.collect { state ->
-                binding.textView.text = state.words?.joinToString( separator = "\r\n" )
-                binding.textInputLayout.error=state.input
-                binding.button.isEnabled=state.flag
+                binding.textView.text = state.words?.joinToString(separator = "\r\n")
+                binding.textInputLayout.error = state.input
+                binding.button.isEnabled = state.flag
 
-                /*when(state) {
-                    State -> TODO()
-                    is State.Content -> {
-
-                       binding.textView.text = state.words.joinToString( separator = "\r\n" )
-                       binding.textInputLayout.error=state.input
-
-
-                    }
-                   is State.ErrorInput -> {
-
-                   }
-                    State.Matches -> TODO()
-                    State.Start -> {}
-                    State.Validate -> TODO()
-                    State.WhiteSpaces -> TODO()
-                }*/
             }
         }
 
-
-
-
-        /*lifecycleScope.launchWhenStarted {
-            viewModel.state.collect { state ->
-                when (state) {
-                    is State.Start -> {
-                        state.allWords.joinToString ()
-                        viewModel.allWords
-                        binding.textView.text = it.joinToString(separator = "\r\n")
-                         Log.d("state", "start2")
-
-                    }
-                    State.Clear -> {
-                         viewModel.allWords.observe(this@MainActivity) {
-                             binding.textView.text = it.joinToString(separator = "\r\n")
-                             Log.d("state", "Clear")
-                         }
-                    }
-                    State.ErrorInput -> {
-                        binding.textInputLayout.error = "Field can not be empty"
-                        // Log.d("state", "ErrInput")
-                    }
-                    State.Validate -> {
-                        binding.textInputLayout.error = "Password is too weak"
-                        //Log.d("state", "Password is too weak")
-                    }
-                    State.WhiteSpaces -> {
-
-                    }
-                    is State.Matches -> {
-                        binding.textView.text = state.listMatches?.joinToString(separator = "\r\n")
-                         state.listMatches?.observe(this@MainActivity) {
-                             binding.textView.text = it.joinToString(separator = "\r\n")
-                             // Log.d("state", "match4")
-                         }
-                    }
-                }
-            }
-        }*/
     }
 }

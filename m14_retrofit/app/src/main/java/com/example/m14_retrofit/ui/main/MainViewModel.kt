@@ -45,7 +45,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
             val networkInfo = cm.activeNetworkInfo
-            return@launch if (networkInfo != null && networkInfo.isConnected) {
+            if (networkInfo != null && networkInfo.isConnected) {
                 _state.value = State.ColdStart
                 Log.d("TAG", "$isConnect, ${_state.value}")
                 isConnect = true

@@ -3,7 +3,9 @@ package com.example.m16_architecture
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.m16_architecture.ui.main.MainFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

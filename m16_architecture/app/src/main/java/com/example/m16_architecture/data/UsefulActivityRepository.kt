@@ -1,5 +1,7 @@
-package com.example.m16_architecture.api
+package com.example.m16_architecture.data
 
+
+import com.example.m16_architecture.entity.UsefulActivity
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
@@ -14,7 +16,9 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object AppModule {
+class UsefulActivityRepository {
+
+
 
     @Provides
     fun providesBaseUrl() = "https://www.boredapi.com/"
@@ -32,14 +36,16 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun retrofitInstanse(retrofit: Retrofit) : ApiInterface = retrofit.create(ApiInterface::class.java)
+    fun retrofitInstanse(retrofit: Retrofit): ApiInterface {
+        return retrofit.create(ApiInterface::class.java)
+    }
 
 
 
     interface ApiInterface {
         @GET("api/activity/")
-        suspend fun getActivity(): Response<ActivityModel>
+        suspend fun getActivity(): Response<UsefulActivityDto>
 
     }
-}
 
+}

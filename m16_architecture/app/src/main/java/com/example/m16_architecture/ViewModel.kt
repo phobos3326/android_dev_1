@@ -6,14 +6,15 @@ import android.net.ConnectivityManager
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.m16_architecture.api.Repository
+
+import com.example.m16_architecture.data.UsefulActivityRepository
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ViewModel @Inject constructor(val repository: Repository, application: Application):
+class ViewModel @Inject constructor(val repository: UsefulActivityRepository, application: Application):
     AndroidViewModel(application) {
 
 
@@ -32,12 +33,12 @@ class ViewModel @Inject constructor(val repository: Repository, application: App
     fun start() {
         isNetworkAvialable(getApplication<Application>().applicationContext)
         viewModelScope.launch {
-            val data = repository.getData()
-            val code=data.code()
+            val data = repository
+            /*val code=data.code()
             val aa= data.body()
 
 
-            Log.d("TAG", "$code, $aa" )
+            Log.d("TAG", "$code, $aa" )*/
         }
 
     }

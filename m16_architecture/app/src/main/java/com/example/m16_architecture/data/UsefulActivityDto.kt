@@ -6,11 +6,11 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class UsefulActivityDto(
-   @Json override var accessibility: Double,
-   @Json  override var activity: String,
-   @Json override var key: String,
-   @Json override var link: String,
-   @Json override var participants: Int,
-   @Json override var price: Double,
-   @Json override var type: String
+    override var accessibility: Double,
+    override var activity: String,
+    override var key: String,
+    override var link: String,
+    override var participants: Int,
+    override var price: Double,
+    override var type: String
 ) : UsefulActivity

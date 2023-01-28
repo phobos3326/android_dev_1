@@ -8,20 +8,22 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 
 import com.example.m16_architecture.data.UsefulActivityRepository
+import com.example.m16_architecture.domain.GetUsefulActivityUseCase
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@HiltViewModel
-class ViewModel @Inject constructor(val repository: UsefulActivityRepository, application: Application):
-    AndroidViewModel(application) {
 
+class ViewModel(application: Application) : AndroidViewModel(application) {
+    val repository = UsefulActivityRepository()
+    val useCase = GetUsefulActivityUseCase(repository)
 
     init {
 
         start()
     }
+
     private fun isNetworkAvialable(applicationContext: Context) {
         viewModelScope.launch {
             val cm =
@@ -33,12 +35,11 @@ class ViewModel @Inject constructor(val repository: UsefulActivityRepository, ap
     fun start() {
         isNetworkAvialable(getApplication<Application>().applicationContext)
         viewModelScope.launch {
-            val data = repository
-            /*val code=data.code()
-            val aa= data.body()
+            val data = useCase
 
+           val aa= data.execute().activity
 
-            Log.d("TAG", "$code, $aa" )*/
+            Log.d("TAG", "$aa")
         }
 
     }

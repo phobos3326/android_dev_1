@@ -1,8 +1,9 @@
 package com.example.m16_architecture.entity
 
+import com.squareup.moshi.Json
 import dagger.Component
 
-@Component
+
 interface UsefulActivity {
     var accessibility: Double
     var activity: String

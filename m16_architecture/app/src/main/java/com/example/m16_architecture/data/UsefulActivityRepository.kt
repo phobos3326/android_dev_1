@@ -14,38 +14,34 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 import javax.inject.Singleton
 
-@Module
-@InstallIn(SingletonComponent::class)
+
 class UsefulActivityRepository {
 
 
+    suspend fun getUsefulActivity(): UsefulActivity {
+        return retrofitInstanse().getActivity()
+    }
 
-    @Provides
-    fun providesBaseUrl() = "https://www.boredapi.com/"
+    val BASE_URL = "https://www.boredapi.com/"
 
 
     private val moshi = Moshi.Builder()
         .add(KotlinJsonAdapterFactory())
         .build()
 
-    @Provides
-    fun provideRetrofit(BASE_URL: String) = Retrofit.Builder()
-        .baseUrl(BASE_URL)
-        .addConverterFactory(MoshiConverterFactory.create(moshi))
-        .build()
-
-    @Provides
-    @Singleton
-    fun retrofitInstanse(retrofit: Retrofit): ApiInterface {
-        return retrofit.create(ApiInterface::class.java)
+    fun retrofit(): Retrofit? {
+        return Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .build()
     }
 
+  private fun retrofitInstanse(): ApiInterface = retrofit()!!.create(ApiInterface::class.java)
 
 
-    interface ApiInterface {
-        @GET("api/activity/")
-        suspend fun getActivity(): Response<UsefulActivityDto>
-
-    }
+interface ApiInterface {
+    @GET("api/activity/")
+    suspend fun getActivity(): UsefulActivityDto
+}
 
 }

@@ -10,16 +10,15 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewModelScope
 
 import com.example.m16_architecture.databinding.FragmentMainBinding
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-@AndroidEntryPoint
+
 class MainFragment : Fragment() {
 
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
-//    private val viewModel: ViewModel by viewModels()
-    private val viewModel by viewModels<ViewModel>()
+  //private val viewModel: ViewModel by viewModels()
+   private val viewModel by viewModels<ViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,

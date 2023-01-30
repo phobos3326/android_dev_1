@@ -6,20 +6,19 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import retrofit2.Response
+
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
-import javax.inject.Singleton
+import javax.inject.Inject
 
 
-class UsefulActivityRepository {
+@Module
+class UsefulActivityRepository @Inject constructor() {
 
-
-    suspend fun getUsefulActivity(): UsefulActivity {
-        return retrofitInstanse().getActivity()
+    @Provides
+    suspend fun provideGetUsefulActivity(): UsefulActivity {
+        return provideRetrofitInstanse().getActivity()
     }
 
     val BASE_URL = "https://www.boredapi.com/"
@@ -29,19 +28,21 @@ class UsefulActivityRepository {
         .add(KotlinJsonAdapterFactory())
         .build()
 
-    fun retrofit(): Retrofit? {
+    @Provides
+     fun provideRetrofit(): Retrofit? {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build()
     }
 
-  private fun retrofitInstanse(): ApiInterface = retrofit()!!.create(ApiInterface::class.java)
+    @Provides
+     fun provideRetrofitInstanse(): ApiInterface = provideRetrofit()!!.create(ApiInterface::class.java)
 
 
-interface ApiInterface {
-    @GET("api/activity/")
-    suspend fun getActivity(): UsefulActivityDto
-}
+    interface ApiInterface {
+        @GET("api/activity/")
+        suspend fun getActivity(): UsefulActivityDto
+    }
 
 }

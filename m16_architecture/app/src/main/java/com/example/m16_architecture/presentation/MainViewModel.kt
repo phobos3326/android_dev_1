@@ -1,26 +1,28 @@
-package com.example.m16_architecture
+package com.example.m16_architecture.presentation
 
 import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 
 import com.example.m16_architecture.data.UsefulActivityRepository
 import com.example.m16_architecture.domain.GetUsefulActivityUseCase
 
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
-class ViewModel(application: Application) : AndroidViewModel(application) {
-    val repository = UsefulActivityRepository()
-    val useCase = GetUsefulActivityUseCase(repository)
+class MainViewModel @Inject constructor(
+    private val useCase: GetUsefulActivityUseCase,
+
+) : ViewModel() {
+    /*val repository = UsefulActivityRepository()
+    val useCase = GetUsefulActivityUseCase(repository)*/
 
     init {
-
         start()
     }
 
@@ -28,17 +30,14 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             val cm =
                 applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-
         }
     }
 
     fun start() {
-        isNetworkAvialable(getApplication<Application>().applicationContext)
+       // isNetworkAvialable(getApplication<Application>().applicationContext)
         viewModelScope.launch {
             val data = useCase
-
-           val aa= data.execute().activity
-
+            val aa = data.execute().activity
             Log.d("TAG", "$aa")
         }
 

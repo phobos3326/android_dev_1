@@ -19,8 +19,7 @@ class MainViewModel @Inject constructor(
     private val useCase: GetUsefulActivityUseCase,
 
 ) : ViewModel() {
-    /*val repository = UsefulActivityRepository()
-    val useCase = GetUsefulActivityUseCase(repository)*/
+
 
     init {
         start()

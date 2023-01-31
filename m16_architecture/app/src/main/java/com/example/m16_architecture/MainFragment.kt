@@ -13,10 +13,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.m16_architecture.databinding.FragmentMainBinding
 import com.example.m16_architecture.di.DaggerAppComponent
 import com.example.m16_architecture.presentation.MainViewModel
-import kotlinx.coroutines.flow.collect
 
 import kotlinx.coroutines.launch
-
 
 
 class MainFragment : Fragment() {
@@ -24,7 +22,7 @@ class MainFragment : Fragment() {
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
 
-    val viewModel: MainViewModel by viewModels {
+    private val viewModel: MainViewModel by viewModels {
         DaggerAppComponent.create().mainViewModelFactory()
     }
 
@@ -34,6 +32,7 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
+
         return binding.root
     }
 
@@ -42,19 +41,17 @@ class MainFragment : Fragment() {
 
         binding.button.setOnClickListener {
             viewModel.viewModelScope.launch {
-                viewModel.start()
+                viewModel.reloadUsefulActivity()
             }
         }
 
-
-        lifecycleScope.launchWhenStarted {
-            viewModel.state.collect{
-                binding.textView.text=it.activity
+        lifecycleScope.launchWhenCreated {
+            viewModel.state.collect {
+                binding.textView.text = it.activity
             }
         }
 
     }
-
 
 
 }

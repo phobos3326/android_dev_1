@@ -1,7 +1,5 @@
 package com.example.m16_architecture.presentation
 
-import android.content.Context
-import android.net.ConnectivityManager
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -17,6 +15,11 @@ class MainViewModel @Inject constructor(
 
     ) : ViewModel() {
 
+   /* init {
+        reloadUsefulActivity()
+
+    }*/
+
     val activityTitle = ""
 
     private var _state = MutableStateFlow<State>(State(activity = activityTitle))
@@ -29,7 +32,7 @@ class MainViewModel @Inject constructor(
         }
     }*/
 
-    fun start() {
+    fun reloadUsefulActivity() {
         viewModelScope.launch {
             val data = useCase
             val activityTitle = data.execute().activity

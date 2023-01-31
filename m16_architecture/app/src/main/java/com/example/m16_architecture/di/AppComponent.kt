@@ -6,4 +6,5 @@ import dagger.Component
 @Component
 interface AppComponent {
     fun mainViewModelFactory():MainViewModelFactory
+
 }

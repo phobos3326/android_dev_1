@@ -7,13 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 
 import com.example.m16_architecture.databinding.FragmentMainBinding
+import com.example.m16_architecture.di.DaggerAppComponent
 import com.example.m16_architecture.presentation.MainViewModel
-import com.example.m16_architecture.presentation.MainViewModelFactory
+import kotlinx.coroutines.flow.collect
+
 import kotlinx.coroutines.launch
-import javax.inject.Inject
+
 
 
 class MainFragment : Fragment() {
@@ -42,5 +45,16 @@ class MainFragment : Fragment() {
                 viewModel.start()
             }
         }
+
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.state.collect{
+                binding.textView.text=it.activity
+            }
+        }
+
     }
+
+
+
 }

@@ -1,12 +1,15 @@
 package com.example.m16_architecture.presentation
 
 
+
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import javax.inject.Inject
 
 class MainViewModelFactory @Inject constructor(
-    private val mainViewModel: MainViewModel,
+    private val mainViewModel: MainViewModel
+
+
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

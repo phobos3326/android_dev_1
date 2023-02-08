@@ -7,9 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.m17_recyclerview.R
+import com.example.m17_recyclerview.databinding.FragmentMainBinding
 
 class MainFragment : Fragment() {
 
+    private var _binding:FragmentMainBinding? =null
+    private val binding get() = _binding!!
     companion object {
         fun newInstance() = MainFragment()
     }
@@ -26,7 +29,9 @@ class MainFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_main, container, false)
+
+        _binding = FragmentMainBinding.inflate(inflater,container,false)
+        return binding.root
     }
 
 }

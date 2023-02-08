@@ -13,6 +13,8 @@ class MainViewModel : ViewModel() {
         loadPhotos()
     }
 
+
+
     private fun loadPhotos() {
         viewModelScope.launch {
             val data =GetPhotoUseCase().execute()

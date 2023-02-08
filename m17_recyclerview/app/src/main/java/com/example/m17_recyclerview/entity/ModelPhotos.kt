@@ -4,7 +4,7 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class  ModelPhotos(val photos: List<Photo>) {
+data class ModelPhotos(val photos: List<Photo>) {
     @JsonClass(generateAdapter = true)
     data class Photo(
         @Json(name = "camera")
@@ -31,6 +31,7 @@ data class  ModelPhotos(val photos: List<Photo>) {
             @Json(name = "rover_id")
             val roverId: Int
         )
+
         @JsonClass(generateAdapter = true)
         data class Rover(
             @Json(name = "id")

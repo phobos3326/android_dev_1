@@ -5,6 +5,7 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class ModelPhotos(val photos: List<Photo>) {
+
     @JsonClass(generateAdapter = true)
     data class Photo(
         @Json(name = "camera")

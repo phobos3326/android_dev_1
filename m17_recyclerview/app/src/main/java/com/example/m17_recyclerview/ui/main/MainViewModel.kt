@@ -4,23 +4,27 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.m17_recyclerview.domain.GetPhotoUseCase
+import com.example.m17_recyclerview.entity.ModelPhotos
 import kotlinx.coroutines.launch
 
 class MainViewModel : ViewModel() {
 
 
     init {
-        loadPhotos()
+        viewModelScope.launch {
+            loadPhotos()
+        }
+
     }
 
 
+     suspend fun loadPhotos(): List<ModelPhotos.Photo> {
 
-    private fun loadPhotos() {
-        viewModelScope.launch {
-            val data =GetPhotoUseCase().execute()
-            val photo = data.photos
-            Log.d("TAG", "$photo")
-        }
+        val data = GetPhotoUseCase().execute()
+        val photo = data.photos
+        Log.d("TAG", "$photo")
+
+        return photo
     }
 
 }

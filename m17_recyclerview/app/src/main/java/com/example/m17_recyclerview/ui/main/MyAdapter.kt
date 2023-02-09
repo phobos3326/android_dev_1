@@ -1,20 +1,24 @@
 package com.example.m17_recyclerview.ui.main
 
+import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.m17_recyclerview.databinding.ListItemBinding
+import com.example.m17_recyclerview.entity.ModelPhotos
 
-class MyAdapter : RecyclerView.Adapter<MyViewHolder>() {
+class MyAdapter( val photo: List<ModelPhotos.Photo>) : RecyclerView.Adapter<MyViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        TODO("Not yet implemented")
+        val binding = ListItemBinding.inflate(LayoutInflater.from(parent.context))
+        return MyViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        val item = photo[position]
+        holder.binding.textField.text = item.toString()
     }
 
     override fun getItemCount(): Int {
-        TODO("Not yet implemented")
+        return photo.size
     }
 }
 

@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewModelScope
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.m17_recyclerview.R
 import com.example.m17_recyclerview.data.ModelPhotoRepository
@@ -46,7 +47,7 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel.viewModelScope.launch {
             //binding.message.text=GetPhotoUseCase().execute().photos.toString()
-            binding.recyclerView.layoutManager=LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
+            binding.recyclerView.layoutManager=GridLayoutManager(requireContext(),2)
             val photo = viewModel.loadPhotos()
             val myAdapter = MyAdapter(photo)
             binding.recyclerView.adapter=myAdapter

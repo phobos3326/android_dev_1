@@ -14,7 +14,6 @@ class MainViewModel : ViewModel() {
         viewModelScope.launch {
             loadPhotos()
         }
-
     }
 
 

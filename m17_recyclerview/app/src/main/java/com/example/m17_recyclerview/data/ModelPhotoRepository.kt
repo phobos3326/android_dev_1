@@ -1,5 +1,6 @@
 package com.example.m17_recyclerview.data
 
+
 import com.example.m17_recyclerview.entity.ModelPhotos
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -9,7 +10,7 @@ import retrofit2.http.GET
 
 class ModelPhotoRepository {
 
-    suspend fun getMarsPhotos():ModelPhotos{
+    suspend fun getMarsPhotos(): ModelPhotos {
         return retrofitInstance().getPhotos()
     }
 

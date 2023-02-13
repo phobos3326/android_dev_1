@@ -22,7 +22,6 @@ class MainViewModel : ViewModel() {
         val data = GetPhotoUseCase().execute()
         val photo = data.photos
         Log.d("TAG", "$photo")
-
         return photo
     }
 

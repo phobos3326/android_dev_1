@@ -4,90 +4,79 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="190dp"
-
     android:layout_marginStart="8dp"
     android:layout_marginTop="8dp"
     android:layout_marginEnd="8dp"
     android:layout_marginBottom="8dp"
     app:cardBackgroundColor="@color/white"
     app:cardCornerRadius="5dp"
-
-
     tools:context=".MainActivity">
 
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="center"
+        tools:srcCompat="@tools:sample/avatars"
+         />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="150dp"
+        android:alpha="0.5"
+        android:background="@color/black"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
+    <TextView
+        android:id="@+id/textViewRover"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="150dp"
+        android:text="rover"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size"
+        android:textStyle="bold" />
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="center"
-            tools:srcCompat="@tools:sample/avatars" />
+    <TextView
+        android:id="@+id/textVieCamera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity=""
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="170dp"
+        android:text="camera"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size"
+        android:textStyle="bold" />
 
-        <TextView
+    <TextView
+        android:id="@+id/textViewSol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="150dp"
+        android:layout_marginEnd="16dp"
+        android:text="Sol"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size"
+        android:textStyle="bold" />
 
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="150dp"
+    <TextView
+        android:id="@+id/textVieDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
 
-            android:alpha="0.5"
-            android:background="@color/black"
-            android:textColor="@color/white"
+        android:layout_gravity="end"
+        android:layout_marginTop="170dp"
+        android:layout_marginEnd="16dp"
+        android:text="date"
+        android:textColor="@color/white"
 
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/textViewRover"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="150dp"
-            android:text="rover"
-
-            android:textColor="@color/white"
-            android:textSize="10sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/textVieCamera"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="170dp"
-            android:layout_gravity=""
-            android:text="camera"
-            android:textColor="@color/white"
-            android:textSize="10sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/textViewSol"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:layout_marginTop="150dp"
-            android:layout_gravity="end"
-            android:layout_marginRight="16dp"
-            android:text="Sol"
-            android:textColor="@color/white"
-            android:textSize="10sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/textVieDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:layout_marginTop="170dp"
-            android:layout_gravity="end"
-            android:layout_marginRight="16dp"
-            android:text="date"
-            android:textColor="@color/white"
-
-            android:textSize="10sp"
-            android:textStyle="bold" />
-
-
+        android:textSize="@dimen/text_size"
+        android:textStyle="bold" />
 
 
 </androidx.cardview.widget.CardView>

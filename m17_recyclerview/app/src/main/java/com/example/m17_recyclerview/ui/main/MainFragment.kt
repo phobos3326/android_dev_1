@@ -15,7 +15,6 @@ class MainFragment : Fragment() {
 
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
-
     private val viewModel: MainViewModel by viewModels()
 
     companion object {
@@ -36,16 +35,8 @@ class MainFragment : Fragment() {
         viewModel.viewModelScope.launch {
             val myAdapter = MyAdapter()
             binding.recyclerView.adapter = myAdapter
-
-            binding.recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
-            val photo = viewModel.loadPhotos()
+            val photo = this@MainFragment.viewModel.loadPhotos()
                 myAdapter.setData(photo)
-
-            //binding.message.text=GetPhotoUseCase().execute().photos.toString()
-
-
-
-
         }
     }
 }

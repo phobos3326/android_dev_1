@@ -4,6 +4,7 @@ package com.example.m17_recyclerview.data
 import com.example.m17_recyclerview.entity.ModelPhotos
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import kotlinx.coroutines.delay
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
@@ -11,10 +12,11 @@ import retrofit2.http.GET
 class ModelPhotoRepository {
 
     suspend fun getMarsPhotos(): ModelPhotos {
+        delay(2000)
         return retrofitInstance().getPhotos()
     }
 
-    val BASE_URL = "https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/"
+    private val BASE_URL = "https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/"
 
     private val moshi =Moshi.Builder()
         .add(KotlinJsonAdapterFactory())

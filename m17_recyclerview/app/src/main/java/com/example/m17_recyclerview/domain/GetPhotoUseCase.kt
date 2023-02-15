@@ -6,7 +6,7 @@ import com.example.m17_recyclerview.entity.ModelPhotos
 
 class GetPhotoUseCase {
 
-    suspend fun execute(): ModelPhotosDto {
+    suspend fun execute(): ModelPhotosDto{
         return ModelPhotoRepository().getMarsPhotos()
     }
 }

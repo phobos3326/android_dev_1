@@ -5,12 +5,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
-
+import androidx.fragment.app.viewModels
+import com.example.m17_recyclerview.databinding.FragmentItemBinding
+import com.example.m17_recyclerview.ui.main.MainViewModel
 
 
 class ItemFragment : Fragment() {
 
+    private var _binding: FragmentItemBinding? = null
+    private val binding get() =_binding!!
+    private val viewModel:MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

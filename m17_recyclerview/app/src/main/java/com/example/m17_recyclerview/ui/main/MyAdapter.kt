@@ -5,49 +5,45 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.m17_recyclerview.R
 import com.example.m17_recyclerview.databinding.ListItemBinding
 import com.example.m17_recyclerview.entity.ModelPhotos
 
-class MyAdapter(val photo: List<ModelPhotos.Photo>) : RecyclerView.Adapter<MyViewHolder>() {
+class MyAdapter : RecyclerView.Adapter<MyViewHolder>() {
+
+    private var data: List<ModelPhotos.Photo> = emptyList()
+    fun setData(photo: List<ModelPhotos.Photo>) {
+        this.data = photo
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val binding = ListItemBinding.inflate(LayoutInflater.from(parent.context))
+        val binding = ListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MyViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val item = photo[position]
-        val image = photo[position].imgSrc
-        val context = holder.itemView.context
-
-
-        Glide.with(context)
-            .load(image)
-            .into(holder.binding.imageView)
+        val item = data.getOrNull(position)
 
 
 
-        holder.binding.textViewRover.text = buildString {
-            append(context.getString(R.string.rover))
-            append(item.rover.name)
+
+        with(holder.binding) {
+            textViewRover.text = item?.rover?.name
+            textVieCamera.text=item?.camera?.name
+            textViewSol.text=item?.sol.toString()
+            textVieDate.text=item?.earthDate
+            item.let {
+                Glide.with(imageView.context)
+                    .load(it?.imgSrc)
+                    .into(holder.binding.imageView)
+            }
         }
-        holder.binding.textVieCamera.text = buildString {
-            append(context.getString(R.string.camera))
-            append(item.camera.name)
-        }
-        holder.binding.textViewSol.text = buildString {
-            append(context.getString(R.string.sol))
-            append(item.sol.toString())
-        }
-        holder.binding.textVieDate.text = buildString {
-            append(context.getString(R.string.date))
-            append(item.earthDate)
-        }
+
+        holder.binding.root.setOnClickListener { }
     }
 
     override fun getItemCount(): Int {
-        return photo.size
+        return data.size
     }
 }
 

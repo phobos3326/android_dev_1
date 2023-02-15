@@ -2,23 +2,20 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="190dp"
+
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginBottom="8dp"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="5dp"
+
+
     tools:context=".MainActivity">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="fill_parent"
-        android:layout_height="190dp"
 
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginBottom="4dp"
-        app:cardBackgroundColor="@color/white"
-        app:cardCornerRadius="5dp"
-        app:cardElevation="5dp"
-        app:cardMaxElevation="1dp"
-        app:cardPreventCornerOverlap="true">
 
         <ImageView
             android:id="@+id/imageView"
@@ -43,7 +40,7 @@
             android:id="@+id/textViewRover"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="16dp"
             android:layout_marginTop="150dp"
             android:text="rover"
 
@@ -55,7 +52,7 @@
             android:id="@+id/textVieCamera"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="16dp"
             android:layout_marginTop="170dp"
             android:layout_gravity=""
             android:text="camera"
@@ -70,7 +67,7 @@
             android:layout_marginLeft="50dp"
             android:layout_marginTop="150dp"
             android:layout_gravity="end"
-            android:layout_marginRight="5dp"
+            android:layout_marginRight="16dp"
             android:text="Sol"
             android:textColor="@color/white"
             android:textSize="10sp"
@@ -83,7 +80,7 @@
 
             android:layout_marginTop="170dp"
             android:layout_gravity="end"
-            android:layout_marginRight="5dp"
+            android:layout_marginRight="16dp"
             android:text="date"
             android:textColor="@color/white"
 
@@ -91,6 +88,6 @@
             android:textStyle="bold" />
 
 
-    </androidx.cardview.widget.CardView>
+
 
 </androidx.cardview.widget.CardView>

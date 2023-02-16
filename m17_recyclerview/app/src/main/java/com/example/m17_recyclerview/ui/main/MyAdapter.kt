@@ -8,7 +8,9 @@ import com.bumptech.glide.Glide
 import com.example.m17_recyclerview.databinding.ListItemBinding
 import com.example.m17_recyclerview.entity.ModelPhotos
 
-class MyAdapter : RecyclerView.Adapter<MyViewHolder>() {
+class MyAdapter(
+    private val onClick: (ModelPhotos.Photo) -> Unit
+) : RecyclerView.Adapter<MyViewHolder>() {
 
     private var data: List<ModelPhotos.Photo> = emptyList()
     fun setData(photo: List<ModelPhotos.Photo>) {
@@ -23,15 +25,11 @@ class MyAdapter : RecyclerView.Adapter<MyViewHolder>() {
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val item = data.getOrNull(position)
-
-
-
-
         with(holder.binding) {
             textViewRover.text = item?.rover?.name
-            textVieCamera.text=item?.camera?.name
-            textViewSol.text=item?.sol.toString()
-            textVieDate.text=item?.earthDate
+            textVieCamera.text = item?.camera?.name
+            textViewSol.text = item?.sol.toString()
+            textVieDate.text = item?.earthDate
             item.let {
                 Glide.with(imageView.context)
                     .load(it?.imgSrc)
@@ -39,7 +37,9 @@ class MyAdapter : RecyclerView.Adapter<MyViewHolder>() {
             }
         }
 
-        holder.binding.root.setOnClickListener { }
+        holder.binding.root.setOnClickListener {
+            item?.let {  onClick(item) }
+        }
     }
 
     override fun getItemCount(): Int {

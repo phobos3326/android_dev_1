@@ -7,8 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewModelScope
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.navigation.fragment.*
+
+import com.example.m17_recyclerview.R
 import com.example.m17_recyclerview.databinding.FragmentMainBinding
+import com.example.m17_recyclerview.entity.ModelPhotos
 import kotlinx.coroutines.launch
 
 class MainFragment : Fragment() {
@@ -16,6 +19,9 @@ class MainFragment : Fragment() {
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
     private val viewModel: MainViewModel by viewModels()
+
+    private val pageAdapter = MyAdapter { onItemClick(it) }
+
 
     companion object {
         fun newInstance() = MainFragment()
@@ -33,10 +39,16 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.viewModelScope.launch {
-            val myAdapter = MyAdapter()
-            binding.recyclerView.adapter = myAdapter
+            //val myAdapter = MyAdapter()
+            binding.recyclerView.adapter = pageAdapter
             val photo = this@MainFragment.viewModel.loadPhotos()
-                myAdapter.setData(photo)
+            pageAdapter.setData(photo)
         }
+
+
+    }
+
+    private fun onItemClick(item: ModelPhotos.Photo) {
+        findNavController().navigate(R.id.action_mainFragment_to_itemFragment)
     }
 }

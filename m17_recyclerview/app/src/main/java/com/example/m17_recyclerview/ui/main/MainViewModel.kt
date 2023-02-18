@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
 
 class MainViewModel(private val data: GetPhotoUseCase) : ViewModel() {
     constructor(): this(GetPhotoUseCase())
+    var photoUrl=""
 
     private val _marsPhoto = MutableStateFlow<List<ModelPhotos.Photo>>(emptyList())
     val marsPhoto = _marsPhoto.asStateFlow()

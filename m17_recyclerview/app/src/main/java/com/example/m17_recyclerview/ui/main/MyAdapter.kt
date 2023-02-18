@@ -13,6 +13,7 @@ class MyAdapter(
 ) : RecyclerView.Adapter<MyViewHolder>() {
 
     private var data: List<ModelPhotos.Photo> = emptyList()
+    //var photoUrl=""
     fun setData(photo: List<ModelPhotos.Photo>) {
         this.data = photo
         notifyDataSetChanged()
@@ -38,9 +39,13 @@ class MyAdapter(
         }
 
         holder.binding.root.setOnClickListener {
-            item?.let {  onClick(item) }
+            item?.let {  onClick(item)
+            //photoUrl=item.imgSrc
+            }
         }
+
     }
+
 
     override fun getItemCount(): Int {
         return data.size

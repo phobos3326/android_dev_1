@@ -13,23 +13,20 @@ import com.example.m17_recyclerview.R
 
 
 import com.example.m17_recyclerview.databinding.FragmentMainBinding
+import com.example.m17_recyclerview.di.DaggerAppComponent
 import com.example.m17_recyclerview.entity.ModelPhotos
 
-private const val ARG_PARAM1 = "param1"
 
 class MainFragment : Fragment() {
 
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: MainViewModel by viewModels()
+    private val viewModel: MainViewModel by viewModels{
+        DaggerAppComponent.create().mainViwModelFactory()
+    }
 
     private val pageAdapter = MyAdapter { onItemClick(it) }
-
-
     val bundle = Bundle()
-
-
-
     companion object {
         private const val USER_ID_KEY = "userIdKey"
         fun newInstance() = MainFragment()
@@ -59,7 +56,6 @@ class MainFragment : Fragment() {
     }
 
     private fun onItemClick(item: ModelPhotos.Photo) {
-
         bundle.putString("Arg", item.imgSrc)
         findNavController().navigate(R.id.action_mainFragment_to_itemFragment, bundle)
 

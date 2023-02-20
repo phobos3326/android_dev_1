@@ -7,8 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.m17_recyclerview.databinding.ListItemBinding
 import com.example.m17_recyclerview.entity.ModelPhotos
+import javax.inject.Inject
 
-class MyAdapter(
+class MyAdapter @Inject constructor(
     private val onClick: (ModelPhotos.Photo) -> Unit
 ) : RecyclerView.Adapter<MyViewHolder>() {
 
@@ -45,7 +46,6 @@ class MyAdapter(
         }
 
     }
-
 
     override fun getItemCount(): Int {
         return data.size

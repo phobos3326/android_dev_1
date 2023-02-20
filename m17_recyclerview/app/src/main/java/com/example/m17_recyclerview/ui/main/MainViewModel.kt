@@ -9,10 +9,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MainViewModel(private val data: GetPhotoUseCase) : ViewModel() {
-    constructor(): this(GetPhotoUseCase())
-    var photoUrl=""
+class MainViewModel @Inject constructor(private val data: GetPhotoUseCase) : ViewModel() {
+    // constructor(): this(GetPhotoUseCase())
 
     private val _marsPhoto = MutableStateFlow<List<ModelPhotos.Photo>>(emptyList())
     val marsPhoto = _marsPhoto.asStateFlow()
@@ -23,21 +23,15 @@ class MainViewModel(private val data: GetPhotoUseCase) : ViewModel() {
         }
     }
 
-
     private fun loadPhotos() {
 
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-              data.execute().photos
-                //Log.d("TAG", "$data.execute().photos")
+                data.execute().photos
             }.fold(
-                onSuccess = {_marsPhoto.value = it },
-                onFailure = {Log.d("MainViewModel", it.message?:"not Load")}
+                onSuccess = { _marsPhoto.value = it },
+                onFailure = { Log.d("MainViewModel", it.message ?: "not Load") }
             )
-
         }
-
-
     }
-
 }

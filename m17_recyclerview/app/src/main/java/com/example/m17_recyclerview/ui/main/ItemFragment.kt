@@ -15,13 +15,6 @@ class ItemFragment : Fragment() {
 
     private var _binding: FragmentItemBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: MainViewModel by viewModels()
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,19 +27,10 @@ class ItemFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        /*//val myAdapter = MyAdapter()
-        binding.recyclerView.adapter = pageAdapter
-        val photo = this@MainFragment.viewModel.marsPhoto
-        pageAdapter.setData(photo)*/
+
         Glide.with(this@ItemFragment)
             .load(arguments?.getString("Arg"))
             .into(binding.itemImageView)
 
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.marsPhoto.collect{
-
-
-            }
-        }
     }
 }

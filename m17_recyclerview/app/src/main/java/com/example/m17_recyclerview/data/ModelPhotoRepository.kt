@@ -10,6 +10,7 @@ import kotlinx.coroutines.delay
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Query
 import javax.inject.Inject
 
 @Module
@@ -20,6 +21,12 @@ class ModelPhotoRepository @Inject constructor() {
         delay(2000)
         return retrofitInstance().getPhotos()
     }
+
+    @Provides
+    suspend fun getPagedPhotos(page: Int):ModelPhotos{
+        return retrofitInstance().pagedPhotos(page)
+    }
+
 
     private val BASE_URL = "https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/"
 
@@ -39,6 +46,9 @@ class ModelPhotoRepository @Inject constructor() {
     interface ApiInterface{
         @GET("photos?sol=1000&api_key=g3X6YmBhYNp5chAfNv1BxSremKDOkJwA74LJUuBV")
         suspend fun getPhotos():ModelPhotos
+
+        @GET("photos?sol=1000&page=2&api_key=g3X6YmBhYNp5chAfNv1BxSremKDOkJwA74LJUuBV")
+       suspend fun pagedPhotos(@Query("page")page:Int):ModelPhotos
     }
 
 }

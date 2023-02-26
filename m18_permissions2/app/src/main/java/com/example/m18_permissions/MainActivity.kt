@@ -12,14 +12,14 @@ import kotlinx.coroutines.flow.collect
 
 class MainActivity : AppCompatActivity() {
 
-    val viewModel: MainViewModel by viewModels {
+   /* val viewModel: MainViewModel by viewModels {
         object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 val wordDao = (application as App).db.photoDao()
                 return MainViewModel(photoDao = wordDao) as T
             }
         }
-    }
+    }*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,11 +33,11 @@ class MainActivity : AppCompatActivity() {
         // val photoDao = (application as App).db.photoDao()
         //  val photoDao = (application as App).db.photoDao()
 
-        lifecycleScope.launchWhenStarted {
+      /*  lifecycleScope.launchWhenStarted {
             viewModel.state.collect {
               it.photo
             }
-        }
+        }*/
 
     }
 }

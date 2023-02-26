@@ -25,7 +25,7 @@ class MainViewModel(private val wordDao: WordDao, application: Application) :
     private var allWords: List<String> = mutableListOf()
 
 
-    val listWords: List<Words>? = null
+    private val listWords: List<Words>? = null
 
     private var _state = MutableStateFlow<State>(State(words = listWords, error, flag = true))
     var state = _state.asStateFlow()

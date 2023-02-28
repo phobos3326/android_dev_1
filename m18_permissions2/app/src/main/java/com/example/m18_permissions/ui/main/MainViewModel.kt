@@ -36,7 +36,7 @@ class MainViewModel(private val photoDao: PhotoDao) : ViewModel() {
                 allPhoto = photo.map {
                     it.photo
                 }
-                _state.value = State(photo.take(5))
+                _state.value = State(photo)
             }.collect()
         }
 

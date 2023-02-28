@@ -41,7 +41,7 @@ class CameraFragment : Fragment() {
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
-            checkPermission()
+
         }
     }
 
@@ -63,6 +63,7 @@ class CameraFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         _binding=FragmentCameraBinding.inflate(inflater,container,false)
+        checkPermission()
         return binding.root
     }
 

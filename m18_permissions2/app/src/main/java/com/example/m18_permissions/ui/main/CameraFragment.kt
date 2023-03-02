@@ -1,35 +1,71 @@
 package com.example.m18_permissions.ui.main
 
+import android.Manifest
+import android.content.ContentResolver
+import android.content.ContentValues
+import android.content.ContentValues.TAG
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.camera.core.CameraSelector
+import androidx.camera.core.ImageCapture
+import androidx.camera.core.ImageCaptureException
+import androidx.camera.core.Preview
+import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-
-import android.Manifest
-import android.content.Context
-import com.example.m18_permissions.R
 import com.example.m18_permissions.databinding.FragmentCameraBinding
-import com.example.m18_permissions.databinding.FragmentMainBinding
+import java.text.SimpleDateFormat
+import java.util.*
+import java.util.concurrent.Executor
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
+
+private const val FILE_NAME_FORMAT = "yyyy-MM-dd-HH-mm-ss"
 
 class CameraFragment : Fragment() {
 
     //var context = requireContext()
 
+    val contentResolver get() =  requireActivity().contentResolver
+
     private var _binding: FragmentCameraBinding? = null
     private val binding get() = _binding!!
 
+    private val name =
+        SimpleDateFormat(FILE_NAME_FORMAT, Locale.US).format(System.currentTimeMillis())
+
+
+
+
+
+
+
+    private var imageCapture: ImageCapture? = null
+    private lateinit var executor: Executor
+
     private val launch =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-            Toast.makeText(this.requireContext(), "permission is $isGranted", Toast.LENGTH_SHORT)
-                .show()
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { map ->
+            if (map.values.all { it }) {
+                startCamera()
+            } else {
+                Toast.makeText(
+                    this.requireContext(),
+                    "permission is not Granted",
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
+            }
+
+
         }
 
     // TODO: Rename and change types of parameters
@@ -46,15 +82,76 @@ class CameraFragment : Fragment() {
     }
 
     private fun checkPermission() {
-        if (ContextCompat.checkSelfPermission(
+        val isAllGranted = REQUEST_PERMISSIONS.all { permisions ->
+            ContextCompat.checkSelfPermission(
                 requireContext(),
-                Manifest.permission.CAMERA,
+                permisions
             ) == PackageManager.PERMISSION_GRANTED
-        ) {
+        }
+        if (isAllGranted) {
+            startCamera()
             Toast.makeText(context, "granted", Toast.LENGTH_SHORT).show()
         } else {
-            launch.launch(Manifest.permission.CAMERA)
+            launch.launch(REQUEST_PERMISSIONS)
         }
+    }
+
+    private fun takePhoto() {
+        // Get a stable reference of the modifiable image capture use case
+        val imageCapture = imageCapture ?: return
+        val contentValues = ContentValues().apply {
+            put(MediaStore.MediaColumns.DISPLAY_NAME, name)
+            put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
+
+        }
+
+        val outputOptions = ImageCapture.OutputFileOptions
+            .Builder(
+                contentResolver,
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                contentValues
+            ).build()
+
+        imageCapture.takePicture(
+            outputOptions,
+            executor,
+            object : ImageCapture.OnImageSavedCallback {
+                override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Photo ${outputFileResults.savedUri}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+                override fun onError(exception: ImageCaptureException) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Photo error ${exception.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    exception.printStackTrace()
+                }
+            }
+        )
+    }
+
+    fun startCamera() {
+        val cameraProviderFuture = ProcessCameraProvider.getInstance(this.requireContext())
+        cameraProviderFuture.addListener({
+            val cameraProvider = cameraProviderFuture.get()
+            val preview = Preview.Builder().build()
+            preview.setSurfaceProvider(binding.cameraPreview.surfaceProvider)
+            imageCapture = ImageCapture.Builder().build()
+
+            cameraProvider.unbindAll()
+            cameraProvider.bindToLifecycle(
+                this,
+                CameraSelector.DEFAULT_BACK_CAMERA,
+                preview,
+                imageCapture
+            )
+        }, executor)
     }
 
     override fun onCreateView(
@@ -62,20 +159,35 @@ class CameraFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding=FragmentCameraBinding.inflate(inflater,container,false)
+        _binding = FragmentCameraBinding.inflate(inflater, container, false)
+        executor = ContextCompat.getMainExecutor(this.requireContext())
         checkPermission()
+        startCamera()
+        binding.takePhotoButton.setOnClickListener {
+            takePhoto()
+        }
         return binding.root
+
+
     }
 
-     companion object {
+    companion object {
 
-         @JvmStatic
-         fun newInstance(param1: String, param2: String) =
-             CameraFragment().apply {
-                 arguments = Bundle().apply {
-                     putString(ARG_PARAM1, param1)
-                     putString(ARG_PARAM2, param2)
-                 }
-             }
-     }
+        private val REQUEST_PERMISSIONS: Array<String> = buildList {
+            add(Manifest.permission.CAMERA)
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
+                add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            }
+        }.toTypedArray()
+
+
+        @JvmStatic
+        fun newInstance(param1: String, param2: String) =
+            CameraFragment().apply {
+                arguments = Bundle().apply {
+                    putString(ARG_PARAM1, param1)
+                    putString(ARG_PARAM2, param2)
+                }
+            }
+    }
 }

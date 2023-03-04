@@ -44,9 +44,6 @@ private const val FILE_NAME_FORMAT = "yyyy-MM-dd-HH-mm-ss"
 @AndroidEntryPoint
 class CameraFragment : Fragment() {
 
-    //var context = requireContext()
-    // private var  photoDao: PhotoDao? = null
-
     private val cameraFragmentViewModel: CameraFragmentViewModel by viewModels()
 
     val contentResolver get() = requireActivity().contentResolver
@@ -54,10 +51,7 @@ class CameraFragment : Fragment() {
     private var _binding: FragmentCameraBinding? = null
     private val binding get() = _binding!!
 
-    /*  private val cameraFragmentViewModel:CameraFragmentViewModel by activityViewModels {
-          CameraFragmentViewModelFactory((activity?.application as App).db.photoDao())
-      }
-  */
+
     private val name =
         SimpleDateFormat(FILE_NAME_FORMAT, Locale.US).format(System.currentTimeMillis())
 
@@ -202,14 +196,5 @@ class CameraFragment : Fragment() {
             }
         }.toTypedArray()
 
-
-        /*    @JvmStatic
-            fun newInstance(param1: String, param2: String) =
-                CameraFragment().apply {
-                    arguments = Bundle().apply {
-                        putString(ARG_PARAM1, param1)
-                        putString(ARG_PARAM2, param2)
-                    }
-                }*/
     }
 }

@@ -28,10 +28,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private val binding get() = _binding!!
     private val pageAdapter = Adapter{}
 
-    /* private val viewModel: MainViewModel by activityViewModels {
-         MainViewModelFactory((activity?.application as App).db.photoDao())
-     }*/
-
 
     companion object {
         fun newInstance() = MainFragment()

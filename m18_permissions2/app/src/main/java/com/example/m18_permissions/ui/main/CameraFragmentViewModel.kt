@@ -11,21 +11,9 @@ import javax.inject.Inject
 @HiltViewModel
 class CameraFragmentViewModel @Inject constructor(private val repository: Repository):ViewModel() {
 
-
     suspend fun insert(photo: Photo) {
         repository.insertPhoto(photo)
     }
 
 }
 
-
-/*
-class CameraFragmentViewModelFactory(var app: PhotoDao): ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if(modelClass.isAssignableFrom(CameraFragmentViewModel::class.java)){
-
-            return CameraFragmentViewModel(app) as T
-        }
-        throw  IllegalAccessException("xz")
-    }
-}*/

@@ -20,10 +20,7 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
 
 
-
     val dataBaseScope = CoroutineScope(Dispatchers.IO)
-
-
 
 
     val listPhoto: List<Photo>? = null
@@ -46,10 +43,6 @@ class MainViewModel @Inject constructor(private val repository: Repository) : Vi
         }
 
 
-    }
-
-    suspend fun takeOne(): String {
-        return repository.getOnePhoto()
     }
 
     suspend fun insert(photo: Photo) {

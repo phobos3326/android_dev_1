@@ -8,7 +8,10 @@ interface PhotoDao {
     @Query("SELECT * FROM photo")
     fun getAll(): Flow<List<Photo>>
 
-    @Insert(entity = Photo::class)
+    @Query("SELECT * FROM photo WHERE photoURI LIKE '%50' ")
+   suspend fun getOne(): String
+
+    @Insert(entity = Photo::class,  OnConflictStrategy.REPLACE)
     suspend fun insert(photo: Photo)
 
     @Delete

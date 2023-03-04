@@ -23,7 +23,7 @@ class MainViewModel(private val photoDao: PhotoDao) : ViewModel() {
 
     val listPhoto: List<Photo>? = null
 
-    private var allPhoto: List<String> = mutableListOf()
+    var allPhoto: List<String> = mutableListOf()
 
     private var _state = MutableStateFlow<State>(State(photo = listPhoto))
     var state = _state.asStateFlow()
@@ -43,9 +43,13 @@ class MainViewModel(private val photoDao: PhotoDao) : ViewModel() {
 
     }
 
+    suspend fun takeOne(): String {
+        return photoDao.getOne()
+    }
+
     suspend fun insert(photo: Photo) {
         photoDao.insert(photo)
-   }
+    }
 
 
 }

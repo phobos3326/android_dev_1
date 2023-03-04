@@ -21,7 +21,16 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
+import com.example.m18_permissions.App
+import com.example.m18_permissions.database.AppDataBase
+import com.example.m18_permissions.database.Photo
+import com.example.m18_permissions.database.PhotoDao
 import com.example.m18_permissions.databinding.FragmentCameraBinding
+import kotlinx.coroutines.coroutineScope
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.Executor
@@ -34,18 +43,20 @@ private const val FILE_NAME_FORMAT = "yyyy-MM-dd-HH-mm-ss"
 class CameraFragment : Fragment() {
 
     //var context = requireContext()
+  // private var  photoDao: PhotoDao? = null
 
-    val contentResolver get() =  requireActivity().contentResolver
+
+    val contentResolver get() = requireActivity().contentResolver
 
     private var _binding: FragmentCameraBinding? = null
     private val binding get() = _binding!!
 
+    private val cameraFragmentViewModel:CameraFragmentViewModel by activityViewModels {
+        CameraFragmentViewModelFactory((activity?.application as App).db.photoDao())
+    }
+
     private val name =
         SimpleDateFormat(FILE_NAME_FORMAT, Locale.US).format(System.currentTimeMillis())
-
-
-
-
 
 
 
@@ -107,9 +118,7 @@ class CameraFragment : Fragment() {
 
         val outputOptions = ImageCapture.OutputFileOptions
             .Builder(
-                contentResolver,
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                contentValues
+                contentResolver, MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues
             ).build()
 
         imageCapture.takePicture(
@@ -118,10 +127,21 @@ class CameraFragment : Fragment() {
             object : ImageCapture.OnImageSavedCallback {
                 override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                     Toast.makeText(
-                        requireContext(),
-                        "Photo ${outputFileResults.savedUri}",
-                        Toast.LENGTH_SHORT
+                        requireContext(), "Photo ${outputFileResults.savedUri}", Toast.LENGTH_SHORT
                     ).show()
+                    Log.d("TAG", "${outputFileResults.savedUri}")
+
+
+                    Glide.with(this@CameraFragment)
+                        .load(outputFileResults.savedUri)
+                        .into(binding.imageView3)
+
+                    lifecycleScope.launchWhenStarted {
+                        val uri=  outputFileResults.savedUri.toString()
+                        val photo=Photo(uri)
+                        cameraFragmentViewModel.insert(photo)
+                    }
+
                 }
 
                 override fun onError(exception: ImageCaptureException) {
@@ -181,13 +201,13 @@ class CameraFragment : Fragment() {
         }.toTypedArray()
 
 
-        @JvmStatic
+    /*    @JvmStatic
         fun newInstance(param1: String, param2: String) =
             CameraFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)
                 }
-            }
+            }*/
     }
 }

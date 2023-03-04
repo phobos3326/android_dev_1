@@ -23,6 +23,9 @@ class MainViewModel @Inject constructor(private val repository: Repository) : Vi
 
     val dataBaseScope = CoroutineScope(Dispatchers.IO)
 
+
+
+
     val listPhoto: List<Photo>? = null
 
     var allPhoto: List<String> = mutableListOf()

@@ -7,36 +7,30 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.net.toFile
-import androidx.core.os.bundleOf
 
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.m18_permissions.R
-import com.example.m18_permissions.App
-import com.example.m18_permissions.database.Photo
+import com.example.m18_permissions.adapter.Adapter
 import com.example.m18_permissions.databinding.FragmentMainBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainFragment : Fragment(R.layout.fragment_main) {
-
 
 
     private val viewModel: MainViewModel by viewModels()
 
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
+    private val pageAdapter = Adapter{}
 
-   /* private val viewModel: MainViewModel by activityViewModels {
-        MainViewModelFactory((activity?.application as App).db.photoDao())
-    }*/
+    /* private val viewModel: MainViewModel by activityViewModels {
+         MainViewModelFactory((activity?.application as App).db.photoDao())
+     }*/
 
 
     companion object {
@@ -60,6 +54,15 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
+
+
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.state.collect {
+                binding.recyclerView.adapter =pageAdapter
+                it.photo?.let { it1 -> pageAdapter.setData(it1) }
+            }
+
+        }
 
         lifecycleScope.launchWhenStarted {
 

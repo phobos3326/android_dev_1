@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
+/*
 class PagingViewModel: ViewModel() {
     private val _isLoading = MutableStateFlow(false)
     val isLoading =_isLoading.asStateFlow()
@@ -19,4 +20,4 @@ class PagingViewModel: ViewModel() {
         config = PagingConfig(pageSize = 10),
         pagingSourceFactory = {PhotoPagingSource()}
     ).flow.cachedIn(viewModelScope)
-}
+}*/

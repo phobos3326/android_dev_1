@@ -30,6 +30,7 @@ import com.example.m18_permissions.database.AppDataBase
 import com.example.m18_permissions.database.Photo
 import com.example.m18_permissions.database.PhotoDao
 import com.example.m18_permissions.databinding.FragmentCameraBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.coroutineScope
 import java.text.SimpleDateFormat
 import java.util.*
@@ -40,24 +41,25 @@ private const val ARG_PARAM2 = "param2"
 
 private const val FILE_NAME_FORMAT = "yyyy-MM-dd-HH-mm-ss"
 
+@AndroidEntryPoint
 class CameraFragment : Fragment() {
 
     //var context = requireContext()
-  // private var  photoDao: PhotoDao? = null
+    // private var  photoDao: PhotoDao? = null
 
+    private val cameraFragmentViewModel: CameraFragmentViewModel by viewModels()
 
     val contentResolver get() = requireActivity().contentResolver
 
     private var _binding: FragmentCameraBinding? = null
     private val binding get() = _binding!!
 
-    private val cameraFragmentViewModel:CameraFragmentViewModel by activityViewModels {
-        CameraFragmentViewModelFactory((activity?.application as App).db.photoDao())
-    }
-
+    /*  private val cameraFragmentViewModel:CameraFragmentViewModel by activityViewModels {
+          CameraFragmentViewModelFactory((activity?.application as App).db.photoDao())
+      }
+  */
     private val name =
         SimpleDateFormat(FILE_NAME_FORMAT, Locale.US).format(System.currentTimeMillis())
-
 
 
     private var imageCapture: ImageCapture? = null
@@ -137,8 +139,8 @@ class CameraFragment : Fragment() {
                         .into(binding.imageView3)
 
                     lifecycleScope.launchWhenStarted {
-                        val uri=  outputFileResults.savedUri.toString()
-                        val photo=Photo(uri)
+                        val uri = outputFileResults.savedUri.toString()
+                        val photo = Photo(uri)
                         cameraFragmentViewModel.insert(photo)
                     }
 
@@ -201,13 +203,13 @@ class CameraFragment : Fragment() {
         }.toTypedArray()
 
 
-    /*    @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            CameraFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }*/
+        /*    @JvmStatic
+            fun newInstance(param1: String, param2: String) =
+                CameraFragment().apply {
+                    arguments = Bundle().apply {
+                        putString(ARG_PARAM1, param1)
+                        putString(ARG_PARAM2, param2)
+                    }
+                }*/
     }
 }

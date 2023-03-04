@@ -11,6 +11,7 @@ import androidx.core.net.toFile
 import androidx.core.os.bundleOf
 
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
@@ -20,18 +21,22 @@ import com.example.m18_permissions.R
 import com.example.m18_permissions.App
 import com.example.m18_permissions.database.Photo
 import com.example.m18_permissions.databinding.FragmentMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
+class MainFragment : Fragment(R.layout.fragment_main) {
 
-class MainFragment : Fragment() {
 
+
+    private val viewModel: MainViewModel by viewModels()
 
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: MainViewModel by activityViewModels {
+   /* private val viewModel: MainViewModel by activityViewModels {
         MainViewModelFactory((activity?.application as App).db.photoDao())
-    }
+    }*/
 
 
     companion object {
@@ -57,20 +62,9 @@ class MainFragment : Fragment() {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
 
         lifecycleScope.launchWhenStarted {
-            /* val photo=Photo("14")
-             viewModel.insert(photo)*/
-
-            /*viewModel.state.collect() {
-                it.photo
-            }*/
-
-
-
-            val ph = viewModel.takeOne()
-            val img = Uri.parse(ph)
 
             Glide.with(this@MainFragment)
-                .load(img)
+                .load(Uri.parse(viewModel.takeOne()))
                 .centerInside()
                 .circleCrop()
 

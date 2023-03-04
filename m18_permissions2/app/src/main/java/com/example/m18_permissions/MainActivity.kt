@@ -4,8 +4,9 @@ import android.content.ContentResolver
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.m18_permissions.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
 

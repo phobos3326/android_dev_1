@@ -1,12 +1,11 @@
 package com.example.m18_permissions.ui.main
 
-import android.app.Application
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.m18_permissions.State
 import com.example.m18_permissions.database.Photo
-import com.example.m18_permissions.database.PhotoDao
+import com.example.m18_permissions.repository.Repository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,9 +13,12 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MainViewModel(private val photoDao: PhotoDao) : ViewModel() {
-    // TODO: Implement the ViewModel
+
+@HiltViewModel
+class MainViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
+
 
 
     val dataBaseScope = CoroutineScope(Dispatchers.IO)
@@ -32,7 +34,7 @@ class MainViewModel(private val photoDao: PhotoDao) : ViewModel() {
     init {
         _state.value = State(photo = listPhoto)
         viewModelScope.launch {
-            photoDao.getAll().onEach { photo ->
+            repository.getAllPhoto().onEach { photo ->
                 allPhoto = photo.map {
                     it.photo
                 }
@@ -44,11 +46,11 @@ class MainViewModel(private val photoDao: PhotoDao) : ViewModel() {
     }
 
     suspend fun takeOne(): String {
-        return photoDao.getOne()
+        return repository.getOnePhoto()
     }
 
     suspend fun insert(photo: Photo) {
-        photoDao.insert(photo)
+        repository.insertPhoto(photo)
     }
 
 

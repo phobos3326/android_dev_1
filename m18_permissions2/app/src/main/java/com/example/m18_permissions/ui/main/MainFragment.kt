@@ -41,10 +41,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        /*binding.btnAdd.setOnClickListener{
-            findNavController().navigate(R.id.action_blankFragment_to_cameraFragment)
-        }
-*/
+
 
     }
 
@@ -64,22 +61,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
         }
 
-        lifecycleScope.launchWhenStarted {
 
-            Glide.with(this@MainFragment)
-                .load(Uri.parse(viewModel.takeOne()))
-                .centerInside()
-                .circleCrop()
-
-                .into(binding.imageView2)
-
-            viewModel.state.collect {
-
-
-            }
-
-
-        }
 
         binding.btnAdd.setOnClickListener {
             findNavController().navigate(R.id.action_mainFragment_to_cameraFragment)

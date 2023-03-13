@@ -1,17 +1,13 @@
 package com.example.m19_location.entity
 
 
-
-import com.example.m19_location.data.ModelLandmarkDto
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
-
-@JsonClass(generateAdapter = true)
-class ModelLandmark(override val landmark: List<modelItem>) :ModelLandmarkDto{
+/*
+class model : ArrayList<modelItem>(){
     @JsonClass(generateAdapter = true)
     data class modelItem(
-
         @Json(name = "kinds")
         val kinds: String,
         @Json(name = "name")
@@ -23,7 +19,7 @@ class ModelLandmark(override val landmark: List<modelItem>) :ModelLandmarkDto{
         @Json(name = "rate")
         val rate: Int,
         @Json(name = "xid")
-    val xid: String
+        val xid: String
     ) {
         @JsonClass(generateAdapter = true)
         data class Point(
@@ -33,7 +29,4 @@ class ModelLandmark(override val landmark: List<modelItem>) :ModelLandmarkDto{
             val lon: Double
         )
     }
-
-
-
-}
+}*/

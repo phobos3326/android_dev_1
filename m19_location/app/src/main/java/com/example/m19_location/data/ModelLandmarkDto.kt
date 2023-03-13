@@ -6,5 +6,5 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 interface ModelLandmarkDto {
-    val landmark: List<ModelLandmark.ModelLandmarkItem>
+    val landmark: List<ModelLandmark.modelItem>
 }

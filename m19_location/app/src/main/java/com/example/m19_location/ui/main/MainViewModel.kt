@@ -3,6 +3,7 @@ package com.example.m19_location.ui.main
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.m19_location.data.ModelLandmarkRepository
 import com.example.m19_location.domain.UseCase
 import com.example.m19_location.entity.ModelLandmark
 import kotlinx.coroutines.Dispatchers
@@ -10,9 +11,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class MainViewModel(val landmarkData: UseCase) : ViewModel() {
-    private val _landmark = MutableStateFlow<List<ModelLandmark.ModelLandmarkItem>>(emptyList())
-    val landmark =_landmark.asStateFlow()
+class MainViewModel : ViewModel() {
+
+    val rep =ModelLandmarkRepository()
+    val landmarkData =UseCase(rep)
+
+    private var _landmark = MutableStateFlow<List<ModelLandmark.modelItem>>(emptyList())
+    var landmark =_landmark.asStateFlow()
 
     init {
         loadLandmark()
@@ -20,8 +25,10 @@ class MainViewModel(val landmarkData: UseCase) : ViewModel() {
 
     private fun loadLandmark(){
         viewModelScope.launch(Dispatchers.IO) {
+
             kotlin.runCatching {
-                landmarkData.getLandmarkUseCase().landmark
+              landmarkData.getLandmarkUseCase().landmark
+
             }.fold(
                 onSuccess = {_landmark.value=it
                             Log.d("TAG", "$it")},

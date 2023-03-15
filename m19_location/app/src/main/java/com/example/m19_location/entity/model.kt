@@ -1,9 +1,6 @@
 package com.example.m19_location.entity
 
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
-
 /*
 class model : ArrayList<modelItem>(){
     @JsonClass(generateAdapter = true)

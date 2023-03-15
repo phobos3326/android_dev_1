@@ -8,3 +8,19 @@ import com.squareup.moshi.JsonClass
 interface ModelLandmarkDto {
     val landmark: List<ModelLandmark.modelItem>
 }
+/*
+@JsonClass(generateAdapter = true)
+class ModelLandmarkDto(
+    @Json(name = "kinds")
+    override val kinds: String,
+    @Json(name = "name")
+    override val name: String,
+    @Json(name = "osm")
+    override val osm: String,
+    @Json(name = "point")
+    override val point: ModelLandmark.Point,
+    @Json(name = "rate")
+    override val rate: Int,
+    @Json(name = "xid")
+    override val xid: String
+) : ModelLandmark*/

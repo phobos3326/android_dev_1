@@ -12,7 +12,7 @@ import retrofit2.http.Headers
 
 class ModelLandmarkRepository {
 
-    suspend fun getLandmark(): ModelLandmark{
+    suspend fun getLandmark(): ModelLandmark.modelItem{
         return retrofitInstance().getLandmark()
     }
 
@@ -43,7 +43,7 @@ class ModelLandmarkRepository {
     interface ApiInterface {
 
         @GET("bbox?lon_min=50&lon_max=55&lat_min=80&lat_max=85&src_geom=osm&src_attr=osm&format=json&apikey=5ae2e3f221c38a28845f05b61150ee6063873ab9c7bad658e45bfed3")
-        suspend fun getLandmark(): ModelLandmark
+        suspend fun getLandmark(): ModelLandmark.modelItem
     }
 
 }

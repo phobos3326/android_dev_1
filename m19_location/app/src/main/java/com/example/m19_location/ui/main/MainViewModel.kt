@@ -7,19 +7,21 @@ import androidx.lifecycle.viewModelScope
 import com.example.m19_location.data.ModelLandmarkRepository
 import com.example.m19_location.domain.UseCase
 import com.example.m19_location.entity.ModelLandmark
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MainViewModel : ViewModel() {
+@HiltViewModel
+class MainViewModel @Inject constructor(private val landmarkData: UseCase): ViewModel() {
 
 
 
     private var _landmark = MutableStateFlow<List<ModelLandmark.Feature>>(emptyList())
     var landmark = _landmark.asStateFlow()
-    val rep = ModelLandmarkRepository()
-    val landmarkData = UseCase(rep)
+
     init {
         loadLandmark()
     }

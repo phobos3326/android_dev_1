@@ -3,16 +3,24 @@ package com.example.m19_location.data
 import com.example.m19_location.entity.ModelLandmark
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Headers
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class ModelLandmarkRepository {
-
-    suspend fun getLandmark(): ModelLandmark{
+@Module
+@InstallIn(SingletonComponent::class)
+class ModelLandmarkRepository @Inject constructor() {
+    @Provides
+    suspend fun getLandmark(): ModelLandmark {
         return retrofitInstance().getLandmark()
     }
 
@@ -20,10 +28,10 @@ class ModelLandmarkRepository {
     private val BASE_URL =
         "https://api.opentripmap.com/"
 
-     val logInterceptor = HttpLoggingInterceptor()
+    private val logInterceptor = HttpLoggingInterceptor()
         .setLevel(HttpLoggingInterceptor.Level.BODY)
 
-     val httpClientBuilder = OkHttpClient.Builder()
+    private val httpClientBuilder = OkHttpClient.Builder()
         .addInterceptor(logInterceptor)
 
     private val moshi = Moshi.Builder()
@@ -38,7 +46,7 @@ class ModelLandmarkRepository {
             .build()
     }
 
-     fun retrofitInstance(): ApiInterface = retrofit().create(ApiInterface::class.java)
+    private fun retrofitInstance(): ApiInterface = retrofit().create(ApiInterface::class.java)
 
     interface ApiInterface {
 

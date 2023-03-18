@@ -24,16 +24,15 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener,
     GoogleMap.OnMyLocationClickListener {
-    val rep = ModelLandmarkRepository()
+
     private lateinit var mMap: GoogleMap
 
-    // val context =this@MapsFragment.requireContext()
 
-    /*private val _binding: FragmentMapsBinding? = null
-    private val binding get() = _binding!!*/
     private val viewModel: MainViewModel by viewModels()
 
     override fun onCreateView(

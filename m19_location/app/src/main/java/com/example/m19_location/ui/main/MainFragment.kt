@@ -43,7 +43,7 @@ class MainFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.landmark.collect {
                 Log.d("TAG", "${it.size}")
-                binding.message.text= it
+               binding.message.text=it.toString()
             }
 
         }

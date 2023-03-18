@@ -12,13 +12,13 @@ import retrofit2.http.Headers
 
 class ModelLandmarkRepository {
 
-    suspend fun getLandmark(): ModelLandmark.modelItem{
+    suspend fun getLandmark(): ModelLandmark{
         return retrofitInstance().getLandmark()
     }
 
 
     private val BASE_URL =
-        "https://api.opentripmap.com/0.1/ru/places/"
+        "https://api.opentripmap.com/"
 
      val logInterceptor = HttpLoggingInterceptor()
         .setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -42,8 +42,8 @@ class ModelLandmarkRepository {
 
     interface ApiInterface {
 
-        @GET("bbox?lon_min=50&lon_max=55&lat_min=80&lat_max=85&src_geom=osm&src_attr=osm&format=json&apikey=5ae2e3f221c38a28845f05b61150ee6063873ab9c7bad658e45bfed3")
-        suspend fun getLandmark(): ModelLandmark.modelItem
+        @GET("0.1/ru/places/bbox?lon_min=80&lon_max=85&lat_min=52&lat_max=57&src_geom=osm&src_attr=osm&format=geojson&apikey=5ae2e3f221c38a28845f05b61150ee6063873ab9c7bad658e45bfed3")
+        suspend fun getLandmark(): ModelLandmark
     }
 
 }

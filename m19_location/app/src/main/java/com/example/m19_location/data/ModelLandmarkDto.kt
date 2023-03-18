@@ -1,12 +1,14 @@
 package com.example.m19_location.data
 
+
 import com.example.m19_location.entity.ModelLandmark
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-interface ModelLandmarkDto {
-    val landmark: List<ModelLandmark.modelItem>
+interface ModelLandmarksDto {
+    val features: List<ModelLandmark.Feature>
+    val type: String
 }
 /*
 @JsonClass(generateAdapter = true)

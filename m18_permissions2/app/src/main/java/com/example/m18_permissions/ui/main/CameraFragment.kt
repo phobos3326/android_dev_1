@@ -1,37 +1,45 @@
 package com.example.m18_permissions.ui.main
 
 import android.Manifest
-import android.content.ContentResolver
+import android.app.PendingIntent
+
 import android.content.ContentValues
-import android.content.ContentValues.TAG
+
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
+import android.os.Build.VERSION_CODES.O
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.m18_permissions.App
-import com.example.m18_permissions.database.AppDataBase
+import com.example.m18_permissions.MainActivity
+import com.example.m18_permissions.R
 import com.example.m18_permissions.database.Photo
-import com.example.m18_permissions.database.PhotoDao
 import com.example.m18_permissions.databinding.FragmentCameraBinding
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.coroutineScope
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.Executor
@@ -104,6 +112,8 @@ class CameraFragment : Fragment() {
     }
 
     private fun takePhoto() {
+        createNotification()
+
         // Get a stable reference of the modifiable image capture use case
         val imageCapture = imageCapture ?: return
         val contentValues = ContentValues().apply {
@@ -181,13 +191,71 @@ class CameraFragment : Fragment() {
         startCamera()
         binding.takePhotoButton.setOnClickListener {
             takePhoto()
+            FirebaseCrashlytics.getInstance().log("Log message")
+            try {
+                throw RuntimeException("Test Crash record EXCEPTION")
+            } catch (e: Exception) {
+                FirebaseCrashlytics.getInstance().recordException(e)
+
+            }
+
         }
+
+
         return binding.root
 
 
     }
 
+
+    fun createNotification() {
+
+        val intent = Intent(requireContext(), MainActivity::class.java)
+        val pendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+            PendingIntent.getActivity(requireContext(), O, intent, PendingIntent.FLAG_IMMUTABLE)
+        else
+            PendingIntent.getActivity(
+                requireContext(),
+                0,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+            )
+
+        val notification = NotificationCompat.Builder(requireContext(), App.NOTIFICATION_CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_notifications_24)
+            .setContentText("my Notification")
+            .setContentText("текст моего уведомления")
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setContentIntent(pendingIntent)
+            .setAutoCancel(true)
+            .build()
+
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.POST_NOTIFICATIONS
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+
+            Manifest.permission.POST_NOTIFICATIONS
+
+            //return
+        }
+        NotificationManagerCompat.from(requireContext()).notify(NOTIFICATION_ID, notification)
+    }
+
+
     companion object {
+
+
+        private const val NOTIFICATION_ID = 1000
+
 
         private val REQUEST_PERMISSIONS: Array<String> = buildList {
             add(Manifest.permission.CAMERA)

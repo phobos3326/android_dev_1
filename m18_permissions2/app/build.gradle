@@ -4,6 +4,8 @@ plugins {
     id 'kotlin-kapt'
 //    id 'com.google.dagger.hilt.android'
     id 'com.google.dagger.hilt.android'
+     id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
 
 
 }
@@ -41,10 +43,13 @@ android {
     buildscript {
         repositories {
             google()
+            mavenCentral()  // Maven Central repository
         }
         dependencies {
             def nav_version = "2.5.3"
             classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
+            classpath 'com.google.gms:google-services:4.3.15'
+            classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.4'
         }
     }
 
@@ -148,6 +153,12 @@ dependencies {
 
     implementation "com.google.dagger:hilt-android:2.44"
     kapt "com.google.dagger:hilt-compiler:2.44"
+
+    implementation platform('com.google.firebase:firebase-bom:31.3.0')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+
+
 
 }
 

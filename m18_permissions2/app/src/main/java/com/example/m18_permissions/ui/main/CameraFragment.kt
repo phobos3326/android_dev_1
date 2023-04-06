@@ -39,6 +39,7 @@ import com.example.m18_permissions.R
 import com.example.m18_permissions.database.Photo
 import com.example.m18_permissions.databinding.FragmentCameraBinding
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.*
@@ -201,6 +202,10 @@ class CameraFragment : Fragment() {
 
         }
 
+
+        FirebaseMessaging.getInstance().token.addOnCompleteListener{
+            Log.d("reg token", it.result)
+        }
 
         return binding.root
 
